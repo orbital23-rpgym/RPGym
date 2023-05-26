@@ -14,13 +14,15 @@ export {
   ErrorBoundary,
 } from "expo-router";
 
+// Naming convention rule disabled as unstable_settings is an expo router default name.
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
   initialRouteName: "(tabs)",
 };
 
 export default function RootLayout() {
-  const [loaded, error] = useFonts({
+  const [isLoaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     ...FontAwesome.font,
   });
@@ -33,8 +35,8 @@ export default function RootLayout() {
   return (
     <>
       {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-      {!loaded && <SplashScreen />}
-      {loaded && <RootLayoutNav />}
+      {!isLoaded && <SplashScreen />}
+      {isLoaded && <RootLayoutNav />}
     </>
   );
 }

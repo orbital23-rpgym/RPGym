@@ -9,9 +9,12 @@
     "plugin:@typescript-eslint/recommended",
     "prettier",
     "plugin:jest/recommended",
-    "plugin:react/jsx-runtime"
+    "plugin:react/jsx-runtime",
+    "plugin:markdown/recommended",
+    "plugin:json/recommended"
   ],
   "rules": {
+    "indent": ["error", 2],
     "no-console": 1,
     "prettier/prettier": 2,
     "jest/no-disabled-tests": "warn",
@@ -19,8 +22,62 @@
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error",
-    "react/prop-types": "off"
+    "react/react-in-jsx-scope": "off"
   },
+  "overrides": [
+    {
+      // TypeScript-specific rules.
+      "files": ["**/*.ts", "**/*.tsx"],
+      "rules": {
+        "react/prop-types": "off",
+        "camelcase": "off",
+        "@typescript-eslint/naming-convention": [
+          "warn",
+          {
+            "selector": "variable",
+            "types": ["boolean"],
+            "format": ["PascalCase"],
+            "prefix": ["is", "should", "has", "can", "did", "will"]
+          },
+          {
+            "selector": "default",
+            "format": ["camelCase"]
+          },
+          {
+            "selector": "function",
+            "format": ["camelCase", "PascalCase"]
+          },
+          {
+            "selector": "variable",
+            "format": ["camelCase", "UPPER_CASE"]
+          },
+          {
+            "selector": "parameter",
+            "format": ["camelCase"],
+            "leadingUnderscore": "allow"
+          },
+          {
+            "selector": "memberLike",
+            "format": ["camelCase", "PascalCase"]
+          },
+          {
+            "selector": "memberLike",
+            "modifiers": ["private"],
+            "format": ["camelCase"],
+            "leadingUnderscore": "require"
+          },
+          {
+            "selector": "typeLike",
+            "format": ["PascalCase"]
+          }
+        ]
+      },
+      "parserOptions": {
+        "tsconfigRootDir": ".",
+        "project": ["./tsconfig.json"]
+      }
+    }
+  ],
   "settings": {
     "react": {
       "pragma": "React",
