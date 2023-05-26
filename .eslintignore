@@ -3,4 +3,4 @@ dist
 .expo
 .expo-shared
 web-build
-babel.config.js
+*.config.js
