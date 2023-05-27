@@ -13,7 +13,7 @@
     "test-ci": "jest",
     "build": "npx expo export",
     "deploy-eas": "eas update --non-interactive --auto --channel preview",
-    "deploy-web": "firebase deploy",
+    "deploy-web": "npx expo export && firebase deploy",
     "postinstall": "husky install"
   },
   "jest": {
