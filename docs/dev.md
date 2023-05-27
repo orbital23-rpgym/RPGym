@@ -125,4 +125,5 @@ Where possible, document functions using [JSDoc comments](https://jsdoc.app/abou
 ## Deployment
 
 - When ready to deploy, merge changes from `main` into `production`.
+
 - Code on `production` will be automatically deployed to Firebase Hosting, as well as an Expo Application Services update.
