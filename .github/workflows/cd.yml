@@ -1,0 +1,81 @@
+name: Continuous Deployment
+
+on:
+  push:
+    branches:
+      - production
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "yarn"
+          cache-dependency-path: package.json
+      - name: Install dependencies
+        run: |
+          yarn install
+      - name: Run tests
+        run: |
+          yarn test-ci
+
+  deploy-web:
+    name: Deploy to web
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "yarn"
+          cache-dependency-path: package.json
+      - name: Install dependencies
+        run: |
+          yarn install
+      - name: Build for web
+        run: |
+          yarn build
+      - name: Deploy to Firebase Hosting
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_RPGYM_DDBD4 }}"
+          channelId: live
+          projectId: rpgym-ddbd4
+
+  deploy-expo:
+    name: Deploy using Expo
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "yarn"
+          cache-dependency-path: package.json
+      - name: Install dependencies
+        run: |
+          yarn install
+      - name: Setup Expo and EAS
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      - name: Set up EAS CLI
+        run: |
+          npm install -g eas-cli
+      - name: Build and publish using EAS Update
+        run: |
+          yarn deploy-eas

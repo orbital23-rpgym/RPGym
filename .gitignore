@@ -1,6 +1,6 @@
+# Expo/Node
 node_modules/
 .expo/
-dist/
 npm-debug.*
 *.jks
 *.p8
@@ -8,7 +8,13 @@ npm-debug.*
 *.key
 *.mobileprovision
 *.orig.*
+
+# Firebase
+.firebase
+
+# Build files
 web-build/
+dist/
 
 # macOS
 .DS_Store

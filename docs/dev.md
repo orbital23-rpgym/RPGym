@@ -63,7 +63,7 @@ This project's workflow is based on [GitLab Flow](https://docs.gitlab.com/ee/top
 
 ### Code Style
 
-- Code should conform to the [project style guide](docs/style.md).
+- Code should conform to the [project style guide](/docs/style.md).
 
 ### Organization
 
@@ -125,5 +125,5 @@ Where possible, document functions using [JSDoc comments](https://jsdoc.app/abou
 ## Deployment
 
 - When ready to deploy, merge changes from `main` into `production`.
-- Code on `production` will be automatically deployed using Expo Application Services.
-- RPGym can be run using Expo Go using the QR code/link on the [Expo project page](https://expo.dev/@xenosf/rpgym).
+
+- Code on `production` will be automatically deployed to Firebase Hosting, as well as an Expo Application Services update.
