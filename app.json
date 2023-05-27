@@ -1,8 +1,10 @@
 {
   "expo": {
     "name": "RPGym",
-    "slug": "RPGym",
-    "version": "1.0.0",
+    "slug": "rpgym",
+    "owner": "xenosf",
+    "description": "RPGym is a gamified workout tracker app developed for NUS School of Computing Orbital (Summer 2023).",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -14,13 +16,15 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "io.xenosf.rpgym"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "io.xenosf.rpgym"
     },
     "web": {
       "bundler": "metro",
@@ -30,6 +34,12 @@
       "eas": {
         "projectId": "12770219-c5aa-411d-8c08-9adc3e4b6714"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/12770219-c5aa-411d-8c08-9adc3e4b6714"
     }
   }
 }

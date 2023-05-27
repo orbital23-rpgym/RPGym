@@ -6,11 +6,11 @@ RPGym is a gamified workout tracker app developed for NUS School of Computing Or
 
 ## Installation
 
-```sh
-git clone https://github.com/orbital23-rpgym/RPGym.git
-yarn
-yarn run start
-```
+- **iOS/Android (recommended):** RPGym can be run with the Expo Go app using the QR code/link on the [Expo update page](https://expo.dev/%40xenosf/rpgym?serviceType=eas&distribution=expo-go&scheme=exp%2Brpgym&channel=preview&sdkVersion=48.0.0).
+- **Web:** RPGym can be run through a web browser using the [web application link](https://rpgym-ddbd4.web.app/).
+  - Caveat: Some features (e.g. icons) may not work as well on web.
+
+For development, see the ["Getting Started" section of the developer guide](/docs/dev.md#getting-started).
 
 ## Technical Information
 
