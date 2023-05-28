@@ -1,11 +1,17 @@
 import { StyleSheet } from "react-native";
 
-import EditScreenInfo from "../../components/EditScreenInfo";
 import { Text, View } from "../../components/Themed";
-import { Redirect } from "expo-router";
+import { Link } from "expo-router";
 
-export default function TabIndexScreen() {
-  return <Redirect href="/addWorkout" />;
+export default function LoginScreen() {
+  return (
+    <View style={styles.container}>
+      <Text>LOG IN</Text>
+      <Link href="/" style={{ padding: 10, fontSize: 20, color: "#fff" }}>
+        [click to log in]
+      </Link>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

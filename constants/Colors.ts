@@ -7,13 +7,15 @@ export default {
     background: "#fff",
     tint: tintColorLight,
     tabIconDefault: "#ccc",
-    tabIconSelected: tintColorLight,
+    tabBarInactiveColor: "#7F9AE2",
+    tabBarActiveColor: "#7F9AE2",
   },
   dark: {
     text: "#fff",
-    background: "#000",
+    background: "#25272A",
     tint: tintColorDark,
     tabIconDefault: "#ccc",
-    tabIconSelected: tintColorDark,
+    tabBarInactiveColor: "#506AAF",
+    tabBarActiveColor: "#7F9AE2",
   },
 };
