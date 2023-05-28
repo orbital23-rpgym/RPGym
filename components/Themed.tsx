@@ -9,6 +9,8 @@ import {
   View as DefaultView,
 } from "react-native";
 
+import { StyleSheet } from "react-native";
+
 import Colors from "../constants/Colors";
 
 export function useThemeColor(
@@ -48,4 +50,81 @@ export function View(props: ViewProps) {
   );
 
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+}
+
+export function Screen(props: ViewProps) {
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      justifyContent: "flex-start",
+      flexDirection: "column",
+    },
+  });
+
+  return (
+    <View style={{ ...styles.container, ...props.style }}>
+      {props.children}
+    </View>
+  );
+}
+
+type CardProps = {
+  title?: string;
+  header?: DefaultView;
+  headerColor?: string;
+} & DefaultView["props"];
+
+export function Card(props: CardProps) {
+  const styles = StyleSheet.create({
+    cardContainer: {
+      margin: 10,
+      borderRadius: 10,
+      backgroundColor: useThemeColor({}, "cardBackground"),
+      shadowColor: useThemeColor({}, "shadowColor"),
+      shadowOpacity: 0.5,
+      shadowRadius: 4,
+      shadowOffset: { width: 0, height: 1 },
+      overflow: "hidden",
+      height: "auto",
+      minWidth: 100,
+    },
+    titleText: {
+      fontFamily: "Header",
+      fontSize: 20,
+    },
+    titleBar: {
+      backgroundColor: props.headerColor ?? useThemeColor({}, "blue"),
+      top: 0,
+      paddingTop: 10,
+      paddingBottom: 10,
+      paddingLeft: 15,
+      paddingRight: 15,
+      height: "auto",
+    },
+    childContainer: {
+      padding: 20,
+      height: "auto",
+    },
+  });
+
+  const headerBar = props.header ? (
+    <DefaultView style={styles.titleBar}>{props.header}</DefaultView>
+  ) : props.title ? (
+    <DefaultView style={styles.titleBar}>
+      <Text style={styles.titleText}>{props.title}</Text>
+    </DefaultView>
+  ) : (
+    <></>
+  );
+  return (
+    <>
+      <DefaultView style={styles.cardContainer}>
+        {headerBar}
+        <DefaultView style={styles.childContainer}>
+          {props.children}
+        </DefaultView>
+      </DefaultView>
+    </>
+  );
 }
