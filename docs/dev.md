@@ -67,7 +67,7 @@ This project's workflow is based on [GitLab Flow](https://docs.gitlab.com/ee/top
 
 ### Organization
 
-Logic/business code should be kept separate from view code.
+Logic/business code should be kept separate from view/UI code, following the Model-View-Controller design pattern.
 
 Code should be split up into discrete files where possible to facilitate testing. In particular, each React component must have its own file.
 
