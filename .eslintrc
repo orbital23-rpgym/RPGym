@@ -14,7 +14,7 @@
     "plugin:json/recommended"
   ],
   "rules": {
-    "indent": ["error", 2],
+    "indent": "off",
     "no-console": 1,
     "prettier/prettier": 2,
     "jest/no-disabled-tests": "warn",
