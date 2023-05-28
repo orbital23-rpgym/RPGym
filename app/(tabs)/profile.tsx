@@ -49,7 +49,9 @@ export default function ProfileScreen() {
         </View>
         <View style={styles.profileDetailsContainer}>
           <Text style={styles.displayNameText}>Jim Bro</Text>
-          <Text style={styles.text}>Health: 0</Text>
+          <Text style={styles.text}>Health: X</Text>
+          <Text style={styles.text}>EXP: Y</Text>
+          <Text style={styles.text}>Level: Z</Text>
         </View>
       </View>
       <Card title="⚔️ Weekly Quest" headerColor={useThemeColor({}, "orange")}>

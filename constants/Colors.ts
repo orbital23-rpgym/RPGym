@@ -1,5 +1,5 @@
 export const RG_ORANGE = "#F3AD5C";
-export const RG_BLUE = "#7F9AE2";
+export const RG_BLUE = "#506AAF";
 
 type ThemeColors = {
   text: string;
@@ -11,7 +11,8 @@ type ThemeColors = {
   cardBackground: string;
   buttonPrimaryBackground: string;
   buttonSecondaryBackground: string;
-  buttonNeutralBackground: string;
+  buttonDestructiveBackground: string;
+  buttonDefaultBackground: string;
   shadowColor: string;
   red: string;
   green: string;
@@ -29,9 +30,10 @@ const themes: { light: ThemeColors; dark: ThemeColors } = {
     tabBarInactiveColor: "#506AAF",
     tabBarActiveColor: "#7F9AE2",
     cardBackground: "#3A4050",
-    buttonPrimaryBackground: "",
-    buttonSecondaryBackground: "",
-    buttonNeutralBackground: "",
+    buttonPrimaryBackground: RG_BLUE,
+    buttonSecondaryBackground: RG_ORANGE,
+    buttonDestructiveBackground: "#F64F4F",
+    buttonDefaultBackground: "",
     shadowColor: "#000",
     red: "#F64F4F",
     green: "#60C05E",
@@ -46,9 +48,10 @@ const themes: { light: ThemeColors; dark: ThemeColors } = {
     tabBarInactiveColor: "#506AAF",
     tabBarActiveColor: "#7F9AE2",
     cardBackground: "#3A4050",
-    buttonPrimaryBackground: "",
-    buttonSecondaryBackground: "",
-    buttonNeutralBackground: "",
+    buttonPrimaryBackground: "#7F9AE2",
+    buttonSecondaryBackground: RG_ORANGE,
+    buttonDestructiveBackground: "#F64F4F",
+    buttonDefaultBackground: "#7F9AE2",
     shadowColor: "#000",
     red: "#F64F4F",
     green: "#60C05E",

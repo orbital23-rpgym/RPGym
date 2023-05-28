@@ -7,6 +7,7 @@ import {
   Text as DefaultText,
   useColorScheme,
   View as DefaultView,
+  Pressable,
 } from "react-native";
 
 import { StyleSheet } from "react-native";
@@ -126,5 +127,56 @@ export function Card(props: CardProps) {
         </DefaultView>
       </DefaultView>
     </>
+  );
+}
+
+export type ButtonProps = {
+  variant?: "primary" | "secondary" | "destructive";
+} & ThemeProps &
+  Pressable["props"];
+
+export function Button(props: ButtonProps) {
+  const { lightColor, darkColor, ...otherProps } = props;
+  let backgroundColor;
+  switch (props.variant) {
+    case "primary":
+      backgroundColor = useThemeColor(
+        { light: lightColor, dark: darkColor },
+        "buttonPrimaryBackground",
+      );
+      break;
+    case "secondary":
+      backgroundColor = useThemeColor(
+        { light: lightColor, dark: darkColor },
+        "buttonSecondaryBackground",
+      );
+      break;
+    case "destructive":
+      backgroundColor = useThemeColor(
+        { light: lightColor, dark: darkColor },
+        "buttonDestructiveBackground",
+      );
+      break;
+    default:
+      backgroundColor = useThemeColor(
+        { light: lightColor, dark: darkColor },
+        "buttonDefaultBackground",
+      );
+  }
+
+  const styles = StyleSheet.create({
+    button: {
+      borderRadius: 10,
+      padding: 20,
+      margin: 10,
+      shadowColor: useThemeColor({}, "shadowColor"),
+      shadowOpacity: 0.5,
+      shadowRadius: 4,
+      shadowOffset: { width: 0, height: 1 },
+    },
+  });
+
+  return (
+    <Pressable style={[{ backgroundColor }, styles.button]} {...otherProps} />
   );
 }
