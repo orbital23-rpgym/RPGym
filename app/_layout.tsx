@@ -5,9 +5,13 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import { WorkSans_600SemiBold } from "@expo-google-fonts/work-sans";
+import { NotoSans_400Regular } from "@expo-google-fonts/noto-sans";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
+import HeaderStyle from "../constants/HeaderStyle";
+import { AuthProvider } from "../context/auth";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -23,7 +27,8 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   const [isLoaded, error] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    BodyRegular: NotoSans_400Regular,
+    Header: WorkSans_600SemiBold,
     ...FontAwesome.font,
   });
 
@@ -45,13 +50,30 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <>
+    <AuthProvider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack>
+        <Stack screenOptions={HeaderStyle}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+          <Stack.Screen
+            name="settings/index"
+            options={{ presentation: "card", title: "Settings" }}
+          />
+          <Stack.Screen
+            name="settings/accountSettings"
+            options={{ title: "Account Settings" }}
+          />
+          <Stack.Screen
+            name="settings/profileSettings"
+            options={{ title: "Profile Settings" }}
+          />
+          <Stack.Screen name="(auth)/signUp" options={{ title: "Sign Up" }} />
+          <Stack.Screen name="(auth)/login" options={{ title: "Log In" }} />
+          <Stack.Screen
+            name="(auth)/welcome"
+            options={{ headerShown: false }}
+          />
         </Stack>
       </ThemeProvider>
-    </>
+    </AuthProvider>
   );
 }
