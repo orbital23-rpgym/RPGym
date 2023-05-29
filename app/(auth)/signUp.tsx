@@ -40,23 +40,31 @@ export default function SignUpScreen() {
 
   return (
     <View style={styles.container}>
-      <Text>
+      <Text style={styles.disclaimer}>
         NOTE: As this is a proof-of-concept, all created accounts will be
         deleted later.
       </Text>
 
       <Text>Email:</Text>
-      <TextInput style={styles.input} onChangeText={setEmail} />
+      <TextInput
+        style={styles.input}
+        onChangeText={setEmail}
+        autoComplete="email"
+        autoCapitalize="none"
+        inputMode="email"
+      />
       <Text>Password:</Text>
       <TextInput
         style={styles.input}
         onChangeText={setPassword1}
+        autoComplete="password-new"
         secureTextEntry
       />
       <Text>Confirm Password:</Text>
       <TextInput
         style={styles.input}
         onChangeText={setPassword2}
+        autoComplete="password-new"
         secureTextEntry
       />
 
@@ -96,4 +104,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: "Header",
   },
+  disclaimer: {
+    fontSize: 20,
+    fontWeight: "bold",
+    margin: 20,
+  }
 });

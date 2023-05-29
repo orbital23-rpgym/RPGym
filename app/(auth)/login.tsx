@@ -31,12 +31,19 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <Text>Email:</Text>
-      <TextInput style={styles.input} onChangeText={setEmail} />
+      <TextInput
+        style={styles.input}
+        onChangeText={setEmail}
+        autoComplete="email"
+        autoCapitalize="none"
+        inputMode="email"
+      />
       <Text>Password:</Text>
       <TextInput
         style={styles.input}
         onChangeText={setPassword}
         secureTextEntry
+        autoComplete="password"
       />
 
       <Text style={{ color: useThemeColor({}, "red") }}>{errorMessage}</Text>
