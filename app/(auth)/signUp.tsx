@@ -1,16 +1,69 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 
-import { Text, View } from "../../components/Themed";
-import { Link } from "expo-router";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import PlaceholderText from "../../components/Placeholder";
+import { Button, Text, View, useThemeColor } from "../../components/Themed";
+import { useRouter } from "expo-router";
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { useState } from "react";
 
 export default function SignUpScreen() {
+  const [email, setEmail] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const auth = getAuth();
+  const router = useRouter();
+
+  function preSignUp() {
+    if (password1 !== password2) {
+      setErrorMessage("Passwords do not match");
+    } else {
+      signUp(email, password1);
+    }
+  }
+
+  function signUp(email: string, password: string) {
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+
+        router.replace("(tabs)/");
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        // const errorMessage = error.message;
+        // ..
+        setErrorMessage(error.message);
+      });
+  }
+
   return (
     <View style={styles.container}>
-      <Link href="/" style={{ padding: 10, fontSize: 20, color: "#fff" }}>
-        <PlaceholderText />
-      </Link>
+      <Text>
+        NOTE: As this is a proof-of-concept, all created accounts will be
+        deleted later.
+      </Text>
+
+      <Text>Email:</Text>
+      <TextInput style={styles.input} onChangeText={setEmail} />
+      <Text>Password:</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={setPassword1}
+        secureTextEntry
+      />
+      <Text>Confirm Password:</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={setPassword2}
+        secureTextEntry
+      />
+
+      <Text style={{ color: useThemeColor({}, "red") }}>{errorMessage}</Text>
+      <Button variant="primary" onPress={preSignUp}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </Button>
     </View>
   );
 }
@@ -30,18 +83,17 @@ const styles = StyleSheet.create({
     height: 1,
     width: "80%",
   },
+  input: {
+    backgroundColor: "#fff",
+    color: "#000",
+    fontSize: 16,
+    fontFamily: "BodyRegular",
+    margin: 10,
+    padding: 5,
+    minWidth: 150,
+  },
+  buttonText: {
+    fontSize: 20,
+    fontFamily: "Header",
+  },
 });
-
-function SignUpController(email: string, password: string) {
-  const auth = getAuth();
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
-}
