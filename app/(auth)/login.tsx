@@ -23,7 +23,8 @@ export default function LoginScreen() {
       })
       .catch((error) => {
         const errorCode = error.code;
-        setErrorMessage(error.message);
+        const errorMessage = error.message;
+        setErrorMessage("Incorrect username or password.");
       });
   }
 
