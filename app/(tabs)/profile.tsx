@@ -1,12 +1,15 @@
 import { StyleSheet } from "react-native";
 import { Screen, Card, Text, View } from "../../components/Themed";
 import { useThemeColor } from "../../components/Themed";
+import { useEffect, useState } from "react";
+import { DocumentData, doc, getDoc } from "firebase/firestore";
+import { useAuthentication } from "../../utils/hooks/useAuthentication";
+import { db } from "../..";
+import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function ProfileScreen() {
   const styles = StyleSheet.create({
     screenStyle: {
-      padding: 30,
-      paddingTop: 100,
       gap: 10,
     },
     profileInfoContainer: {
@@ -41,17 +44,52 @@ export default function ProfileScreen() {
     },
   });
 
-  return (
+  const { user } = useAuthentication();
+
+  const [userData, setUserData] = useState<DocumentData>();
+
+  useEffect(() => {
+    async function getUserData() {
+      if (user)
+        await getDoc(doc(db, "users", user.uid)).then((querySnapshot) => {
+          const newData = querySnapshot.data();
+          setUserData(newData);
+        });
+    }
+    getUserData();
+  }, [userData, user]);
+
+  return userData ? (
     <Screen style={styles.screenStyle}>
       <View style={styles.profileInfoContainer}>
         <View style={styles.avatarContainer}>
           <Text>AVATAR</Text>
         </View>
         <View style={styles.profileDetailsContainer}>
-          <Text style={styles.displayNameText}>Jim Bro</Text>
-          <Text style={styles.text}>Health: X</Text>
-          <Text style={styles.text}>EXP: Y</Text>
-          <Text style={styles.text}>Level: Z</Text>
+          <Text style={styles.displayNameText}>{userData.displayName}</Text>
+          <Text style={styles.text}>Health: {userData.currentHealth}/100</Text>
+          <Text style={styles.text}>EXP: {userData.exp}</Text>
+          <Text style={styles.text}>Level: X</Text>
+        </View>
+      </View>
+      <Card title="⚔️ Weekly Quest" headerColor={useThemeColor({}, "orange")}>
+        <Text>PLACEHOLDER</Text>
+      </Card>
+      <Card title="💪 Campaign" headerColor={useThemeColor({}, "blue")}>
+        <Text>PLACEHOLDER</Text>
+      </Card>
+    </Screen>
+  ) : (
+    <Screen style={styles.screenStyle}>
+      <View style={styles.profileInfoContainer}>
+        <View style={styles.avatarContainer}>
+          <Text>AVATAR</Text>
+        </View>
+        <View style={styles.profileDetailsContainer}>
+          <Text style={styles.displayNameText}>Loading...</Text>
+          <Text style={styles.text}>Health: ___/100</Text>
+          <Text style={styles.text}>EXP: __</Text>
+          <Text style={styles.text}>Level: X</Text>
         </View>
       </View>
       <Card title="⚔️ Weekly Quest" headerColor={useThemeColor({}, "orange")}>
