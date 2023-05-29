@@ -60,11 +60,15 @@ export function Screen(props: ViewProps) {
       alignItems: "center",
       justifyContent: "flex-start",
       flexDirection: "column",
+      padding: 30,
+      paddingTop: 100,
     },
   });
 
+  const { style, ...otherProps } = props;
+
   return (
-    <View style={{ ...styles.container, ...props.style }}>
+    <View style={[{ ...styles.container }, style]} {...otherProps}>
       {props.children}
     </View>
   );
