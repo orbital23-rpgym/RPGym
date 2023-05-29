@@ -2,31 +2,38 @@ import { StyleSheet, TextInput } from "react-native";
 
 import { Button, Text, View, useThemeColor } from "../../components/Themed";
 import { useRouter } from "expo-router";
-import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { User, createUserWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "../..";
 import { useState } from "react";
+import { doc, setDoc } from "firebase/firestore";
 
 export default function SignUpScreen() {
   const [email, setEmail] = useState("");
   const [password1, setPassword1] = useState("");
   const [password2, setPassword2] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const auth = getAuth();
+  const [displayName, setDisplayName] = useState("");
   const router = useRouter();
 
-  function preSignUp() {
-    if (password1 !== password2) {
+  async function preSignUp() {
+    if (email === "") {
+      setErrorMessage("Email must not be empty");
+    } else if (password1 !== password2) {
       setErrorMessage("Passwords do not match");
+    } else if (displayName === "") {
+      setErrorMessage("Display name must not be empty");
     } else {
-      signUp(email, password1);
+      await signUp(email, password1);
     }
   }
 
-  function signUp(email: string, password: string) {
+  async function signUp(email: string, password: string) {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-
+        // Create user data
+        saveNewUserData(user);
         router.replace("(tabs)/");
         // ...
       })
@@ -34,8 +41,23 @@ export default function SignUpScreen() {
         const errorCode = error.code;
         // const errorMessage = error.message;
         // ..
-        setErrorMessage(error.message);
+        if (error.code === "auth/email-already-in-use") {
+          setErrorMessage("An account with that email address already exists");
+        } else if (error.code === "auth/weak-password") {
+          setErrorMessage("Password must be at least 6 characters long");
+        } else {
+          setErrorMessage("Error: " + error.message);
+        }
       });
+  }
+
+  async function saveNewUserData(user: User) {
+    await setDoc(doc(db, "users", user.uid), {
+      displayName: displayName,
+      email: user.email,
+      currentHealth: 100,
+      exp: 0,
+    });
   }
 
   return (
@@ -53,6 +75,14 @@ export default function SignUpScreen() {
         autoCapitalize="none"
         inputMode="email"
       />
+
+      <Text>Display Name:</Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={setDisplayName}
+        autoComplete="name"
+        autoCapitalize="words"
+      />
       <Text>Password:</Text>
       <TextInput
         style={styles.input}
@@ -69,7 +99,7 @@ export default function SignUpScreen() {
       />
 
       <Text style={{ color: useThemeColor({}, "red") }}>{errorMessage}</Text>
-      <Button variant="primary" onPress={preSignUp}>
+      <Button variant="primary" onPress={() => preSignUp()}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </Button>
     </View>
@@ -108,5 +138,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     margin: 20,
-  }
+  },
 });

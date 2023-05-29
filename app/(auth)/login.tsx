@@ -1,16 +1,15 @@
 import { Pressable, StyleSheet, TextInput } from "react-native";
 
 import { Text, View, Button, useThemeColor } from "../../components/Themed";
-import { Link } from "expo-router";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../..";
 import { useState } from "react";
-import { useRouter, useSegments } from "expo-router";
+import { useRouter } from "expo-router";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const auth = getAuth();
   const router = useRouter();
 
   function signIn(email: string, password: string) {

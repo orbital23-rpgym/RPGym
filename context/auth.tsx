@@ -10,16 +10,16 @@ function useProtectedRoute(user?: User) {
   const router = useRouter();
 
   React.useEffect(() => {
-    const inAuthGroup = segments[0] === "(auth)";
+    const isInAuthGroup = segments[0] === "(auth)";
 
     if (
       // If the user is not signed in and the initial segment is not anything in the auth group.
       !user &&
-      !inAuthGroup
+      !isInAuthGroup
     ) {
       // Redirect to the sign-in page.
       router.replace("/welcome");
-    } else if (user && inAuthGroup) {
+    } else if (user && isInAuthGroup) {
       // Redirect away from the sign-in page.
       router.replace("(tabs)/");
     }
@@ -31,5 +31,5 @@ export function AuthProvider(props: ViewProps) {
 
   useProtectedRoute(user);
 
-  return props.children;
+  return <>{props.children}</>;
 }
