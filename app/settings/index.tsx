@@ -25,15 +25,14 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
-      <Link
-        href="settings/profileSettings"
-        style={{ padding: 10, fontSize: 20, color: "#fff" }}
-      >
-        [click to edit profile]
-      </Link>
+      <Button variant="primary">
+        <Link href="settings/profileSettings" style={styles.buttonText}>
+          Edit profile
+        </Link>
+      </Button>
       <Text>(app, account settings go here)</Text>
 
-      <Button variant="primary" onPress={logout}>
+      <Button variant="destructive" onPress={logout}>
         <Text style={styles.buttonText}>Log Out</Text>
       </Button>
 
@@ -60,5 +59,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     fontFamily: "Header",
+    color: "#fff",
   },
 });
