@@ -32,7 +32,10 @@ Use American spelling in code. Names should be concise and descriptive.
 
 ### Components
 
-All React components (e.g. screen, button, text field) are to be named using `PascalCase`. Their corresponding files are to be named `ComponentName.tsx` where `ComponentName` is the component name in `PascalCase`.
+All React components (e.g. screen, button, text field) are to be named using `PascalCase`.
+
+Names of view components representing whole screens are to be suffixed with `Screen` (e.g. `ProfileScreen`).
+Controller components' names are to be suffixed with `Controller` (e.g. `EditProfileController`), and model components' names are to be suffixed with `Model` (e.g. `ProfileInfoModel`).
 
 ### Classes/Types
 
@@ -44,7 +47,7 @@ Function names are to be named using `camelCase`.
 
 ### Variables
 
-Most variable names are to be named using `camelCase`. Constants are to be named in `SCREAMING_SNAKE_CASE`.
+Most variable names are to be named using `camelCase`. Constants with literal values are to be named in `SCREAMING_SNAKE_CASE`.
 
 Booleans should be named with a verb that helps describe its purpose (usually "is", "should", "has", "can", "did", "will"; e.g. `isValid`, `hasOngoingQuest`)
 
