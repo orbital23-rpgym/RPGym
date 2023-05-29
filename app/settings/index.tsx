@@ -15,7 +15,7 @@ export default function SettingsScreen() {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        router.replace("/");
+        router.replace("(auth)/welcome");
       })
       .catch((error) => {
         // An error happened.

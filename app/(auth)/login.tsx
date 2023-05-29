@@ -18,7 +18,7 @@ export default function LoginScreen() {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        router.replace("/");
+        router.replace("(tabs)/");
         // ...
       })
       .catch((error) => {
