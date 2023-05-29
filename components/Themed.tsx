@@ -8,6 +8,7 @@ import {
   useColorScheme,
   View as DefaultView,
   Pressable,
+  PressableProps,
 } from "react-native";
 
 import { StyleSheet } from "react-native";
@@ -76,7 +77,6 @@ export function Screen(props: ViewProps) {
 
 type CardProps = {
   title?: string;
-  header?: DefaultView;
   headerColor?: string;
 } & DefaultView["props"];
 
@@ -113,9 +113,7 @@ export function Card(props: CardProps) {
     },
   });
 
-  const headerBar = props.header ? (
-    <DefaultView style={styles.titleBar}>{props.header}</DefaultView>
-  ) : props.title ? (
+  const headerBar = props.title ? (
     <DefaultView style={styles.titleBar}>
       <Text style={styles.titleText}>{props.title}</Text>
     </DefaultView>
@@ -137,7 +135,7 @@ export function Card(props: CardProps) {
 export type ButtonProps = {
   variant?: "primary" | "secondary" | "destructive";
 } & ThemeProps &
-  Pressable["props"];
+  PressableProps;
 
 export function Button(props: ButtonProps) {
   const { lightColor, darkColor, ...otherProps } = props;
