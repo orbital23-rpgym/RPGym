@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { DocumentData, doc, getDoc } from "firebase/firestore";
 import { useAuthentication } from "../../utils/hooks/useAuthentication";
 import { db } from "../..";
-import { FontAwesome5 } from "@expo/vector-icons";
 
 export default function ProfileScreen() {
   const styles = StyleSheet.create({

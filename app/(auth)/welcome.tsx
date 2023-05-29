@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 
-import { Text, View, Button } from "../../components/Themed";
+import { Text, Button } from "../../components/Themed";
 import { RG_BLUE, RG_ORANGE } from "../../constants/Colors";
 import { Link } from "expo-router";
 
