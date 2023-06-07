@@ -6,7 +6,7 @@
     "description": "RPGym is a gamified workout tracker app developed for NUS School of Computing Orbital (Summer 2023).",
     "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./assets/images/ios-icon.png",
+    "icon": "./assets/images/app-icon/ios-icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -18,19 +18,19 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.xenosf.rpgym",
-      "icon": "./assets/images/ios-icon.png"
+      "icon": "./assets/images/app-icon/ios-icon.png"
     },
     "android": {
       "adaptiveIcon": {
-        "monochromeImage": "./assets/images/adaptive-icon-monochrome.png",
-        "foregroundImage": "./assets/images/adaptive-icon-fg.png",
-        "backgroundImage": "./assets/images/adaptive-icon-bg.png"
+        "monochromeImage": "./assets/images/app-icon/adaptive-icon-monochrome.png",
+        "foregroundImage": "./assets/images/app-icon/adaptive-icon-fg.png",
+        "backgroundImage": "./assets/images/app-icon/adaptive-icon-bg.png"
       },
       "package": "io.xenosf.rpgym"
     },
     "web": {
       "bundler": "metro",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/app-icon/favicon.png"
     },
     "extra": {
       "eas": {
