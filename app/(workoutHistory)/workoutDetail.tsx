@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 
-import { Text, View } from "../../components/Themed";
+import { Text, View } from "library/components/Themed";
 import { Link } from "expo-router";
 
 export default function SignUpScreen() {

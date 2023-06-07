@@ -2,7 +2,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Link, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
-import { Text } from "../../components/Themed";
+import { Text } from "library/components/Themed";
 
 import Colors from "../../constants/Colors";
 import HeaderStyle from "../../constants/HeaderStyle";

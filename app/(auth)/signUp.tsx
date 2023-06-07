@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput } from "react-native";
 
-import { Button, Text, View, useThemeColor } from "../../components/Themed";
+import { Button, Text, View, useThemeColor } from "library/components/Themed";
 import { useRouter } from "expo-router";
 import { User, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../..";
