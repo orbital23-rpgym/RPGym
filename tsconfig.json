@@ -6,7 +6,8 @@
     "paths": {
       "assets/*": ["test/*"],
       "library/*": ["library/*"],
-      "constants/*": ["constants/*"]
+      "constants/*": ["constants/*"],
+      "src/*": ["src/*"]
     }
   }
 }
