@@ -4,9 +4,10 @@
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "assets/*": ["test/*"],
+      "assets/*": ["assets/*"],
       "library/*": ["library/*"],
-      "constants/*": ["constants/*"]
+      "constants/*": ["constants/*"],
+      "src/*": ["src/*"]
     }
   }
 }

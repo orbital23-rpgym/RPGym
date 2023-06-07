@@ -1,11 +1,3 @@
-import { StyleSheet } from "react-native";
-import PlaceholderText from "library/components/Placeholder";
-import { Screen } from "library/components/Themed";
+import ProfileSettingsScreen from "src/user/profile/ProfileSettingsScreen";
 
-export default function ProfileSettingsScreen() {
-  return (
-    <Screen>
-      <PlaceholderText />
-    </Screen>
-  );
-}
+export default ProfileSettingsScreen;
