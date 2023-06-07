@@ -3,5 +3,4 @@ dist
 .expo
 .expo-shared
 web-build
-*.config.js
 .firebase
