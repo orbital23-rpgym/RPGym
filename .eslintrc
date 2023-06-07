@@ -1,7 +1,7 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["react", "@typescript-eslint", "prettier", "jest"],
+  "plugins": ["react", "@typescript-eslint", "prettier", "jest", "import"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -11,7 +11,9 @@
     "plugin:jest/recommended",
     "plugin:react/jsx-runtime",
     "plugin:markdown/recommended",
-    "plugin:json/recommended"
+    "plugin:json/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript"
   ],
   "rules": {
     "indent": "off",
@@ -82,6 +84,12 @@
     "react": {
       "pragma": "React",
       "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      },
+      "babel-module": {}
     }
   },
   "env": {
