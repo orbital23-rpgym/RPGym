@@ -1,11 +1,3 @@
-import { StyleSheet } from "react-native";
-import PlaceholderText from "library/components/Placeholder";
-import { Screen } from "library/components/Themed";
+import QuestsScreen from "src/rpg/quest/QuestsScreen";
 
-export default function QuestsScreen() {
-  return (
-    <Screen>
-      <PlaceholderText />
-    </Screen>
-  );
-}
+export default QuestsScreen;

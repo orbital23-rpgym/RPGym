@@ -1,11 +1,3 @@
-import { StyleSheet } from "react-native";
-import PlaceholderText from "library/components/Placeholder";
-import { Screen } from "library/components/Themed";
+import PartyScreen from "src/rpg/party/PartyScreen";
 
-export default function PartyScreen() {
-  return (
-    <Screen>
-      <PlaceholderText />
-    </Screen>
-  );
-}
+export default PartyScreen;

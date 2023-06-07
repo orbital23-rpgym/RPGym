@@ -1,11 +1,3 @@
-import { StyleSheet } from "react-native";
-import PlaceholderText from "library/components/Placeholder";
-import { Screen } from "library/components/Themed";
+import WorkoutHistoryScreen from "src/fitness-tracker/workout/WorkoutHistoryScreen";
 
-export default function WorkoutHistoryScreen() {
-  return (
-    <Screen>
-      <PlaceholderText />
-    </Screen>
-  );
-}
+export default WorkoutHistoryScreen;
