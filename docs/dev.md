@@ -38,6 +38,12 @@ Notes:
 - The phone scanning the QR code must be on the same local network (e.g. both connected to home WiFi).
 - Android phones must first download the Expo app from the Play Store.
 
+## Directory structure
+
+Major subfolders and their purposes are outlined in the [file structure documentation](/docs/directory.md).
+
+Generally, only screen view components should be exported as the default value of a file, to avoid issues with expo-router's file-based routing.
+
 ## Workflow
 
 ### Branches

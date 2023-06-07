@@ -1,6 +1,6 @@
 import { StyleSheet, TextInput } from "react-native";
 
-import { Text, View, Button, useThemeColor } from "../../components/Themed";
+import { Text, View, Button, useThemeColor } from "library/components/Themed";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../..";
 import { useState } from "react";

@@ -1,5 +1,5 @@
 import { useRouter, useSegments } from "expo-router";
-import { useAuthentication } from "../utils/hooks/useAuthentication";
+import { useAuthentication } from "library/hooks/useAuthentication";
 import React from "react";
 import { ViewProps } from "react-native/types";
 import { User } from "firebase/auth";

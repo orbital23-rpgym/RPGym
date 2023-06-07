@@ -1,9 +1,14 @@
 import { StyleSheet } from "react-native";
-import { Screen, Card, Text, View } from "../../components/Themed";
-import { useThemeColor } from "../../components/Themed";
+import {
+  Screen,
+  Card,
+  Text,
+  View,
+  useThemeColor,
+} from "library/components/Themed";
 import { useEffect, useState } from "react";
 import { DocumentData, doc, getDoc } from "firebase/firestore";
-import { useAuthentication } from "../../utils/hooks/useAuthentication";
+import { useAuthentication } from "library/hooks/useAuthentication";
 import { db } from "../..";
 
 export default function ProfileScreen() {
