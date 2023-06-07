@@ -30,7 +30,11 @@ Code will also be automatically checked using a pre-commit hook, and after pushi
 
 Use American spelling in code. Names should be concise and descriptive.
 
-## Common Internal Imports
+Use `PascalCase` for React component files and `kebab-case` for other file and directory names, unless they are included in routes (in which case use the intended route name).
+
+Use the `.tsx` file extension for all React component files.
+
+## Imports
 
 `babel-plugin-module-resolver` has been set up in this projects. Imports from the `library`, `assets`, and `constants` [subfolders](/docs/directory.md) should not use relative paths but instead be imported like modules:
 
