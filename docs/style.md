@@ -30,6 +30,17 @@ Code will also be automatically checked using a pre-commit hook, and after pushi
 
 Use American spelling in code. Names should be concise and descriptive.
 
+## Common Internal Imports
+
+`babel-plugin-module-resolver` has been set up in this projects. Imports from the `library`, `assets`, and `constants` [subfolders](/docs/directory.md) should not use relative paths but instead be imported like modules:
+
+```ts
+// Good
+import Button from "library/components/Button";
+// Bad
+import Button from "../../../library/components/Button";
+```
+
 ### Components/Classes/Types
 
 All React components (e.g. screen, button, text field) are to be named using `PascalCase`.
