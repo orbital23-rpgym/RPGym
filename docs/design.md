@@ -61,6 +61,14 @@ classDiagram
         workoutPresets
         workouts
         createPreset()
+        createRoutine()
+    }
+
+    class Routine {
+        name
+        description
+        workouts
+        addWorkoutTemplate()
     }
 
     class Workout {
@@ -72,6 +80,7 @@ classDiagram
 
     class WorkoutPreset {
         name
+        description
     }
 
     class Exercise {
@@ -88,6 +97,7 @@ classDiagram
 
     class Set {
         notes
+        perceivedExertion
     }
     <<Abstract>> Set
 
@@ -127,8 +137,17 @@ classDiagram
         currentProgress
         startDateTime
         endDateTime
-
     }
+
+    class QuestPreset {
+        name
+        description
+        maxProgress
+        currentProgress
+        startDateTime
+        endDateTime
+    }
+
 
     class Party {
         name
@@ -212,6 +231,8 @@ classDiagram
     User "1" *-- "1" UserProfile : has
 
     UserExercise "1" o-- "*" Workout : tracks
+    UserExercise "1" o-- "*" Routine : can create
+    WorkoutPreset "*" o-- "1" Routine : part of
     Workout <|-- WorkoutPreset : based on
     Workout "1" o-- "*" Exercise : has
 
