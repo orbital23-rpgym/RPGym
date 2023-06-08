@@ -15,8 +15,6 @@ import { collections as DB } from "constants/db";
  */
 export class UserFitnessTracker {
   readonly ref: DocumentReference;
-  // temp value so that firestore document is not empty
-  temp = null;
 
   constructor(ref: DocumentReference) {
     this.ref = ref;
@@ -44,7 +42,9 @@ export class UserFitnessTracker {
    * @returns Created fitness tracker.
    */
   static async create(id: string): Promise<UserFitnessTracker> {
-    const ref = doc(db, DB.userFitness, id);
+    const ref = doc(db, DB.userFitness, id).withConverter(
+      fitnessTrackerConverter,
+    );
     const userFitnessTracker = new UserFitnessTracker(ref);
     await setDoc(ref, userFitnessTracker);
     return userFitnessTracker;
@@ -53,7 +53,7 @@ export class UserFitnessTracker {
 
 export const fitnessTrackerConverter = {
   toFirestore(fitnessTracker: UserFitnessTracker): DocumentData {
-    return { temp: fitnessTracker.temp };
+    return {};
   },
   fromFirestore(
     snapshot: QueryDocumentSnapshot,

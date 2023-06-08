@@ -66,7 +66,7 @@ export class UserCharacter {
    * @returns Created character.
    */
   static async create(id: string, username: string): Promise<UserCharacter> {
-    const ref = doc(db, DB.userFitness, id).withConverter(characterConverter);
+    const ref = doc(db, DB.userCharacter, id).withConverter(characterConverter);
     const userCharacter = new UserCharacter(
       ref,
       username,

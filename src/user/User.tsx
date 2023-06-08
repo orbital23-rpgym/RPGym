@@ -98,7 +98,7 @@ export class User {
     username: string,
     emailAddress: string,
   ): Promise<User> {
-    const ref = doc(db, DB.users, id);
+    const ref = doc(db, DB.users, id).withConverter(userConverter);
     const userFitnessTracker = await UserFitnessTracker.create(id);
     const userCharacter = await UserCharacter.create(id, username);
     const appSettings = AppSettings.default();
@@ -108,9 +108,9 @@ export class User {
       emailAddress,
       userFitnessTracker,
       userCharacter,
-      appSettings,
+      {}, // TODO: implement conversion of AppSettings to object
     );
-    await setDoc(ref, {});
+    await setDoc(ref, user);
     return user;
   }
 }
