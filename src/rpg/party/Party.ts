@@ -1,4 +1,4 @@
 /**
  * In-game party.
  */
-export default class Party {}
+export class Party {}

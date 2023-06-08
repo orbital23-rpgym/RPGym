@@ -41,20 +41,15 @@ classDiagram
     direction LR
 
     class User {
+        id
+        username
+        emailAddress
         settings
-        userAccount
         userProfile
         userExercise
     }
 
     class Settings
-
-    class UserAccount {
-        id
-        username
-        emailAddress
-        password
-    }
 
     class UserExercise {
         customExercises
@@ -131,15 +126,6 @@ classDiagram
     }
 
     class Quest {
-        name
-        description
-        maxProgress
-        currentProgress
-        startDateTime
-        endDateTime
-    }
-
-    class QuestPreset {
         name
         description
         maxProgress
@@ -225,7 +211,6 @@ classDiagram
     class MainHandItem
     class OffHandItem
 
-    User "1" *-- "1" UserAccount : has
     User "1" o-- "1" Settings : sets
     User "1" *-- "1" UserExercise : has
     User "1" *-- "1" UserProfile : has
