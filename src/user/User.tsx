@@ -1,7 +1,7 @@
-import UserFitnessTracker from "./fitness-tracker/UserFitnessTracker";
-import UserAccount from "./account/UserAccount";
-import UserCharacter from "./character/UserCharacter";
-import AppSettings from "../settings/AppSettings";
+import UserFitnessTracker from "src/user/fitness-tracker/UserFitnessTracker";
+import UserAccount from "src/user/account/UserAccount";
+import UserCharacter from "src/user/character/UserCharacter";
+import AppSettings from "src/settings/AppSettings";
 /**
  * User of the app.
  * Management of various aspects of the user data is split into smaller classes.
