@@ -1,3 +1,3 @@
-import ProfileSettingsScreen from "src/user/profile/ProfileSettingsScreen";
+import ProfileSettingsScreen from "src/user/character/ProfileSettingsScreen";
 
 export default ProfileSettingsScreen;
