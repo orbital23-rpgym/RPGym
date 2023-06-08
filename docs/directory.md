@@ -3,6 +3,7 @@
 This file documents important folders and files in this project's source code.
 
 - `.`
+
   - `docs`: Project documentation files, commonly written in markdown.
   - `assets`: Static assets (e.g. font files, images)
   - `constants`: Importable constants (e.g. theme colors, strings).
