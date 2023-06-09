@@ -90,29 +90,21 @@ classDiagram
         notes
     }
 
-    class Set {
+    class ExerciseSet {
         notes
         perceivedExertion
     }
-    <<Abstract>> Set
+    <<Abstract>> ExerciseSet
 
     class WeightRepsSet {
-        weight
-        weightUnit
+        weightKg
         reps
     }
 
     class WeightTimeSet {
-        weight
-        weightUnit
-        reps
+        weightKg
+        time
     }
-
-    class WeightUnit {
-        kg
-        lb
-    }
-    <<Enumeration>> WeightUnit
 
     class UserProfile {
         displayName
@@ -173,23 +165,6 @@ classDiagram
         background
     }
 
-    class BodySize
-    class SkinColor
-    class HairColor
-    class FrontHair
-    class BackHair
-    class FacialHair
-    class Glasses
-    class Background
-    <<Enumeration>> BodySize
-    <<Enumeration>> SkinColor
-    <<Enumeration>> HairColor
-    <<Enumeration>> FrontHair
-    <<Enumeration>> BackHair
-    <<Enumeration>> FacialHair
-    <<Enumeration>> Glasses
-    <<Enumeration>> Background
-
     class AvatarEquipment {
         helmet
         chestplate
@@ -200,7 +175,7 @@ classDiagram
     }
 
     class Item {
-        spriteImage
+        image
     }
     <<Abstract>> Item
 
@@ -223,10 +198,9 @@ classDiagram
 
     UserExercise "1" o-- "*" ExerciseTemplate : can create
     Exercise "*" *-- "1" ExerciseTemplate : based on
-    Exercise "1" *-- "*" Set : has
-    Set <|-- WeightRepsSet
-    Set <|-- WeightTimeSet
-    Set "*" *-- "1" WeightUnit
+    Exercise "1" *-- "*" ExerciseSet : has
+    ExerciseSet <|-- WeightRepsSet
+    ExerciseSet <|-- WeightTimeSet
 
     UserProfile "1" o-- "*" Quest : creates, does
     UserProfile "1..20" --o "1" Party : part of
@@ -244,15 +218,6 @@ classDiagram
     UserProfile "1" *-- "1" Avatar : has
     Avatar "1" *-- "1" AvatarBase : part of
     Avatar "1" *-- "1" AvatarEquipment : part of
-
-    AvatarBase "*" *-- "1" BodySize
-    AvatarBase "*" *-- "1" SkinColor
-    AvatarBase "*" *-- "1" HairColor
-    AvatarBase "*" *-- "1" FrontHair
-    AvatarBase "*" *-- "1" BackHair
-    AvatarBase "*" *-- "1" FacialHair
-    AvatarBase "*" *-- "1" Glasses
-    AvatarBase "*" *-- "1" Background
 
     AvatarEquipment "0..1" *-- "1" Helmet
     AvatarEquipment "0..1" *-- "1" Chestplate
