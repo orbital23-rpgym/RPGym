@@ -1,6 +1,7 @@
 import {
   DocumentData,
   DocumentReference,
+  FirestoreDataConverter,
   QueryDocumentSnapshot,
   SnapshotOptions,
   doc,
@@ -80,7 +81,7 @@ export class UserCharacter {
   }
 }
 
-export const characterConverter = {
+export const characterConverter: FirestoreDataConverter<UserCharacter> = {
   toFirestore(character: UserCharacter): DocumentData {
     return {
       displayName: character.displayName,

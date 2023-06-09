@@ -1,6 +1,7 @@
 import {
   DocumentData,
   DocumentReference,
+  FirestoreDataConverter,
   QueryDocumentSnapshot,
   SnapshotOptions,
   doc,
@@ -51,17 +52,18 @@ export class UserFitnessTracker {
   }
 }
 
-export const fitnessTrackerConverter = {
-  toFirestore(fitnessTracker: UserFitnessTracker): DocumentData {
-    return {};
-  },
-  fromFirestore(
-    snapshot: QueryDocumentSnapshot,
-    options: SnapshotOptions,
-  ): UserFitnessTracker {
-    // Data from QueryDocumentSnapshot will never return undefined.
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const data = snapshot.data(options)!;
-    return new UserFitnessTracker(snapshot.ref);
-  },
-};
+export const fitnessTrackerConverter: FirestoreDataConverter<UserFitnessTracker> =
+  {
+    toFirestore(fitnessTracker: UserFitnessTracker): DocumentData {
+      return {};
+    },
+    fromFirestore(
+      snapshot: QueryDocumentSnapshot,
+      options: SnapshotOptions,
+    ): UserFitnessTracker {
+      // Data from QueryDocumentSnapshot will never return undefined.
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const data = snapshot.data(options)!;
+      return new UserFitnessTracker(snapshot.ref);
+    },
+  };

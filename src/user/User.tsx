@@ -15,25 +15,32 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
   DocumentData,
+  collection,
+  query,
+  where,
+  getCountFromServer,
+  FirestoreDataConverter,
 } from "firebase/firestore";
 import { db } from "src/firebase-init";
 import { collections as DB } from "constants/db";
 import { MAX_HEALTH } from "constants/game";
+import { UsernameTakenError } from "library/error";
 
 /**
- * User of the app.
+ * User of the app. This class primarily handles basic user account data.
  * Management of various aspects of the user data is split into smaller classes.
  */
 export class User {
   readonly id: string;
-  username: string;
-  emailAddress: string;
+  readonly username: string;
+  readonly emailAddress: string;
   readonly fitnessTracker: UserFitnessTracker;
   readonly character: UserCharacter;
   readonly settings: AppSettings;
 
   /**
    * Constructor for User.
+   *
    * @param id UID of user.
    * @param username
    * @param emailAddress
@@ -59,6 +66,7 @@ export class User {
 
   /**
    * Gets user from Firestore with specified ID.
+   *
    * @param id User UID.
    * @returns User
    * @throws Error if data with specified ID not found.
@@ -87,17 +95,36 @@ export class User {
   }
 
   /**
-   * Creates new user and uploads data to Firestore. Profile and fitness data are set to dummy values.
+   * Checks if a given username is available.
+   *
+   * @param username Username to check.
+   * @returns True if username is not already taken by another user.
+   */
+  static async isUsernameAvailable(username: string): Promise<boolean> {
+    const usersRef = collection(db, DB.users);
+    const q = query(usersRef, where("username", "==", username));
+    const count = (await getCountFromServer(q)).data().count;
+    return count === 0;
+  }
+
+  /**
+   * Creates new user and uploads data to Firestore.
+   * Profile and fitness data are set to dummy values.
+   *
    * @param id UID returned by Firebase Authentication.
    * @param username
    * @param emailAddress
    * @returns Created user.
+   * @throws UsernameTakenError if username is taken.
    */
   static async create(
     id: string,
     username: string,
     emailAddress: string,
   ): Promise<User> {
+    const isUsernameAvailable = await User.isUsernameAvailable(username);
+    if (!isUsernameAvailable)
+      throw new UsernameTakenError("Username " + username + " already taken.");
     const ref = doc(db, DB.users, id).withConverter(userConverter);
     const userFitnessTracker = await UserFitnessTracker.create(id);
     const userCharacter = await UserCharacter.create(id, username);
@@ -108,13 +135,41 @@ export class User {
       emailAddress,
       userFitnessTracker,
       userCharacter,
-      {}, // TODO: implement conversion of AppSettings to object
+      appSettings,
+    );
+    await setDoc(ref, user);
+    return user;
+  }
+
+  /**
+   * Updates username.
+   *
+   * @returns New User instance with edited username.
+   * @throws UsernameTakenError if username is taken.
+   */
+  public async setUsername(newUsername: string): Promise<User> {
+    const isUsernameAvailable = await User.isUsernameAvailable(newUsername);
+    if (!isUsernameAvailable)
+      throw new UsernameTakenError(
+        "Username " + newUsername + " already taken.",
+      );
+    const ref = doc(db, DB.users, this.id).withConverter(userConverter);
+    const user = new User(
+      this.id,
+      newUsername,
+      this.emailAddress,
+      this.fitnessTracker,
+      this.character,
+      this.settings,
     );
     await setDoc(ref, user);
     return user;
   }
 }
 
+/**
+ * User data as stored in Firestore.
+ */
 type UserData = {
   username: string;
   emailAddress: string;
@@ -123,14 +178,19 @@ type UserData = {
   settings: object;
 };
 
-export const userConverter = {
+/**
+ * Firestore data converter for User.
+ *
+ * **NOTE:** Only use this for setting, as the get converter does not work.
+ * */
+export const userConverter: FirestoreDataConverter<User> = {
   toFirestore(user: User): DocumentData {
     const data: UserData = {
       username: user.username,
       emailAddress: user.emailAddress,
       fitnessTracker: user.fitnessTracker.ref,
       character: user.character.ref,
-      settings: user.settings,
+      settings: {}, // TODO: implement conversion of AppSettings to object
     };
     return data;
   },
@@ -138,9 +198,10 @@ export const userConverter = {
     snapshot: QueryDocumentSnapshot,
     options: SnapshotOptions,
   ): User {
-    // ! NOT TO BE USED unless there is a way to make the converter async
+    // ! NOT TO BE USED
+    // as there is no way to make the converter asynchronous
     // or otherwise deep read the fitness and character data as well.
-    // This returns a dummy value -- Use fromId instead.
+    // This converter returns a dummy value -- Use the method fromId instead.
     // ---
     // Data from QueryDocumentSnapshot will never return undefined.
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
