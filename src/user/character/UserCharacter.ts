@@ -12,6 +12,7 @@ import { db } from "src/firebase-init";
 import { collections as DB } from "constants/db";
 import { Party } from "src/rpg/party/Party";
 import { MAX_HEALTH } from "constants/game";
+import Avatar, { AvatarData } from "src/rpg/avatar/Avatar";
 
 /**
  * User character (social & RPG-related) data.
@@ -24,6 +25,7 @@ export class UserCharacter {
   currentHealth: number;
   exp: number;
   party: Party | null;
+  avatar: Avatar;
 
   constructor(
     ref: DocumentReference,
@@ -32,6 +34,7 @@ export class UserCharacter {
     maxHealth: number,
     currentHealth: number,
     exp: number,
+    avatar: Avatar,
     party?: Party,
   ) {
     this.ref = ref;
@@ -40,6 +43,7 @@ export class UserCharacter {
     this.maxHealth = maxHealth;
     this.currentHealth = currentHealth;
     this.exp = exp;
+    this.avatar = avatar;
     this.party = party ?? null;
   }
 
@@ -75,6 +79,7 @@ export class UserCharacter {
       MAX_HEALTH,
       MAX_HEALTH,
       0,
+      Avatar.DEFAULT,
     );
     await setDoc(ref, userCharacter);
     return userCharacter;
@@ -90,6 +95,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
       currentHealth: character.currentHealth,
       exp: character.exp,
       party: character.party,
+      avatar: character.avatar.toData(),
     };
   },
   fromFirestore(
@@ -99,6 +105,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
     // Data from QueryDocumentSnapshot will never return undefined.
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const data = snapshot.data(options)!;
+    const avatar = Avatar.fromData(data.avatar as AvatarData);
     return new UserCharacter(
       snapshot.ref,
       data.displayName,
@@ -106,6 +113,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
       data.maxHealth,
       data.currentHealth,
       data.exp,
+      avatar,
       data.party,
     );
   },
