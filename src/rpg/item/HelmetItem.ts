@@ -3,8 +3,8 @@ import Item from "./Item";
 /**
  * In-game helmet item.
  */
-export default abstract class HelmetItem extends Item {
-  constructor(imagePath: string) {
-    super(imagePath);
+export default class HelmetItem extends Item {
+  constructor(name: string, imagePath: string) {
+    super(name, imagePath);
   }
 }
