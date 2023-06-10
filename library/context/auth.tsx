@@ -1,16 +1,21 @@
 import { useRouter, useSegments } from "expo-router";
-import { useAuthentication } from "library/hooks/useAuthentication";
-import React from "react";
+import { useEffect } from "react";
 import { ViewProps } from "react-native/types";
-import { User } from "firebase/auth";
+import { useUser } from "library/hooks/useUser";
+import { User } from "src/user/User";
+import { UserContext } from "./UserContext";
 
-// This hook will protect the route access based on user authentication.
+/**
+ * Protects the route access based on user authentication.
+ */
 function useProtectedRoute(user?: User) {
   const segments = useSegments();
   const router = useRouter();
 
-  React.useEffect(() => {
-    const isInAuthGroup = segments[0] === "(auth)";
+  useEffect(() => {
+    /** Route group for pages accessible to unauthenticated users. */
+    const AUTH_GROUP = "(auth)";
+    const isInAuthGroup = segments[0] === AUTH_GROUP;
 
     if (
       // If the user is not signed in and the initial segment is not anything in the auth group.
@@ -27,9 +32,11 @@ function useProtectedRoute(user?: User) {
 }
 
 export function AuthProvider(props: ViewProps) {
-  const { user } = useAuthentication();
+  const { user } = useUser();
 
   useProtectedRoute(user);
 
-  return <>{props.children}</>;
+  return (
+    <UserContext.Provider value={user}>{props.children}</UserContext.Provider>
+  );
 }
