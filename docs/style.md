@@ -61,7 +61,9 @@ Function names are to be named using `camelCase`.
 
 ### Variables
 
-Most variable names are to be named using `camelCase`. Constants with literal values are to be named in `SCREAMING_SNAKE_CASE`.
+React contexts are to be named in `PascalCase`.
+
+Most other variable names are to be named using `camelCase`. Constants with literal values are to be named in `SCREAMING_SNAKE_CASE`.
 
 Booleans should be named with a verb that helps describe its purpose (usually "is", "should", "has", "can", "did", "will"; e.g. `isValid`, `hasOngoingQuest`)
 
