@@ -1,6 +1,6 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import SignUpForm from "./SignUpForm";
-import { auth, db } from "src/firebase-init";
+import { auth } from "src/firebase-init";
 import { User } from "src/user/User";
 import { useRouter } from "expo-router";
 
@@ -51,7 +51,6 @@ export default function SignUpController() {
         })
         .catch((error) => {
           const errorCode = error.code;
-          const errorMessage = error.message;
           switch (errorCode) {
             case "auth/email-already-in-use":
               reject(
