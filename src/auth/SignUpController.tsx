@@ -65,7 +65,7 @@ export default function SignUpController() {
               reject(new Error("Invalid email address"));
               break;
             default:
-              reject(new Error("Error: " + errorMessage));
+              reject(new Error("Error signing up. Try again later?"));
           }
         });
     });
