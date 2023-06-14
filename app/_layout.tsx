@@ -11,7 +11,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 import HeaderStyle from "constants/HeaderStyle";
-import { AuthProvider } from "../context/auth";
+import { AuthProvider } from "library/context/auth";
 
 export {
   // Catch any errors thrown by the Layout component.
