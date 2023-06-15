@@ -9,6 +9,9 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 
+# VSCode
+.vscode/*
+
 # Firebase
 .firebase
 
