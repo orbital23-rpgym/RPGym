@@ -1,9 +1,9 @@
 import { useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
 import { ViewProps } from "react-native/types";
-import { useUser } from "library/hooks/useUser";
 import { User } from "src/user/User";
 import { UserContext } from "./UserContext";
+import { useAuthentication } from "library/hooks/useAuthentication";
 
 /**
  * Protects the route access based on user authentication.
@@ -32,7 +32,7 @@ function useProtectedRoute(user?: User) {
 }
 
 export function AuthProvider(props: ViewProps) {
-  const { user } = useUser();
+  const { user } = useAuthentication();
 
   useProtectedRoute(user);
 
