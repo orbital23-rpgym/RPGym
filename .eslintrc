@@ -24,7 +24,13 @@
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error",
     "react/react-in-jsx-scope": "off",
-
+    "sort-imports": [
+      "error",
+      {
+        "ignoreCase": true,
+        "ignoreDeclarationSort": true
+      }
+    ],
     "import/first": "error",
     "import/newline-after-import": "error",
     "import/no-duplicates": "error",
