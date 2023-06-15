@@ -1,16 +1,16 @@
 import {
-  doc,
-  getDoc,
-  setDoc,
-  DocumentReference,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
-  DocumentData,
   collection,
-  query,
-  where,
-  getCountFromServer,
+  doc,
+  DocumentData,
+  DocumentReference,
   FirestoreDataConverter,
+  getCountFromServer,
+  getDoc,
+  query,
+  QueryDocumentSnapshot,
+  setDoc,
+  SnapshotOptions,
+  where,
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
@@ -20,12 +20,12 @@ import { db } from "src/firebase-init";
 import Avatar from "src/rpg/avatar/Avatar";
 import AppSettings from "src/settings/AppSettings";
 import {
-  UserCharacter,
   characterConverter,
+  UserCharacter,
 } from "src/user/character/UserCharacter";
 import {
-  UserFitnessTracker,
   fitnessTrackerConverter,
+  UserFitnessTracker,
 } from "src/user/fitness-tracker/UserFitnessTracker";
 
 /**

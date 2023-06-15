@@ -1,12 +1,12 @@
 import {
+  doc,
   DocumentData,
   DocumentReference,
   FirestoreDataConverter,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
-  doc,
   getDoc,
+  QueryDocumentSnapshot,
   setDoc,
+  SnapshotOptions,
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";

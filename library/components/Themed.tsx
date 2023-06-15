@@ -5,11 +5,11 @@
 
 import {
   Text as DefaultText,
-  useColorScheme,
   View as DefaultView,
   Pressable,
   PressableProps,
   StyleSheet,
+  useColorScheme,
 } from "react-native";
 
 import Colors from "constants/Colors";

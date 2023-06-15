@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 
 import { RG_BLUE, RG_ORANGE } from "constants/Colors";
 import { images } from "constants/images";
-import { Text, Button } from "library/components/Themed";
+import { Button, Text } from "library/components/Themed";
 
 export default function WelcomeScreen() {
   return (
