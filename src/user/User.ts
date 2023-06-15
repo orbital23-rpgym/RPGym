@@ -25,6 +25,7 @@ import { db } from "src/firebase-init";
 import { collections as DB } from "constants/db";
 import { MAX_HEALTH } from "constants/game";
 import { UsernameTakenError } from "library/error";
+import Avatar from "src/rpg/avatar/Avatar";
 
 /**
  * User of the app. This class primarily handles basic user account data.
@@ -74,7 +75,7 @@ export class User {
   static async fromId(id: string): Promise<User> {
     const snapshot = await getDoc(doc(db, DB.users, id));
     const data = snapshot.data() as UserData;
-    if (!data) throw Error("User ID not found");
+    if (data === undefined) throw Error("User ID not found");
     const userFitnessTracker = (
       await getDoc(data.fitnessTracker.withConverter(fitnessTrackerConverter))
     ).data();
@@ -218,6 +219,7 @@ export const userConverter: FirestoreDataConverter<User> = {
       MAX_HEALTH,
       MAX_HEALTH,
       0,
+      Avatar.DEFAULT,
     );
     const JIM_BRO = new User(
       "jim-bro",
