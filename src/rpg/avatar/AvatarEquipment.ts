@@ -1,6 +1,7 @@
 import BootsItem from "../item/BootsItem";
 import ChestplateItem from "../item/ChestplateItem";
 import HelmetItem from "../item/HelmetItem";
+import { ItemData } from "../item/Item";
 import LeggingsItem from "../item/LeggingsItem";
 import MainHandItem from "../item/MainHandItem";
 import OffHandItem from "../item/OffHandItem";
@@ -44,32 +45,32 @@ export default class AvatarEquipment {
 
   public toData(): AvatarEquipmentData {
     return {
-      helmet: this.helmet,
-      chestplate: this.chestplate,
-      leggings: this.leggings,
-      boots: this.boots,
-      mainHandItem: this.mainHandItem,
-      offHandItem: this.offHandItem,
+      helmet: this.helmet.toData(),
+      chestplate: this.chestplate.toData(),
+      leggings: this.leggings.toData(),
+      boots: this.boots.toData(),
+      mainHandItem: this.mainHandItem.toData(),
+      offHandItem: this.offHandItem.toData(),
     };
   }
 
   static fromData(data: AvatarEquipmentData): AvatarEquipment {
     return new AvatarEquipment(
-      data.helmet,
-      data.chestplate,
-      data.leggings,
-      data.boots,
-      data.mainHandItem,
-      data.offHandItem,
+      new HelmetItem(data.helmet.name, data.helmet.imagePath),
+      new ChestplateItem(data.chestplate.name, data.chestplate.imagePath),
+      new LeggingsItem(data.leggings.name, data.leggings.imagePath),
+      new BootsItem(data.boots.name, data.boots.imagePath),
+      new MainHandItem(data.mainHandItem.name, data.mainHandItem.imagePath),
+      new OffHandItem(data.offHandItem.name, data.offHandItem.imagePath),
     );
   }
 }
 
 export type AvatarEquipmentData = {
-  helmet: HelmetItem;
-  chestplate: ChestplateItem;
-  leggings: LeggingsItem;
-  boots: BootsItem;
-  mainHandItem: MainHandItem;
-  offHandItem: OffHandItem;
+  helmet: ItemData;
+  chestplate: ItemData;
+  leggings: ItemData;
+  boots: ItemData;
+  mainHandItem: ItemData;
+  offHandItem: ItemData;
 };

@@ -4,6 +4,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Text, Button } from "library/components/Themed";
 import { RG_BLUE, RG_ORANGE } from "../../constants/Colors";
 import { Link } from "expo-router";
+import { Image } from "expo-image";
+import { images } from "constants/images";
 
 export default function WelcomeScreen() {
   return (
@@ -14,6 +16,12 @@ export default function WelcomeScreen() {
       end={{ x: 1, y: 1 }}
       locations={[0.25, 1]}
     >
+      <Image
+        source={images.logo.white}
+        accessibilityLabel="RPGym Logo"
+        style={styles.logo}
+        contentFit="contain"
+      />
       <Text style={styles.title}>Welcome to RPGym</Text>
       <Button variant="primary">
         <Link href="/signUp">
@@ -40,11 +48,19 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   title: {
-    fontSize: 30,
+    fontSize: 35,
     fontFamily: "Header",
+    marginBottom: 10,
+    textAlign: "center",
   },
   buttonText: {
     fontSize: 20,
     fontFamily: "Header",
+  },
+  logo: {
+    flex: 1,
+    maxWidth: 250,
+    maxHeight: 250,
+    width: "100%",
   },
 });

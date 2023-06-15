@@ -5196,6 +5196,11 @@ expo-font@~11.1.1:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-image@~1.2.1:
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/expo-image/-/expo-image-1.2.3.tgz#f3582d725ffb7437f8ce946ad44fe33f0aa0603d"
+  integrity sha512-+Mnx6rcneWSUGfHkUDV3cQ3R4lVwoIDFs/tcXVqnlxyNJdNxpW2cge9pS2Hpj3UDoZVhZPLR8LHS8E9wEaC0NA==
+
 expo-json-utils@~0.5.0:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/expo-json-utils/-/expo-json-utils-0.5.1.tgz#fcb01050b8aa66592eea2024a48979f2d090c6f9"

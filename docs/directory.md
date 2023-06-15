@@ -10,6 +10,7 @@ This file documents important folders and files in this project's source code.
   - `library`: Components and/or functions that are used project-wide.
     - `components`: Reusable UI components.
     - `hooks`: React hooks.
+    - `context`: React contexts.
   - `app`
 
     - Used by expo-router to determine routing based on directory structure. (More info: [expo-router docs](https://expo.github.io/router/docs/features/routing))
