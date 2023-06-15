@@ -1,13 +1,14 @@
-import { StyleSheet } from "react-native";
-import {
-  Screen,
-  Card,
-  Text,
-  View,
-  useThemeColor,
-} from "library/components/Themed";
+import { doc, DocumentData, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { DocumentData, doc, getDoc } from "firebase/firestore";
+import { StyleSheet } from "react-native";
+
+import {
+  Card,
+  Screen,
+  Text,
+  useThemeColor,
+  View,
+} from "library/components/Themed";
 import { useAuthentication } from "library/hooks/useAuthentication";
 import { db } from "src/firebase-init";
 

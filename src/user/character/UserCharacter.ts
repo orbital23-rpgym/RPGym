@@ -1,18 +1,19 @@
 import {
+  doc,
   DocumentData,
   DocumentReference,
   FirestoreDataConverter,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
-  doc,
   getDoc,
+  QueryDocumentSnapshot,
   setDoc,
+  SnapshotOptions,
 } from "firebase/firestore";
-import { db } from "src/firebase-init";
+
 import { collections as DB } from "constants/db";
-import { Party } from "src/rpg/party/Party";
 import { MAX_HEALTH } from "constants/game";
+import { db } from "src/firebase-init";
 import Avatar, { AvatarData } from "src/rpg/avatar/Avatar";
+import { Party } from "src/rpg/party/Party";
 
 /**
  * User character (social & RPG-related) data.

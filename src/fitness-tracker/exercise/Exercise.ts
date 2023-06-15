@@ -1,4 +1,5 @@
 import ExerciseSet from "../set/ExerciseSet";
+
 import ExerciseTemplate from "./ExerciseTemplate";
 
 /**

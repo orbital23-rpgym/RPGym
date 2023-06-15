@@ -1,31 +1,32 @@
 import {
-  UserFitnessTracker,
-  fitnessTrackerConverter,
-} from "src/user/fitness-tracker/UserFitnessTracker";
-import {
-  UserCharacter,
-  characterConverter,
-} from "src/user/character/UserCharacter";
-import AppSettings from "src/settings/AppSettings";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  DocumentReference,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
-  DocumentData,
   collection,
-  query,
-  where,
-  getCountFromServer,
+  doc,
+  DocumentData,
+  DocumentReference,
   FirestoreDataConverter,
+  getCountFromServer,
+  getDoc,
+  query,
+  QueryDocumentSnapshot,
+  setDoc,
+  SnapshotOptions,
+  where,
 } from "firebase/firestore";
-import { db } from "src/firebase-init";
+
 import { collections as DB } from "constants/db";
 import { MAX_HEALTH } from "constants/game";
 import { UsernameTakenError } from "library/error";
+import { db } from "src/firebase-init";
 import Avatar from "src/rpg/avatar/Avatar";
+import AppSettings from "src/settings/AppSettings";
+import {
+  characterConverter,
+  UserCharacter,
+} from "src/user/character/UserCharacter";
+import {
+  fitnessTrackerConverter,
+  UserFitnessTracker,
+} from "src/user/fitness-tracker/UserFitnessTracker";
 
 /**
  * User of the app. This class primarily handles basic user account data.

@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
 
-import { View } from "library/components/Themed";
 import LoginController from "./LoginController";
+
+import { View } from "library/components/Themed";
 
 export default function LoginScreen() {
   return (

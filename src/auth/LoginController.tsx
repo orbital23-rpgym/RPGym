@@ -1,9 +1,9 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "src/firebase-init";
-import { useState } from "react";
 import { useRouter } from "expo-router";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 import LoginForm from "./LoginForm";
-import { useAuthentication } from "library/hooks/useAuthentication";
+
+import { auth } from "src/firebase-init";
 
 export default function LoginController() {
   const router = useRouter();

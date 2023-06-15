@@ -1,11 +1,11 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { FontAwesome5 } from "@expo/vector-icons";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
 import { Pressable, useColorScheme } from "react-native";
-import { Text } from "library/components/Themed";
 
-import Colors from "../../constants/Colors";
-import HeaderStyle from "../../constants/HeaderStyle";
+import Colors from "constants/Colors";
+import HeaderStyle from "constants/HeaderStyle";
+import { Text } from "library/components/Themed";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/

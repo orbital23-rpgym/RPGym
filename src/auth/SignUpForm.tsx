@@ -1,7 +1,8 @@
-import { StyleSheet, TextInput } from "react-native";
-import { Button, Text, View } from "library/components/Themed";
 import { useState } from "react";
+import { StyleSheet, TextInput } from "react-native";
+
 import { ErrorDisplay } from "library/components/ErrorDisplay";
+import { Button, Text, View } from "library/components/Themed";
 
 export default function SignUpForm(props: {
   onSubmit: (

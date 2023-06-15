@@ -45,6 +45,8 @@ import Button from "library/components/Button";
 import Button from "../../../library/components/Button";
 ```
 
+Imports should be sorted and grouped. Use eslint's auto-fix to format imports.
+
 ### Components/Classes/Types
 
 All React components (e.g. screen, button, text field) are to be named using `PascalCase`.
