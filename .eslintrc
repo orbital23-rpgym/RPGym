@@ -10,7 +10,6 @@
     "prettier",
     "plugin:jest/recommended",
     "plugin:react/jsx-runtime",
-    "plugin:markdown/recommended",
     "plugin:json/recommended",
     "plugin:import/recommended",
     "plugin:import/typescript"
