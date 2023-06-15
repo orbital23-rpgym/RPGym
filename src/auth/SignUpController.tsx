@@ -1,8 +1,10 @@
+import { useRouter } from "expo-router";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+
 import SignUpForm from "./SignUpForm";
+
 import { auth } from "src/firebase-init";
 import { User } from "src/user/User";
-import { useRouter } from "expo-router";
 
 export default function SignUpController() {
   const router = useRouter();

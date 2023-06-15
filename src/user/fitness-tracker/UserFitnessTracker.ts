@@ -8,8 +8,9 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import { db } from "src/firebase-init";
+
 import { collections as DB } from "constants/db";
+import { db } from "src/firebase-init";
 
 /**
  * User fitness (workouts, custom exercises) data.

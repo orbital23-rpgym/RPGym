@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native";
-import { View } from "library/components/Themed";
+
 import SignUpController from "./SignUpController";
+
+import { View } from "library/components/Themed";
 
 export default function SignUpScreen() {
   return (

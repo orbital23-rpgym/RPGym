@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+
 import { Text, useThemeColor } from "./Themed";
 
 export function ErrorDisplay(props: { error: Error }) {

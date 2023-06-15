@@ -1,15 +1,16 @@
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { NotoSans_400Regular } from "@expo-google-fonts/noto-sans";
+import { WorkSans_600SemiBold } from "@expo-google-fonts/work-sans";
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { WorkSans_600SemiBold } from "@expo-google-fonts/work-sans";
-import { NotoSans_400Regular } from "@expo-google-fonts/noto-sans";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
+
 import HeaderStyle from "constants/HeaderStyle";
 import { AuthProvider } from "library/context/auth";
 

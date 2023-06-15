@@ -1,9 +1,9 @@
-import { StyleSheet } from "react-native";
-
-import { Button, Text, View, useThemeColor } from "library/components/Themed";
 import { Link, useRouter } from "expo-router";
 import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
+import { StyleSheet } from "react-native";
+
+import { Button, Text, View, useThemeColor } from "library/components/Themed";
 
 export default function SettingsScreen() {
   const auth = getAuth();
