@@ -11,7 +11,7 @@ import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
 import { useColorScheme } from "react-native";
 
-import HeaderStyle from "constants/HeaderStyle";
+import { headerStyle } from "constants/styles";
 import { AuthProvider } from "library/context/auth";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
@@ -55,7 +55,7 @@ function RootLayoutNav() {
     <AuthProvider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <ColorSchemeContext.Provider value={colorScheme}>
-          <Stack screenOptions={HeaderStyle}>
+          <Stack screenOptions={headerStyle}>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
               name="settings/index"

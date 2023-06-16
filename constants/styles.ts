@@ -1,4 +1,4 @@
-export default {
+export const headerStyle = {
   headerTransparent: true,
   headerLeftContainerStyle: {
     padding: 5,

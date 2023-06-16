@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { Pressable } from "react-native";
 
 import { themes } from "constants/colors";
-import HeaderStyle from "constants/HeaderStyle";
+import { headerStyle } from "constants/styles";
 import { Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
@@ -53,7 +53,7 @@ export default function TabLayout() {
         headerStyle: {
           height: 100,
         },
-        ...HeaderStyle,
+        ...headerStyle,
       }}
     >
       <Tabs.Screen
