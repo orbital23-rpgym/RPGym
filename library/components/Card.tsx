@@ -16,7 +16,6 @@ export function Card(props: CardProps) {
 
   const styles = StyleSheet.create({
     cardContainer: {
-      margin: 10,
       borderRadius: 10,
       backgroundColor: themes[colorScheme].cardBackground,
       shadowColor: themes[colorScheme].shadowColor,
@@ -58,7 +57,7 @@ export function Card(props: CardProps) {
   );
   return (
     <>
-      <View style={styles.cardContainer}>
+      <View style={[{ ...styles.cardContainer }, props.style]}>
         {headerBar}
         <View style={styles.childContainer}>{props.children}</View>
       </View>
