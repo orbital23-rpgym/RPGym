@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import { Text, View, ViewProps } from "./Themed";
 
 import { themes } from "constants/colors";
+import { dropShadow } from "constants/styles";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 type CardProps = {
@@ -18,15 +19,12 @@ export function Card(props: CardProps) {
     cardContainer: {
       borderRadius: 10,
       backgroundColor: themes[colorScheme].cardBackground,
-      shadowColor: themes[colorScheme].shadowColor,
-      shadowOpacity: 0.5,
-      shadowRadius: 4,
-      shadowOffset: { width: 0, height: 1 },
       overflow: "hidden",
       height: "auto",
       minWidth: 100,
       maxWidth: 500,
       width: "100%",
+      ...dropShadow(themes[colorScheme].shadowColor),
     },
     titleText: {
       fontFamily: "Header",

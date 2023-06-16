@@ -4,6 +4,7 @@ import { Pressable, PressableProps, StyleSheet } from "react-native";
 import { ThemeProps, useThemeColor } from "./Themed";
 
 import { themes } from "constants/colors";
+import { dropShadow } from "constants/styles";
 
 export type ButtonProps = {
   color?: string;
@@ -41,10 +42,7 @@ export function Button(props: ButtonProps) {
       borderRadius: 10,
       padding: 15,
       margin: 10,
-      shadowColor: useThemeColor({}, "shadowColor"),
-      shadowOpacity: 0.5,
-      shadowRadius: 4,
-      shadowOffset: { width: 0, height: 1 },
+      ...dropShadow(useThemeColor({}, "shadowColor")),
       backgroundColor:
         color ??
         useThemeColor({ light: lightColor, dark: darkColor }, variantColor),
