@@ -72,7 +72,7 @@ export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
       alignItems: "center",
       justifyContent: "center",
       maxWidth: 250,
-      minHeight: 30,
+      height: "auto",
       width: "100%",
     },
     titleText: {
@@ -105,6 +105,7 @@ export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
     containerOuter: {
       flexDirection: "column",
       gap: 4,
+      minHeight: 30,
       ...stylesAll.container,
     },
     containerText: {
