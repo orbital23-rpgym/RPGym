@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 import { Text, View, ViewProps } from "./Themed";
 
-import { themes } from "constants/colorss";
+import { themes } from "constants/colors";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 type CardProps = {

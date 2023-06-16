@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import { Text, useThemeColor, ViewProps } from "./Themed";
 
-import { themes } from "constants/colorss";
+import { themes } from "constants/colors";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 type ProgressBarProps = {
