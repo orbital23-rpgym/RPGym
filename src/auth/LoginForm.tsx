@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet } from "react-native";
 
 import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
+import { InputLabel } from "library/components/InputLabel";
+import { TextInput } from "library/components/TextInput";
 import { Text, View } from "library/components/Themed";
 
 export default function LoginForm(props: {
@@ -30,16 +32,18 @@ export default function LoginForm(props: {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.inputLabel}>Email:</Text>
+      <InputLabel id="email-label">Email:</InputLabel>
       <TextInput
+        accessibilityLabelledBy="email-label"
         style={styles.input}
         onChangeText={setEmail}
         autoComplete="email"
         autoCapitalize="none"
         inputMode="email"
       />
-      <Text style={styles.inputLabel}>Password:</Text>
+      <InputLabel id="pw-label">Password:</InputLabel>
       <TextInput
+        accessibilityLabelledBy="pw-label"
         style={styles.input}
         onChangeText={setPassword}
         secureTextEntry
