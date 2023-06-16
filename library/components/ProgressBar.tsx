@@ -24,10 +24,6 @@ export function ProgressBar(props: ProgressBarProps) {
       minHeight: 6,
       minWidth: 50,
       width: "100%",
-      shadowColor: themes[colorScheme].shadowColor,
-      shadowOpacity: 0.5,
-      shadowRadius: 4,
-      shadowOffset: { width: 0, height: 1 },
       overflow: "hidden",
       borderRadius: 10000,
       padding: 0,
@@ -71,6 +67,7 @@ export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
     container: {
       alignItems: "center",
       justifyContent: "center",
+      alignContent: "center",
       maxWidth: 250,
       height: "auto",
       width: "100%",
@@ -114,6 +111,9 @@ export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
       alignItems: "center",
       justifyContent: "space-between",
       width: "100%",
+      columnGap: 5,
+      rowGap: 2,
+      flexWrap: "wrap",
     },
     titleText: {
       fontSize: 14,
