@@ -3,7 +3,7 @@ import { Pressable, PressableProps, StyleSheet } from "react-native";
 
 import { ThemeProps, useThemeColor } from "./Themed";
 
-import { themes } from "constants/colors";
+import { themes } from "constants/colorss";
 
 export type ButtonProps = {
   color?: string;

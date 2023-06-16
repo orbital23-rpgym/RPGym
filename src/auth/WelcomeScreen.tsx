@@ -3,7 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import { StyleSheet } from "react-native";
 
-import { branding } from "constants/colors";
+import { branding } from "constants/colorss";
 import { images } from "constants/images";
 import { Button } from "library/components/Button";
 import { Text } from "library/components/Themed";

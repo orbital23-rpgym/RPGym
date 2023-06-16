@@ -4,7 +4,7 @@ import { Link, Tabs } from "expo-router";
 import { useContext } from "react";
 import { Pressable } from "react-native";
 
-import { themes } from "constants/colors";
+import { themes } from "constants/colorss";
 import HeaderStyle from "constants/HeaderStyle";
 import { Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
