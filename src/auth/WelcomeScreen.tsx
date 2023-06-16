@@ -3,15 +3,16 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import { StyleSheet } from "react-native";
 
-import { RG_BLUE, RG_ORANGE } from "constants/Colors";
+import { branding } from "constants/colors";
 import { images } from "constants/images";
-import { Button, Text } from "library/components/Themed";
+import { Button } from "library/components/Button";
+import { Text } from "library/components/Themed";
 
 export default function WelcomeScreen() {
   return (
     <LinearGradient
       style={styles.container}
-      colors={[RG_BLUE, RG_ORANGE]}
+      colors={[branding.blue, branding.orange]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       locations={[0.25, 1]}
@@ -23,12 +24,12 @@ export default function WelcomeScreen() {
         contentFit="contain"
       />
       <Text style={styles.title}>Welcome to RPGym</Text>
-      <Button variant="primary">
+      <Button variant="secondary">
         <Link href="/signUp">
           <Text style={styles.buttonText}>Sign up</Text>
         </Link>
       </Button>
-      <Button variant="secondary">
+      <Button variant="primary">
         <Link href="/login">
           <Text style={styles.buttonText}>Log in</Text>
         </Link>

@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { Text, useThemeColor, ViewProps } from "./Themed";
+
+import { themes } from "constants/colors";
+import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 type ProgressBarProps = {
   colorFg?: string;
@@ -10,6 +14,8 @@ type ProgressBarProps = {
 } & ViewProps;
 
 export function ProgressBar(props: ProgressBarProps) {
+  const colorScheme = useContext(ColorSchemeContext);
+
   const { colorFg, colorBg, max, curr, ...otherProps } = props;
 
   const styles = StyleSheet.create({
@@ -18,7 +24,7 @@ export function ProgressBar(props: ProgressBarProps) {
       minHeight: 6,
       minWidth: 50,
       width: "100%",
-      shadowColor: useThemeColor({}, "shadowColor"),
+      shadowColor: themes[colorScheme].shadowColor,
       shadowOpacity: 0.5,
       shadowRadius: 4,
       shadowOffset: { width: 0, height: 1 },
@@ -28,13 +34,13 @@ export function ProgressBar(props: ProgressBarProps) {
       flex: 1,
     },
     background: {
-      backgroundColor: colorBg ?? useThemeColor({}, "cardBackground"),
+      backgroundColor: colorBg ?? themes[colorScheme].cardBackground,
       flex: 1,
       flexDirection: "row",
       justifyContent: "flex-start",
     },
     innerBar: {
-      backgroundColor: colorFg ?? useThemeColor({}, "green"),
+      backgroundColor: colorFg ?? themes[colorScheme].green,
       width: `${(curr / max) * 100}%`,
       borderRadius: 10000,
     },

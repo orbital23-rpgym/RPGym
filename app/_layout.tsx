@@ -13,6 +13,7 @@ import { useColorScheme } from "react-native";
 
 import HeaderStyle from "constants/HeaderStyle";
 import { AuthProvider } from "library/context/auth";
+import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -48,32 +49,34 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme();
+  const colorScheme = useColorScheme() ?? "dark";
 
   return (
     <AuthProvider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <Stack screenOptions={HeaderStyle}>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="settings/index"
-            options={{ presentation: "card", title: "Settings" }}
-          />
-          <Stack.Screen
-            name="settings/accountSettings"
-            options={{ title: "Account Settings" }}
-          />
-          <Stack.Screen
-            name="settings/profileSettings"
-            options={{ title: "Profile Settings" }}
-          />
-          <Stack.Screen name="(auth)/signUp" options={{ title: "Sign Up" }} />
-          <Stack.Screen name="(auth)/login" options={{ title: "Log In" }} />
-          <Stack.Screen
-            name="(auth)/welcome"
-            options={{ headerShown: false }}
-          />
-        </Stack>
+        <ColorSchemeContext.Provider value={colorScheme}>
+          <Stack screenOptions={HeaderStyle}>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen
+              name="settings/index"
+              options={{ presentation: "card", title: "Settings" }}
+            />
+            <Stack.Screen
+              name="settings/accountSettings"
+              options={{ title: "Account Settings" }}
+            />
+            <Stack.Screen
+              name="settings/profileSettings"
+              options={{ title: "Profile Settings" }}
+            />
+            <Stack.Screen name="(auth)/signUp" options={{ title: "Sign Up" }} />
+            <Stack.Screen name="(auth)/login" options={{ title: "Log In" }} />
+            <Stack.Screen
+              name="(auth)/welcome"
+              options={{ headerShown: false }}
+            />
+          </Stack>
+        </ColorSchemeContext.Provider>
       </ThemeProvider>
     </AuthProvider>
   );

@@ -3,7 +3,8 @@ import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
 
-import { Button, Text, useThemeColor, View } from "library/components/Themed";
+import { Button } from "library/components/Button";
+import { Text, useThemeColor, View } from "library/components/Themed";
 
 export default function SettingsScreen() {
   const auth = getAuth();

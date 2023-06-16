@@ -1,63 +1,45 @@
-export const RG_ORANGE = "#F3AD5C";
-export const RG_BLUE = "#506AAF";
+export const palette = {
+  redLight: "#FE7E7E",
+  red: "#F64F4F",
+  green: "#60C05E",
+  orange: "#FCAE54",
+  blueLight: "#7392E7",
+  blueDark: "#506AAF",
+  gray: "#ADADAD",
+  blueGrayLight: "#9CA6C2",
+  blueGrayMedium: "#3A4050",
+  blueGrayDark: "#25272B",
+};
 
-type ThemeColors = {
-  text: string;
-  background: string;
-  tint: string;
-  tabIconDefault: string;
-  tabBarInactiveColor: string;
-  tabBarActiveColor: string;
-  cardBackground: string;
-  buttonPrimaryBackground: string;
-  buttonSecondaryBackground: string;
-  buttonDestructiveBackground: string;
-  buttonDefaultBackground: string;
-  shadowColor: string;
-  red: string;
-  green: string;
-  orange: string;
-  blue: string;
+export const branding = {
+  orange: "#F3AD5C",
+  blue: "#506AAF",
 };
 
 // Temporarily set dark mode only as light mode not set up yet
-const themes: { light: ThemeColors; dark: ThemeColors } = {
+export const themes = {
   light: {
     text: "#fff",
-    background: "#25272A",
+    background: palette.blueGrayDark,
     tint: "#fff",
     tabIconDefault: "#ccc",
-    tabBarInactiveColor: "#506AAF",
-    tabBarActiveColor: "#7F9AE2",
-    cardBackground: "#3A4050",
-    buttonPrimaryBackground: RG_BLUE,
-    buttonSecondaryBackground: RG_ORANGE,
-    buttonDestructiveBackground: "#F64F4F",
-    buttonDefaultBackground: "",
+    tabBarInactiveColor: palette.blueDark,
+    tabBarActiveColor: palette.blueLight,
+    cardBackground: palette.blueGrayMedium,
+    buttonDefaultBackground: palette.blueGrayMedium,
     shadowColor: "#000",
-    red: "#F64F4F",
-    green: "#60C05E",
-    orange: RG_ORANGE,
-    blue: RG_BLUE,
+    ...palette,
   },
   dark: {
     text: "#fff",
-    background: "#25272A",
+    background: palette.blueGrayDark,
     tint: "#fff",
     tabIconDefault: "#ccc",
-    tabBarInactiveColor: "#506AAF",
-    tabBarActiveColor: "#7F9AE2",
-    cardBackground: "#3A4050",
-    buttonPrimaryBackground: "#7F9AE2",
-    buttonSecondaryBackground: RG_ORANGE,
-    buttonDestructiveBackground: "#F64F4F",
-    buttonDefaultBackground: "#7F9AE2",
+    tabBarInactiveColor: palette.blueDark,
+    tabBarActiveColor: palette.blueLight,
+    cardBackground: palette.blueGrayMedium,
+    buttonDefaultBackground: palette.blueGrayMedium,
     shadowColor: "#000",
-    red: "#F64F4F",
-    green: "#60C05E",
-    orange: RG_ORANGE,
-    blue: RG_BLUE,
+    ...palette,
   },
 };
-
-export default themes;

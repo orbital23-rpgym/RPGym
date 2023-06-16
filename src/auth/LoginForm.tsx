@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { StyleSheet, TextInput } from "react-native";
 
+import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
-import { Button, Text, View } from "library/components/Themed";
+import { Text, View } from "library/components/Themed";
 
 export default function LoginForm(props: {
   onSubmit: (email: string, password: string) => Promise<void>;
