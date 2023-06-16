@@ -53,7 +53,9 @@ export function View(props: ViewProps) {
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
-export function Screen(props: ViewProps) {
+export type ScreenProps = { gap?: number } & ViewProps;
+
+export function Screen(props: ScreenProps) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -68,7 +70,7 @@ export function Screen(props: ViewProps) {
       alignItems: "center",
       justifyContent: "flex-start",
       flexDirection: "column",
-      gap: 15,
+      gap: props.gap ?? 15,
     },
   });
 
