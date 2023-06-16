@@ -6,6 +6,7 @@
 import {
   Text as DefaultText,
   View as DefaultView,
+  ScrollView,
   StyleSheet,
   useColorScheme,
 } from "react-native";
@@ -56,11 +57,18 @@ export function Screen(props: ViewProps) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+    },
+    scroll: {
+      flex: 1,
+      width: "100%",
+      padding: 25,
+      paddingTop: 100,
+    },
+    scrollChildren: {
       alignItems: "center",
       justifyContent: "flex-start",
       flexDirection: "column",
-      padding: 25,
-      paddingTop: 100,
+      gap: 15,
     },
   });
 
@@ -68,7 +76,12 @@ export function Screen(props: ViewProps) {
 
   return (
     <View style={[{ ...styles.container }, style]} {...otherProps}>
-      {props.children}
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollChildren}
+      >
+        {props.children}
+      </ScrollView>
     </View>
   );
 }
