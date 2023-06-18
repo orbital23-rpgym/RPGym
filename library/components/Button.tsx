@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { Pressable, PressableProps, StyleSheet } from "react-native";
 
 import { ThemeProps, useThemeColor } from "./Themed";
