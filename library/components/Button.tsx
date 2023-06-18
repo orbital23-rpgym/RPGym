@@ -12,7 +12,7 @@ export type ButtonProps = {
   PressableProps;
 
 export function Button(props: ButtonProps) {
-  const { color, variant, lightColor, darkColor, ...otherProps } = props;
+  const { color, variant, lightColor, darkColor, style, ...otherProps } = props;
 
   let variantColor: keyof typeof themes.light & keyof typeof themes.dark;
   switch (variant ?? "default") {
@@ -48,5 +48,10 @@ export function Button(props: ButtonProps) {
     },
   });
 
-  return <Pressable style={styles.button} {...otherProps} />;
+  return (
+    <Pressable
+      style={StyleSheet.flatten([styles.button, style])}
+      {...otherProps}
+    />
+  );
 }

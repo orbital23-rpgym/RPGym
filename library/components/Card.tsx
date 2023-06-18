@@ -55,7 +55,9 @@ export function Card(props: CardProps) {
   );
   return (
     <>
-      <View style={[{ ...styles.cardContainer }, props.style]}>
+      <View
+        style={StyleSheet.flatten([{ ...styles.cardContainer }, props.style])}
+      >
         {headerBar}
         <View style={styles.childContainer}>{props.children}</View>
       </View>

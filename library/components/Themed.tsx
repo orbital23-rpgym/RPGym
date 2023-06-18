@@ -33,7 +33,12 @@ export function Text(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
-  return <DefaultText style={[{ color }, style]} {...otherProps} />;
+  return (
+    <DefaultText
+      style={StyleSheet.flatten([{ color }, style])}
+      {...otherProps}
+    />
+  );
 }
 
 export type ThemeProps = {
@@ -50,7 +55,12 @@ export function View(props: ViewProps) {
     "background",
   );
 
-  return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
+  return (
+    <DefaultView
+      style={StyleSheet.flatten([{ backgroundColor }, style])}
+      {...otherProps}
+    />
+  );
 }
 
 export type ScreenProps = { gap?: number } & ViewProps;
@@ -77,7 +87,10 @@ export function Screen(props: ScreenProps) {
   const { style, ...otherProps } = props;
 
   return (
-    <View style={[{ ...styles.container }, style]} {...otherProps}>
+    <View
+      style={StyleSheet.flatten([{ ...styles.container }, style])}
+      {...otherProps}
+    >
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollChildren}

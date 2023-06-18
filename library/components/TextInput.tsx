@@ -27,6 +27,9 @@ export function TextInput(props: TextInputProps) {
   });
 
   return (
-    <DefaultTextInput style={styles.input} {...otherProps}></DefaultTextInput>
+    <DefaultTextInput
+      style={StyleSheet.flatten([style, styles.input])}
+      {...otherProps}
+    ></DefaultTextInput>
   );
 }

@@ -16,7 +16,7 @@ type ProgressBarProps = {
 export function ProgressBar(props: ProgressBarProps) {
   const colorScheme = useContext(ColorSchemeContext);
 
-  const { colorFg, colorBg, max, curr, ...otherProps } = props;
+  const { colorFg, colorBg, max, curr, style, ...otherProps } = props;
 
   const styles = StyleSheet.create({
     container: {
@@ -43,7 +43,7 @@ export function ProgressBar(props: ProgressBarProps) {
   });
 
   return (
-    <View style={styles.container} {...otherProps}>
+    <View style={StyleSheet.flatten([styles.container, style])} {...otherProps}>
       <View style={styles.background}>
         <View style={styles.innerBar}></View>
       </View>
@@ -57,8 +57,16 @@ type ProgressBarWithLabelsProps = {
 } & ProgressBarProps;
 
 export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
-  const { title, labelPosition, colorFg, colorBg, max, curr, ...otherProps } =
-    props;
+  const {
+    title,
+    labelPosition,
+    colorFg,
+    colorBg,
+    max,
+    curr,
+    style,
+    ...otherProps
+  } = props;
 
   const TITLE_FONT = "Header";
   const LABEL_FONT = "BodyRegular";
@@ -134,7 +142,10 @@ export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
   switch (labelPosition) {
     case "stack":
       return (
-        <View style={stylesStack.containerOuter} {...otherProps}>
+        <View
+          style={StyleSheet.flatten([stylesStack.containerOuter, style])}
+          {...otherProps}
+        >
           <View style={stylesStack.containerText}>
             <Text style={stylesStack.titleText}>{title}</Text>
             <View style={stylesStack.spacer} />
@@ -154,7 +165,10 @@ export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
     case "linear":
     default:
       return (
-        <View style={stylesLinear.container} {...otherProps}>
+        <View
+          style={StyleSheet.flatten([stylesLinear.container])}
+          {...otherProps}
+        >
           <Text style={stylesLinear.titleText}>{title}</Text>
           <ProgressBar
             colorBg={colorBg}
