@@ -35,7 +35,6 @@ export default function LoginForm(props: {
       <InputLabel id="email-label">Email:</InputLabel>
       <TextInput
         accessibilityLabelledBy="email-label"
-        style={styles.input}
         onChangeText={setEmail}
         autoComplete="email"
         autoCapitalize="none"
@@ -44,7 +43,6 @@ export default function LoginForm(props: {
       <InputLabel id="pw-label">Password:</InputLabel>
       <TextInput
         accessibilityLabelledBy="pw-label"
-        style={styles.input}
         onChangeText={setPassword}
         secureTextEntry
         autoComplete="password"
@@ -69,17 +67,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
-  },
-  inputLabel: {},
-  input: {
-    backgroundColor: "#fff",
-    color: "#000",
-    fontSize: 16,
-    fontFamily: "BodyRegular",
-    margin: 10,
-    padding: 5,
-    minWidth: 150,
-    marginBottom: 20,
   },
   buttonText: {
     fontSize: 20,
