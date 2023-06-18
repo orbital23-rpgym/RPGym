@@ -16,7 +16,7 @@ export function TextInput(props: TextInputProps) {
       fontSize: 16,
       fontFamily: "BodyRegular",
       margin: 5,
-      padding: 2,
+      padding: 3,
       paddingLeft: 7,
       paddingRight: 7,
       minWidth: 150,
