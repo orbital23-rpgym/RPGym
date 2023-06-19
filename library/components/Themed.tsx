@@ -79,14 +79,14 @@ export function Screen(props: ScreenProps) {
     scroll: {
       flex: 1,
       width: "100%",
-      padding: 25,
-      paddingTop: 100,
     },
     scrollChildren: {
       alignItems: "center",
       justifyContent: "flex-start",
       flexDirection: "column",
       gap: props.gap ?? 15,
+      padding: 25,
+      paddingTop: 100,
     },
   });
 
