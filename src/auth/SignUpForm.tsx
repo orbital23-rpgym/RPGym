@@ -92,18 +92,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  inputLabel: {},
   buttonText: {
     fontSize: 20,
     fontFamily: "Header",
-  },
-  disclaimer: {
-    fontSize: 20,
-    fontWeight: "bold",
-    margin: 20,
   },
 });

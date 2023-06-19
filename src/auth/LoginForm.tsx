@@ -64,17 +64,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
   buttonText: {
     fontSize: 20,
     fontFamily: "Header",
-  },
-  disclaimer: {
-    fontSize: 20,
-    fontWeight: "bold",
-    margin: 20,
   },
 });

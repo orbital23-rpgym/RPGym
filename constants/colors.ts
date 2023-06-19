@@ -9,6 +9,8 @@ export const palette = {
   blueGrayLight: "#9CA6C2",
   blueGrayMedium: "#3A4050",
   blueGrayDark: "#25272B",
+  black: "#000",
+  white: "#fff",
 };
 
 export const branding = {
@@ -19,29 +21,29 @@ export const branding = {
 // Temporarily set dark mode only as light mode not set up yet
 export const themes = {
   light: {
-    text: "#fff",
+    text: palette.white,
     background: palette.blueGrayDark,
-    tint: "#fff",
+    tint: palette.white,
     tabIconDefault: "#ccc",
     tabBarInactiveColor: palette.blueDark,
     tabBarActiveColor: palette.blueLight,
     cardBackground: palette.blueGrayMedium,
     buttonDefaultBackground: palette.blueGrayMedium,
     buttonDefaultPressed: palette.blueGrayLight,
-    shadowColor: "#000",
+    shadowColor: palette.black,
     ...palette,
   },
   dark: {
-    text: "#fff",
+    text: palette.white,
     background: palette.blueGrayDark,
-    tint: "#fff",
+    tint: palette.white,
     tabIconDefault: "#ccc",
     tabBarInactiveColor: palette.blueDark,
     tabBarActiveColor: palette.blueLight,
     cardBackground: palette.blueGrayMedium,
     buttonDefaultBackground: palette.blueGrayMedium,
     buttonDefaultPressed: palette.blueGrayLight,
-    shadowColor: "#000",
+    shadowColor: palette.black,
     ...palette,
   },
 };

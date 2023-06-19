@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { Text, useThemeColor, ViewProps } from "./Themed";
+import { Text, ViewProps } from "./Themed";
 
 import { themes } from "constants/colors";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
@@ -45,7 +45,7 @@ export function ProgressBar(props: ProgressBarProps) {
   return (
     <View style={StyleSheet.flatten([styles.container, style])} {...otherProps}>
       <View style={styles.background}>
-        <View style={styles.innerBar}></View>
+        <View style={styles.innerBar} />
       </View>
     </View>
   );
