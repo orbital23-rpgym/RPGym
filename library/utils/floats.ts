@@ -5,7 +5,7 @@
  * @returns Rounded number.
  */
 export function roundToDecimal(n: number, dp = 0): number {
-  return Number.parseFloat(n.toPrecision(dp ?? 0));
+  return dp === 0 ? Math.round(n) : Number.parseFloat(n.toFixed(dp));
 }
 /**
  * Rounds a number to a certain number of significant figures.
