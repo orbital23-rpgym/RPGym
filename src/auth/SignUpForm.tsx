@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet } from "react-native";
 
+import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
-import { Button, Text, View } from "library/components/Themed";
+import { InputLabel } from "library/components/InputLabel";
+import { ButtonText } from "library/components/StyledText";
+import { TextInput } from "library/components/TextInput";
+import { View } from "library/components/Themed";
 
 export default function SignUpForm(props: {
   onSubmit: (
@@ -41,31 +45,31 @@ export default function SignUpForm(props: {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.inputLabel}>Username:</Text>
+      <InputLabel id="name-label">Username:</InputLabel>
       <TextInput
-        style={styles.input}
+        accessibilityLabelledBy="name-label"
         onChangeText={setUsername}
         autoComplete="username"
         autoCapitalize="none"
       />
-      <Text style={styles.inputLabel}>Email:</Text>
+      <InputLabel id="email-label">Email:</InputLabel>
       <TextInput
-        style={styles.input}
+        accessibilityLabelledBy="email-label"
         onChangeText={setEmail}
         autoComplete="email"
         autoCapitalize="none"
         inputMode="email"
       />
-      <Text style={styles.inputLabel}>Password:</Text>
+      <InputLabel id="pw1-label">Password:</InputLabel>
       <TextInput
-        style={styles.input}
+        accessibilityLabelledBy="pw1-label"
         onChangeText={setPassword1}
         autoComplete="password-new"
         secureTextEntry
       />
-      <Text style={styles.inputLabel}>Confirm Password:</Text>
+      <InputLabel id="pw2-label">Confirm Password:</InputLabel>
       <TextInput
-        style={styles.input}
+        accessibilityLabelledBy="pw2-label"
         onChangeText={setPassword2}
         autoComplete="password-new"
         secureTextEntry
@@ -75,7 +79,7 @@ export default function SignUpForm(props: {
         onPress={() => submit(email, username, password1, password2)}
         disabled={isSubmitting}
       >
-        <Text style={styles.buttonText}>Sign Up</Text>
+        <ButtonText>Sign Up</ButtonText>
       </Button>
 
       {error && <ErrorDisplay error={error} />}
@@ -87,29 +91,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  inputLabel: {},
-  input: {
-    backgroundColor: "#fff",
-    color: "#000",
-    fontSize: 16,
-    fontFamily: "BodyRegular",
-    margin: 10,
-    padding: 5,
-    minWidth: 150,
-    marginBottom: 20,
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: "Header",
-  },
-  disclaimer: {
-    fontSize: 20,
-    fontWeight: "bold",
-    margin: 20,
+    width: "100%",
   },
 });

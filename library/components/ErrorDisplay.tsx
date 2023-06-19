@@ -1,13 +1,22 @@
 import { StyleSheet } from "react-native";
 
-import { Text, useThemeColor } from "./Themed";
+import { Text, TextProps, useThemeColor } from "./Themed";
 
-export function ErrorDisplay(props: { error: Error }) {
+export type ErrorDisplayProps = {
+  error: Error;
+} & Omit<TextProps, "children">;
+
+export function ErrorDisplay(props: ErrorDisplayProps) {
+  const { error, style, ...otherProps } = props;
   const styles = StyleSheet.create({
     errorText: {
       color: useThemeColor({}, "red"),
     },
   });
 
-  return <Text style={styles.errorText}>{props.error.message}</Text>;
+  return (
+    <Text style={StyleSheet.flatten([styles.errorText, style])} {...otherProps}>
+      {error.message}
+    </Text>
+  );
 }

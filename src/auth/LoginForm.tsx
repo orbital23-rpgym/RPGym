@@ -1,8 +1,12 @@
 import { useState } from "react";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet } from "react-native";
 
+import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
-import { Button, Text, View } from "library/components/Themed";
+import { InputLabel } from "library/components/InputLabel";
+import { ButtonText } from "library/components/StyledText";
+import { TextInput } from "library/components/TextInput";
+import { View } from "library/components/Themed";
 
 export default function LoginForm(props: {
   onSubmit: (email: string, password: string) => Promise<void>;
@@ -29,17 +33,17 @@ export default function LoginForm(props: {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.inputLabel}>Email:</Text>
+      <InputLabel id="email-label">Email:</InputLabel>
       <TextInput
-        style={styles.input}
+        accessibilityLabelledBy="email-label"
         onChangeText={setEmail}
         autoComplete="email"
         autoCapitalize="none"
         inputMode="email"
       />
-      <Text style={styles.inputLabel}>Password:</Text>
+      <InputLabel id="pw-label">Password:</InputLabel>
       <TextInput
-        style={styles.input}
+        accessibilityLabelledBy="pw-label"
         onChangeText={setPassword}
         secureTextEntry
         autoComplete="password"
@@ -49,7 +53,7 @@ export default function LoginForm(props: {
         onPress={() => submit(email, password)}
         disabled={isSubmitting}
       >
-        <Text style={styles.buttonText}>Log In</Text>
+        <ButtonText>Log In</ButtonText>
       </Button>
       {error && <ErrorDisplay error={error} />}
     </View>
@@ -60,29 +64,5 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  inputLabel: {},
-  input: {
-    backgroundColor: "#fff",
-    color: "#000",
-    fontSize: 16,
-    fontFamily: "BodyRegular",
-    margin: 10,
-    padding: 5,
-    minWidth: 150,
-    marginBottom: 20,
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: "Header",
-  },
-  disclaimer: {
-    fontSize: 20,
-    fontWeight: "bold",
-    margin: 20,
   },
 });

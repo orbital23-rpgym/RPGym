@@ -1,11 +1,13 @@
 import { FontAwesome5 } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
-import { Pressable, useColorScheme } from "react-native";
+import { useContext } from "react";
+import { Pressable } from "react-native";
 
-import Colors from "constants/Colors";
-import HeaderStyle from "constants/HeaderStyle";
+import { themes } from "constants/colors";
+import { headerStyle } from "constants/styles";
 import { Text } from "library/components/Themed";
+import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -33,16 +35,16 @@ function TabBarLabel(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme() ?? "dark";
+  const colorScheme = useContext(ColorSchemeContext);
 
   return (
     <Tabs
       initialRouteName="AddWorkout"
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-        tabBarInactiveTintColor: Colors[colorScheme].tint,
-        tabBarActiveBackgroundColor: Colors[colorScheme].tabBarActiveColor,
-        tabBarInactiveBackgroundColor: Colors[colorScheme].tabBarInactiveColor,
+        tabBarActiveTintColor: themes[colorScheme].tint,
+        tabBarInactiveTintColor: themes[colorScheme].tint,
+        tabBarActiveBackgroundColor: themes[colorScheme].tabBarActiveColor,
+        tabBarInactiveBackgroundColor: themes[colorScheme].tabBarInactiveColor,
         tabBarLabelPosition: "below-icon",
         tabBarStyle: {
           flex: 1,
@@ -51,7 +53,7 @@ export default function TabLayout() {
         headerStyle: {
           height: 100,
         },
-        ...HeaderStyle,
+        ...headerStyle,
       }}
     >
       <Tabs.Screen
@@ -133,7 +135,7 @@ export default function TabLayout() {
                   <FontAwesome
                     name="gear"
                     size={25}
-                    color={Colors[colorScheme].text}
+                    color={themes[colorScheme].text}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
                   />
                 )}
