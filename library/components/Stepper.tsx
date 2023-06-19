@@ -7,6 +7,7 @@ import { Text, View, ViewProps } from "./Themed";
 
 import { themes } from "constants/colors";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
+import { numDecimalPlaces, roundToDecimal } from "library/utils/floats";
 
 export type StepperProps = {
   min: number;
@@ -47,11 +48,10 @@ export function Stepper(props: StepperProps) {
       setCanDecrement(true);
       setCanIncrement(true);
     }
-    // Round to given decimal places (or precision of step, if not specified)
-    const stepPrecision =
-      step % 1 > 0 ? step.toString().split(".")[1].length : 0;
-    newValue = Number.parseFloat(
-      newValue.toFixed(decimalPlaces ?? stepPrecision),
+    // Avoid floating point errors
+    newValue = roundToDecimal(
+      newValue,
+      decimalPlaces ?? numDecimalPlaces(step),
     );
     setValue(newValue);
   }
