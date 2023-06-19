@@ -6,6 +6,7 @@ import { StyleSheet } from "react-native";
 import { branding } from "constants/colors";
 import { images } from "constants/images";
 import { Button } from "library/components/Button";
+import { ButtonText } from "library/components/StyledText";
 import { Text } from "library/components/Themed";
 
 export default function WelcomeScreen() {
@@ -26,12 +27,12 @@ export default function WelcomeScreen() {
       <Text style={styles.title}>Welcome to RPGym</Text>
       <Button variant="secondary">
         <Link href="/signUp">
-          <Text style={styles.buttonText}>Sign up</Text>
+          <ButtonText>Sign up</ButtonText>
         </Link>
       </Button>
       <Button variant="primary">
         <Link href="/login">
-          <Text style={styles.buttonText}>Log in</Text>
+          <ButtonText>Log in</ButtonText>
         </Link>
       </Button>
     </LinearGradient>
@@ -53,10 +54,6 @@ const styles = StyleSheet.create({
     fontFamily: "Header",
     marginBottom: 10,
     textAlign: "center",
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: "Header",
   },
   logo: {
     flex: 1,

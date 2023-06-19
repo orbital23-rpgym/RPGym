@@ -4,8 +4,9 @@ import { StyleSheet } from "react-native";
 import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
 import { InputLabel } from "library/components/InputLabel";
+import { ButtonText } from "library/components/StyledText";
 import { TextInput } from "library/components/TextInput";
-import { Text, View } from "library/components/Themed";
+import { View } from "library/components/Themed";
 
 export default function SignUpForm(props: {
   onSubmit: (
@@ -78,7 +79,7 @@ export default function SignUpForm(props: {
         onPress={() => submit(email, username, password1, password2)}
         disabled={isSubmitting}
       >
-        <Text style={styles.buttonText}>Sign Up</Text>
+        <ButtonText>Sign Up</ButtonText>
       </Button>
 
       {error && <ErrorDisplay error={error} />}
@@ -91,9 +92,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: "Header",
   },
 });

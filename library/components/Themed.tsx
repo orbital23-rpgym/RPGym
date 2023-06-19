@@ -31,11 +31,17 @@ export type TextProps = ThemeProps & DefaultText["props"];
 
 export function Text(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
-  const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
+  const styles = StyleSheet.create({
+    text: {
+      color: useThemeColor({ light: lightColor, dark: darkColor }, "text"),
+      fontFamily: "BodyRegular",
+      fontSize: 16,
+    },
+  });
 
   return (
     <DefaultText
-      style={StyleSheet.flatten([{ color }, style])}
+      style={StyleSheet.flatten([styles.text, style])}
       {...otherProps}
     />
   );

@@ -1,3 +1,8 @@
+export const headingTextStyle = {
+  fontFamily: "Header",
+  fontSize: 25,
+};
+
 export const headerStyle = {
   headerTransparent: true,
   headerLeftContainerStyle: {
@@ -7,8 +12,7 @@ export const headerStyle = {
     padding: 10,
   },
   headerTitleStyle: {
-    fontFamily: "Header",
-    fontSize: 24,
+    ...headingTextStyle,
   },
 };
 

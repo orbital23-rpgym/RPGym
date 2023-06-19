@@ -4,8 +4,9 @@ import { StyleSheet } from "react-native";
 import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
 import { InputLabel } from "library/components/InputLabel";
+import { ButtonText } from "library/components/StyledText";
 import { TextInput } from "library/components/TextInput";
-import { Text, View } from "library/components/Themed";
+import { View } from "library/components/Themed";
 
 export default function LoginForm(props: {
   onSubmit: (email: string, password: string) => Promise<void>;
@@ -52,7 +53,7 @@ export default function LoginForm(props: {
         onPress={() => submit(email, password)}
         disabled={isSubmitting}
       >
-        <Text style={styles.buttonText}>Log In</Text>
+        <ButtonText>Log In</ButtonText>
       </Button>
       {error && <ErrorDisplay error={error} />}
     </View>
@@ -63,9 +64,5 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: "Header",
   },
 });
