@@ -17,7 +17,7 @@ export type StepperProps = {
   decimalPlaces?: number;
   colorInc?: string;
   colorDec?: string;
-} & ViewProps;
+} & Omit<ViewProps, "children">;
 
 export function Stepper(props: StepperProps) {
   const { min, max, step, initialValue, style, decimalPlaces, ...otherProps } =

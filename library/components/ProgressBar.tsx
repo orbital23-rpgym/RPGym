@@ -11,7 +11,7 @@ type ProgressBarProps = {
   colorBg?: string;
   max: number;
   curr: number;
-} & ViewProps;
+} & Omit<ViewProps, "children">;
 
 export function ProgressBar(props: ProgressBarProps) {
   const colorScheme = useContext(ColorSchemeContext);

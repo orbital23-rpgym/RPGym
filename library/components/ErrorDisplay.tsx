@@ -4,7 +4,7 @@ import { Text, TextProps, useThemeColor } from "./Themed";
 
 export type ErrorDisplayProps = {
   error: Error;
-} & TextProps;
+} & Omit<TextProps, "children">;
 
 export function ErrorDisplay(props: ErrorDisplayProps) {
   const { error, style, ...otherProps } = props;
