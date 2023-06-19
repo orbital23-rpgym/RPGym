@@ -87,10 +87,7 @@ export function Screen(props: ScreenProps) {
   const { style, ...otherProps } = props;
 
   return (
-    <View
-      style={StyleSheet.flatten([{ ...styles.container }, style])}
-      {...otherProps}
-    >
+    <View style={StyleSheet.flatten([styles.container, style])} {...otherProps}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollChildren}
