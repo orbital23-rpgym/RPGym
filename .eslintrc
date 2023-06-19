@@ -1,7 +1,14 @@
 {
   "root": true,
   "parser": "@typescript-eslint/parser",
-  "plugins": ["react", "@typescript-eslint", "prettier", "jest", "import"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier",
+    "jest",
+    "import",
+    "react-native"
+  ],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -57,7 +64,14 @@
         },
         "newlines-between": "always"
       }
-    ]
+    ],
+    "react/self-closing-comp": "error",
+    "react-native/no-unused-styles": "error",
+    "react-native/split-platform-components": "error",
+    "react-native/no-inline-styles": "error",
+    "react-native/no-color-literals": "warn",
+    "react-native/no-raw-text": ["error", { "skip": ["InputLabel", "Link"] }],
+    "react-native/no-single-element-style-arrays": "error"
   },
   "overrides": [
     {
