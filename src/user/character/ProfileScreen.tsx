@@ -3,7 +3,8 @@ import { Link, Tabs } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { Pressable, StyleSheet } from "react-native";
 
-import AvatarPic from "./AvatarPic";
+import AvatarRenderer from "../../rpg/avatar/AvatarRenderer";
+
 import { UserCharacter } from "./UserCharacter";
 
 import { themes } from "constants/colors";
@@ -69,12 +70,7 @@ export default function ProfileScreen() {
   const user = useUserContext();
   const colorScheme = useContext(ColorSchemeContext);
 
-  const [character, setCharacter] = useState<UserCharacter>(user.character);
-
-  useEffect(() => {
-    // console.log(user);
-    // if (user !== undefined) setCharacter(user.character);
-  }, []);
+  const character = user.character;
 
   return (
     <Screen gap={20}>
@@ -102,7 +98,7 @@ export default function ProfileScreen() {
       />
       <View style={styles.profileInfoContainer}>
         <View style={styles.avatarContainer}>
-          <AvatarPic avatar={character.avatar} />
+          <AvatarRenderer avatar={character.avatar} />
         </View>
         <View style={styles.profileDetailsContainer}>
           <Text style={styles.displayNameText}>{character.displayName}</Text>
