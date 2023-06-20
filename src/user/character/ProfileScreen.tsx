@@ -6,6 +6,7 @@ import AvatarPic from "./AvatarPic";
 import { UserCharacter } from "./UserCharacter";
 
 import { themes } from "constants/colors";
+import { MAX_ELEMENT_WIDTH } from "constants/ui";
 import { Card } from "library/components/Card";
 import LoadingScreen from "library/components/LoadingScreen";
 import { ProgressBarWithLabels } from "library/components/ProgressBar";
@@ -17,20 +18,19 @@ import { db } from "src/firebase-init";
 
 export default function ProfileScreen() {
   const styles = StyleSheet.create({
-    screenStyle: {
-      gap: 10,
-    },
     profileInfoContainer: {
       alignItems: "center",
       justifyContent: "center",
       flexDirection: "row",
       gap: 20,
-      margin: 10,
+      width: "100%",
+      maxWidth: MAX_ELEMENT_WIDTH,
       flexWrap: "wrap",
     },
     avatarContainer: {
-      width: 120,
-      height: 120,
+      aspectRatio: 1,
+      minWidth: 100,
+      flex: 2,
       borderRadius: 10,
       alignItems: "center",
       justifyContent: "center",
@@ -40,7 +40,7 @@ export default function ProfileScreen() {
       alignItems: "flex-start",
       justifyContent: "center",
       flexDirection: "column",
-      flex: 1,
+      flex: 3,
       gap: 5,
       minWidth: 140,
     },
@@ -67,7 +67,7 @@ export default function ProfileScreen() {
   }, []);
 
   return character !== undefined ? (
-    <Screen style={styles.screenStyle}>
+    <Screen gap={20}>
       <View style={styles.profileInfoContainer}>
         <View style={styles.avatarContainer}>
           <AvatarPic avatar={character.avatar} />
