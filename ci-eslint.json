@@ -1,0 +1,11 @@
+{
+  "rules": {
+    "no-restricted-syntax": [
+      "error",
+      {
+        "message": "Turn debug mode off before committing!",
+        "selector": "VariableDeclarator[id.name='DEBUG_MODE'][init.value='true']"
+      }
+    ]
+  }
+}

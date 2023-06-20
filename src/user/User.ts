@@ -14,10 +14,8 @@ import {
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
-import { MAX_HEALTH } from "constants/game";
 import { UsernameTakenError } from "library/error";
 import { db } from "src/firebase-init";
-import Avatar from "src/rpg/avatar/Avatar";
 import AppSettings from "src/settings/AppSettings";
 import {
   characterConverter,
@@ -208,28 +206,6 @@ export const userConverter: FirestoreDataConverter<User> = {
     // Data from QueryDocumentSnapshot will never return undefined.
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const data = snapshot.data(options)!;
-
-    /** Dummy account. */
-    const JB_FITNESS = new UserFitnessTracker(
-      doc(db, DB.userFitness, "jim-bro"),
-    );
-    const JB_CHAR = new UserCharacter(
-      doc(db, DB.userCharacter, "jim-bro"),
-      "Jim Bro",
-      "",
-      MAX_HEALTH,
-      MAX_HEALTH,
-      0,
-      Avatar.DEFAULT,
-    );
-    const JIM_BRO = new User(
-      "jim-bro",
-      "jimbro",
-      "jimbro@example.com",
-      JB_FITNESS,
-      JB_CHAR,
-      AppSettings.default(),
-    );
-    return JIM_BRO;
+    throw new Error("Firestore user converter should not be used.");
   },
 };
