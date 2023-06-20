@@ -1,5 +1,7 @@
-// import { Insets } from "react-native";
+import { StyleSheet } from "react-native";
+
 import { ColorTheme, themes } from "./colors";
+import { MAX_ELEMENT_WIDTH } from "./ui";
 
 export const headingTextStyle = {
   fontFamily: "Header",
@@ -44,4 +46,14 @@ export const dropShadow = (color: string) => ({
   shadowOpacity: 0.5,
   shadowRadius: 4,
   shadowOffset: { width: 0, height: 1 },
+});
+
+export const fullWidthButton = StyleSheet.create({
+  button: {
+    width: "100%",
+    maxWidth: MAX_ELEMENT_WIDTH,
+  },
+  text: {
+    textAlign: "center",
+  },
 });
