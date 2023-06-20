@@ -6,7 +6,7 @@ import { Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { themes } from "constants/colors";
-import { headerStyle } from "constants/styles";
+import { headingTextStyle } from "constants/styles";
 import { Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
@@ -54,9 +54,20 @@ export default function TabLayout() {
           maxHeight: 65 + insets.bottom,
         },
         headerStyle: {
-          height: 100,
+          backgroundColor: themes[colorScheme].background,
+          height: 50 + insets.top,
         },
-        ...headerStyle,
+        headerTitleStyle: {
+          ...headingTextStyle,
+        },
+        headerTintColor: themes[colorScheme].text,
+        headerTransparent: false,
+        headerLeftContainerStyle: {
+          padding: 5,
+        },
+        headerRightContainerStyle: {
+          padding: 10,
+        },
       }}
     >
       <Tabs.Screen

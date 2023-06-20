@@ -1,3 +1,5 @@
 import { createContext } from "react";
 
-export const ColorSchemeContext = createContext<"light" | "dark">("dark");
+import { ColorTheme } from "constants/colors";
+
+export const ColorSchemeContext = createContext<ColorTheme>("dark");
