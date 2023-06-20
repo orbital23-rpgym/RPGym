@@ -33,10 +33,10 @@ export function Button(props: ButtonProps) {
   let variantColor: keyof typeof themes.light & keyof typeof themes.dark;
   switch (variant ?? "default") {
     case "primary":
-      variantColor = "blueLight";
+      variantColor = "orange";
       break;
     case "secondary":
-      variantColor = "orange";
+      variantColor = "blueLight";
       break;
 
     case "save":
