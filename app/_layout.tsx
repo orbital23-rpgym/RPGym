@@ -49,7 +49,9 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme() ?? "dark";
+  // const colorScheme = useColorScheme() ?? "dark";
+  // only dark theme available for now
+  const colorScheme = "dark";
 
   return (
     <AuthProvider>
