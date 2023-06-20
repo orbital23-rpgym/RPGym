@@ -62,10 +62,6 @@ function RootLayoutNav() {
               options={{ presentation: "card", title: "Settings" }}
             />
             <Stack.Screen
-              name="settings/accountSettings"
-              options={{ title: "Account Settings" }}
-            />
-            <Stack.Screen
               name="settings/profileSettings"
               options={{ title: "Profile Settings" }}
             />
