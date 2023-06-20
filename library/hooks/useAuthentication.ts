@@ -1,7 +1,9 @@
 import { User as FirebaseUser, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 
+import { DUMMY_USER } from "constants/dummy-values";
 import { auth } from "src/firebase-init";
+import { DEBUG_MODE } from "src/init";
 import { User } from "src/user/User";
 
 export function useAuthentication() {
@@ -9,6 +11,10 @@ export function useAuthentication() {
   const [appUser, setAppUser] = useState<User | undefined>(undefined);
 
   useEffect(() => {
+    if (DEBUG_MODE) {
+      setAppUser(DUMMY_USER);
+      return;
+    }
     const unsubscribeFromAuthStatusChanged = onAuthStateChanged(
       auth,
       (user) => {
