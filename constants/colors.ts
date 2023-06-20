@@ -1,3 +1,5 @@
+export type ColorTheme = "light" | "dark";
+
 export const palette = {
   red: "#E54848",
   redLight: "#FE7E7E",

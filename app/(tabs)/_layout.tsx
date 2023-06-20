@@ -3,9 +3,10 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
 import { useContext } from "react";
 import { Pressable } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { themes } from "constants/colors";
-import { headerStyle } from "constants/styles";
+import { headingTextStyle } from "constants/styles";
 import { Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
@@ -16,7 +17,8 @@ function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome5>["name"];
   color: string;
 }) {
-  return <FontAwesome5 size={26} style={{ marginBottom: -3 }} {...props} />;
+  const style = { marginBottom: -3 };
+  return <FontAwesome5 size={26} style={style} {...props} />;
 }
 
 function TabBarLabel(props: {
@@ -25,8 +27,8 @@ function TabBarLabel(props: {
   color: string;
 }) {
   const labelStyle = {
+    fontFamily: "Header",
     fontSize: 12,
-    fontWeight: props.focused ? ("bold" as const) : ("normal" as const),
     padding: 5,
     color: props.color,
   };
@@ -36,6 +38,7 @@ function TabBarLabel(props: {
 
 export default function TabLayout() {
   const colorScheme = useContext(ColorSchemeContext);
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
@@ -48,12 +51,23 @@ export default function TabLayout() {
         tabBarLabelPosition: "below-icon",
         tabBarStyle: {
           flex: 1,
-          maxHeight: 65,
+          maxHeight: 65 + insets.bottom,
         },
         headerStyle: {
-          height: 100,
+          backgroundColor: themes[colorScheme].background,
+          height: 50 + insets.top,
         },
-        ...headerStyle,
+        headerTitleStyle: {
+          ...headingTextStyle,
+        },
+        headerTintColor: themes[colorScheme].text,
+        headerTransparent: false,
+        headerLeftContainerStyle: {
+          padding: 5,
+        },
+        headerRightContainerStyle: {
+          padding: 10,
+        },
       }}
     >
       <Tabs.Screen
@@ -107,11 +121,11 @@ export default function TabLayout() {
         options={{
           title: "History",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="history" color={color} />
+            <TabBarIcon name="chart-line" color={color} />
           ),
           tabBarLabel: ({ focused, color }) => {
             return (
-              <TabBarLabel title="History" color={color} focused={focused} />
+              <TabBarLabel title="Tracking" color={color} focused={focused} />
             );
           },
         }}
@@ -131,14 +145,17 @@ export default function TabLayout() {
           headerRight: () => (
             <Link href="/settings/" asChild>
               <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="gear"
-                    size={25}
-                    color={themes[colorScheme].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
+                {({ pressed }) => {
+                  const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
+                  return (
+                    <FontAwesome
+                      name="gear"
+                      size={25}
+                      color={themes[colorScheme].text}
+                      style={style}
+                    />
+                  );
+                }}
               </Pressable>
             </Link>
           ),

@@ -29,6 +29,7 @@ export default function AvatarPic(props: AvatarProps) {
       justifyContent: "center",
       backgroundColor: useThemeColor({}, "green"),
       flex: 1,
+      aspectRatio: 1,
       width: "100%",
       height: "100%",
     },

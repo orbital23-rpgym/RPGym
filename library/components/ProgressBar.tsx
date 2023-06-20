@@ -76,7 +76,6 @@ export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
       alignItems: "center",
       justifyContent: "center",
       alignContent: "center",
-      maxWidth: 250,
       height: "auto",
       width: "100%",
     },

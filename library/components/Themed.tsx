@@ -3,27 +3,29 @@
  * https://docs.expo.io/guides/color-schemes/
  */
 
+import { useContext } from "react";
 import {
   Text as DefaultText,
   View as DefaultView,
   ScrollView,
   StyleSheet,
-  useColorScheme,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { themes } from "constants/colors";
+import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 export function useThemeColor(
   props: { light?: string; dark?: string },
   colorName: keyof typeof themes.light & keyof typeof themes.dark,
 ) {
-  const theme = useColorScheme() ?? "dark";
-  const colorFromProps = props[theme];
+  const colorScheme = useContext(ColorSchemeContext);
+  const colorFromProps = props[colorScheme];
 
   if (colorFromProps) {
     return colorFromProps;
   } else {
-    return themes[theme][colorName];
+    return themes[colorScheme][colorName];
   }
 }
 
@@ -72,9 +74,12 @@ export function View(props: ViewProps) {
 export type ScreenProps = { gap?: number } & ViewProps;
 
 export function Screen(props: ScreenProps) {
+  const insets = useSafeAreaInsets();
   const styles = StyleSheet.create({
     container: {
       flex: 1,
+      paddingLeft: insets.left,
+      paddingRight: insets.right,
     },
     scroll: {
       flex: 1,
@@ -85,8 +90,10 @@ export function Screen(props: ScreenProps) {
       justifyContent: "flex-start",
       flexDirection: "column",
       gap: props.gap ?? 15,
-      padding: 25,
-      paddingTop: 100,
+      paddingLeft: 25,
+      paddingRight: 25,
+      paddingTop: 10,
+      paddingBottom: 10,
     },
   });
 

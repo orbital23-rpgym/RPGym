@@ -8,10 +8,11 @@ import {
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
-import { useColorScheme } from "react-native";
 
-import { headerStyle } from "constants/styles";
+import { themes } from "constants/colors";
+import { headingTextStyle } from "constants/styles";
 import { AuthProvider } from "library/context/auth";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
@@ -49,21 +50,34 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const colorScheme = useColorScheme() ?? "dark";
+  // const colorScheme = useColorScheme() ?? "dark";
+  // only dark theme available for now
+  const colorScheme = "dark";
 
   return (
     <AuthProvider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <ColorSchemeContext.Provider value={colorScheme}>
-          <Stack screenOptions={headerStyle}>
+          <StatusBar
+            animated={true}
+            backgroundColor={themes[colorScheme].background}
+            style={colorScheme === "dark" ? "light" : "dark"}
+          />
+          <Stack
+            screenOptions={{
+              headerStyle: {
+                backgroundColor: themes[colorScheme].background,
+              },
+              headerTitleStyle: {
+                ...headingTextStyle,
+              },
+              headerTintColor: themes[colorScheme].text,
+            }}
+          >
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
               name="settings/index"
               options={{ presentation: "card", title: "Settings" }}
-            />
-            <Stack.Screen
-              name="settings/accountSettings"
-              options={{ title: "Account Settings" }}
             />
             <Stack.Screen
               name="settings/profileSettings"
