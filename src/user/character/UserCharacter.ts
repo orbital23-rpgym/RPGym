@@ -10,7 +10,7 @@ import {
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
-import { MAX_HEALTH } from "constants/game";
+import { LEVEL_EXP_BOUNDS, MAX_USER_HEALTH } from "constants/game";
 import { db } from "src/firebase-init";
 import Avatar, { AvatarData } from "src/rpg/avatar/Avatar";
 import { Party } from "src/rpg/party/Party";
@@ -25,6 +25,8 @@ export class UserCharacter {
   maxHealth: number;
   currentHealth: number;
   exp: number;
+  expLevel: number;
+  money: number;
   party: Party | null;
   avatar: Avatar;
 
@@ -35,6 +37,7 @@ export class UserCharacter {
     maxHealth: number,
     currentHealth: number,
     exp: number,
+    money: number,
     avatar: Avatar,
     party?: Party,
   ) {
@@ -44,8 +47,40 @@ export class UserCharacter {
     this.maxHealth = maxHealth;
     this.currentHealth = currentHealth;
     this.exp = exp;
+    this.expLevel = this.computeExpLevel();
+    this.money = money;
     this.avatar = avatar;
     this.party = party ?? null;
+  }
+
+  computeExpLevel(): number {
+    let prevLevel = -1;
+    for (const bound of LEVEL_EXP_BOUNDS) {
+      if (this.exp < bound) return prevLevel;
+      prevLevel += 1;
+    }
+    return prevLevel;
+  }
+
+  /**
+   * Gets exp after subtracting existing level.
+   */
+  get expForLevel() {
+    return this.exp - LEVEL_EXP_BOUNDS[this.expLevel];
+  }
+
+  isMaxLevel() {
+    return this.expLevel >= LEVEL_EXP_BOUNDS.length;
+  }
+
+  /**
+   * Gets total exp needed for next level after subtracting existing level.
+   */
+  get expForNextLevel() {
+    if (this.isMaxLevel()) return Infinity;
+    return (
+      LEVEL_EXP_BOUNDS[this.expLevel + 1] - LEVEL_EXP_BOUNDS[this.expLevel]
+    );
   }
 
   /**
@@ -77,8 +112,9 @@ export class UserCharacter {
       ref,
       username,
       "",
-      MAX_HEALTH,
-      MAX_HEALTH,
+      MAX_USER_HEALTH[0],
+      MAX_USER_HEALTH[0],
+      0,
       0,
       Avatar.DEFAULT,
     );
@@ -95,6 +131,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
       maxHealth: character.maxHealth,
       currentHealth: character.currentHealth,
       exp: character.exp,
+      money: character.money,
       party: character.party,
       avatar: character.avatar.toData(),
     };
@@ -114,6 +151,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
       data.maxHealth,
       data.currentHealth,
       data.exp,
+      data.money,
       avatar,
       data.party,
     );

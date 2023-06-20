@@ -22,7 +22,8 @@ export const DUMMY_CHAR = new UserCharacter(
   "Jim Bro",
   "Married to the grind",
   4444,
-  6666,
+  3333,
+  323,
   123,
   Avatar.DEFAULT,
 );
