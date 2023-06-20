@@ -28,7 +28,7 @@ jobs:
           yarn install
       - name: Run linter
         run: |
-          yarn lint
+          yarn lint-ci
 
   test:
     name: Run tests
