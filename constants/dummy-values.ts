@@ -10,14 +10,13 @@ import Avatar from "src/rpg/avatar/Avatar";
 import AppSettings from "src/settings/AppSettings";
 import { UserCharacter } from "src/user/character/UserCharacter";
 import { UserFitnessTracker } from "src/user/fitness-tracker/UserFitnessTracker";
-// user converter uses dummy value, so allow import cycle
-// eslint-disable-next-line import/no-cycle
 import { User } from "src/user/User";
 
 /** Dummy account. */
 export const DUMMY_FITNESS = new UserFitnessTracker(
   doc(db, DB.userFitness, "jim-bro"),
 );
+
 export const DUMMY_CHAR = new UserCharacter(
   doc(db, DB.userCharacter, "jim-bro"),
   "Jim Bro",
@@ -27,6 +26,7 @@ export const DUMMY_CHAR = new UserCharacter(
   123,
   Avatar.DEFAULT,
 );
+
 export const DUMMY_USER = new User(
   "jim-bro",
   "jimbro",
