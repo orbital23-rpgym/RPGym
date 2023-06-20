@@ -8,6 +8,7 @@
     "web": "expo start --web",
     "prettier-format": "prettier --config .prettierrc '**/*.{json,js,jsx,ts,tsx,css,scss,md}' --write",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.json",
+    "lint-ci": "eslint . --ext .ts,.tsx,.js,.jsx,.json --fix --config ./ci-eslint.json",
     "lint-and-fix": "eslint . --ext .ts,.tsx,.js,.jsx,.json --fix",
     "test": "jest --watchAll",
     "test-ci": "jest --passWithNoTests",
@@ -20,7 +21,7 @@
     "preset": "jest-expo"
   },
   "lint-staged": {
-    "*.{.ts,.tsx,.js,.jsx,.json }": "eslint --ext --fix",
+    "*.{ts,tsx,js,jsx,json }": "eslint --config ./ci-eslint.json --fix",
     "*": "prettier --ignore-unknown --config .prettierrc"
   },
   "dependencies": {
