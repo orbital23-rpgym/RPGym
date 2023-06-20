@@ -6,17 +6,87 @@ import { doc } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
 import { db } from "src/firebase-init";
+import Exercise from "src/fitness-tracker/exercise/Exercise";
+import ExerciseTemplate from "src/fitness-tracker/exercise/ExerciseTemplate";
+import WorkoutPreset from "src/fitness-tracker/workout/presets/WorkoutPreset";
 import Avatar from "src/rpg/avatar/Avatar";
 import AppSettings from "src/settings/AppSettings";
 import { UserCharacter } from "src/user/character/UserCharacter";
 import { UserFitnessTracker } from "src/user/fitness-tracker/UserFitnessTracker";
 import { User } from "src/user/User";
 
-/** Dummy account. */
-export const DUMMY_FITNESS = new UserFitnessTracker(
-  doc(db, DB.userFitness, "jim-bro"),
+/** Dummy exercise template. */
+export const DUMMY_EXERCISE_TEMPLATE_1 = new ExerciseTemplate(
+  "Bench Press",
+  "Chest",
+  "yeahhhh",
+);
+/** Dummy exercise template. */
+export const DUMMY_EXERCISE_TEMPLATE_2 = new ExerciseTemplate(
+  "Box Squat",
+  "Legs",
+  "ya",
+);
+/** Dummy exercise template. */
+export const DUMMY_EXERCISE_TEMPLATE_3 = new ExerciseTemplate(
+  "Deadlift",
+  "Legs",
+  "yup",
 );
 
+/** Dummy exercise instance. */
+export const DUMMY_EXERCISE_1A = new Exercise(DUMMY_EXERCISE_TEMPLATE_1, []);
+/** Dummy exercise instance. */
+export const DUMMY_EXERCISE_1B = new Exercise(DUMMY_EXERCISE_TEMPLATE_1, []);
+/** Dummy exercise instance. */
+export const DUMMY_EXERCISE_2 = new Exercise(DUMMY_EXERCISE_TEMPLATE_2, []);
+/** Dummy exercise instance. */
+export const DUMMY_EXERCISE_3 = new Exercise(DUMMY_EXERCISE_TEMPLATE_3, []);
+
+/** Dummy workout preset. */
+export const DUMMY_WORKOUT_PRESET_A = new WorkoutPreset(
+  "every day",
+  "nope no legs",
+  [
+    DUMMY_EXERCISE_1A,
+    DUMMY_EXERCISE_1B,
+    DUMMY_EXERCISE_1B,
+    DUMMY_EXERCISE_1B,
+    DUMMY_EXERCISE_1B,
+    DUMMY_EXERCISE_1B,
+    DUMMY_EXERCISE_1B,
+    DUMMY_EXERCISE_1B,
+    DUMMY_EXERCISE_1B,
+    DUMMY_EXERCISE_1B,
+  ],
+  new Date(1687276324742),
+);
+/** Dummy workout preset. */
+export const DUMMY_WORKOUT_PRESET_B = new WorkoutPreset(
+  "leg day :(",
+  "sike",
+  [DUMMY_EXERCISE_2, DUMMY_EXERCISE_3],
+  new Date(1110000000000),
+);
+
+/** Dummy workout preset. */
+export const DUMMY_WORKOUT_PRESET_C = new WorkoutPreset(
+  "example",
+  "placeholder",
+  [DUMMY_EXERCISE_2],
+  new Date(0),
+);
+
+/** Dummy user fitness. */
+export const DUMMY_FITNESS = new UserFitnessTracker(
+  doc(db, DB.userFitness, "jim-bro"),
+  [],
+  [DUMMY_WORKOUT_PRESET_A, DUMMY_WORKOUT_PRESET_B, DUMMY_WORKOUT_PRESET_C],
+  [],
+  [],
+);
+
+/** Dummy user character. */
 export const DUMMY_CHAR = new UserCharacter(
   doc(db, DB.userCharacter, "jim-bro"),
   "Jim Bro",
@@ -27,6 +97,7 @@ export const DUMMY_CHAR = new UserCharacter(
   Avatar.DEFAULT,
 );
 
+/** Dummy user. */
 export const DUMMY_USER = new User(
   "jim-bro",
   "jimbro",
