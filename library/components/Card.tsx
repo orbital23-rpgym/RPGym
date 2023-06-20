@@ -42,6 +42,8 @@ export function Card(props: CardProps) {
     },
     childContainer: {
       padding: 20,
+      paddingTop: 12,
+      paddingBottom: 15,
       height: "auto",
       backgroundColor: themes[colorScheme].cardBackground,
     },
