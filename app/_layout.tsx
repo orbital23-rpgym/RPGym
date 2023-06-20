@@ -8,6 +8,7 @@ import {
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 
 import { themes } from "constants/colors";
@@ -57,6 +58,11 @@ function RootLayoutNav() {
     <AuthProvider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <ColorSchemeContext.Provider value={colorScheme}>
+          <StatusBar
+            animated={true}
+            backgroundColor={themes[colorScheme].background}
+            style={colorScheme === "dark" ? "light" : "dark"}
+          />
           <Stack
             screenOptions={{
               headerStyle: {
