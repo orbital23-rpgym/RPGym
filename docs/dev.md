@@ -38,6 +38,10 @@ Notes:
 - The phone scanning the QR code must be on the same local network (e.g. both connected to home WiFi).
 - Android phones must first download the Expo app from the Play Store.
 
+## Debug Mode
+
+Debug mode removes the authentication and provides a dummy user. To enable it, change the value of `DEBUG_MODE` in `src/init.ts` to `true`. Remember to set it back to `false` before committing any changes to the init file (this will be checked in the pre-commit hook and in the ci linting in case you forget).
+
 ## Directory structure
 
 Major subfolders and their purposes are outlined in the [file structure documentation](/docs/directory.md).
