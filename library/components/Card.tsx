@@ -5,6 +5,7 @@ import { Text, View, ViewProps } from "./Themed";
 
 import { themes } from "constants/colors";
 import { dropShadow } from "constants/styles";
+import { MAX_ELEMENT_WIDTH } from "constants/ui";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 type CardProps = {
@@ -22,7 +23,7 @@ export function Card(props: CardProps) {
       overflow: "hidden",
       height: "auto",
       minWidth: 100,
-      maxWidth: 500,
+      maxWidth: MAX_ELEMENT_WIDTH,
       width: "100%",
       ...dropShadow(themes[colorScheme].shadowColor),
     },
