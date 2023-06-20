@@ -6,17 +6,19 @@ export default class CampaignTemplate {
   bossImage: string;
   description: string;
   bossMaxHealth: number;
-  difficulty = 1;
+  difficulty: number;
 
   constructor(
     bossName: string,
     bossImage: string,
     description: string,
     bossMaxHealth: number,
+    difficulty: number,
   ) {
     this.bossName = bossName;
     this.bossImage = bossImage;
     this.description = description;
     this.bossMaxHealth = bossMaxHealth;
+    this.difficulty = difficulty;
   }
 }
