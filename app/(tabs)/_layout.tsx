@@ -3,6 +3,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Tabs } from "expo-router";
 import { useContext } from "react";
 import { Pressable } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { themes } from "constants/colors";
 import { headerStyle } from "constants/styles";
@@ -37,6 +38,7 @@ function TabBarLabel(props: {
 
 export default function TabLayout() {
   const colorScheme = useContext(ColorSchemeContext);
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
@@ -49,7 +51,7 @@ export default function TabLayout() {
         tabBarLabelPosition: "below-icon",
         tabBarStyle: {
           flex: 1,
-          maxHeight: 65,
+          maxHeight: 65 + insets.bottom,
         },
         headerStyle: {
           height: 100,
