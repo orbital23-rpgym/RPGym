@@ -1,22 +1,9 @@
-/* Objects are keyed by numbers, so disable eslint naming convention rule. */
-/* eslint-disable @typescript-eslint/naming-convention */
-
 /**
  * Max health for a user at given level.
  */
-export const MAX_USER_HEALTH = {
-  0: 100,
-  1: 50,
-  2: 100,
-  3: 175,
-  4: 275,
-  5: 400,
-  6: 550,
-  7: 725,
-  8: 925,
-  9: 1150,
-  10: 1400,
-};
+export const MAX_USER_HEALTH = [
+  50, 100, 175, 275, 400, 550, 725, 925, 1150, 1400,
+];
 
 /**
  * Level experience point bounds.
@@ -29,19 +16,9 @@ export const MAX_USER_HEALTH = {
  * ...}
  * ```
  */
-export const LEVEL_EXP_BOUNDS = {
-  0: 0,
-  1: 50,
-  2: 100,
-  3: 175,
-  4: 275,
-  5: 400,
-  6: 550,
-  7: 725,
-  8: 925,
-  9: 1150,
-  10: 1400,
-};
+export const LEVEL_EXP_BOUNDS = [
+  0, 50, 100, 175, 275, 400, 550, 725, 925, 1150, 1400,
+];
 
 /**
  * Range for reward RNG.
