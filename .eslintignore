@@ -5,3 +5,4 @@ dist
 web-build
 *.config.js
 .firebase
+coverage

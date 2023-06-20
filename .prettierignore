@@ -4,3 +4,4 @@ dist
 .expo-shared
 web-build
 .firebase
+coverage
