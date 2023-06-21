@@ -1,3 +1,4 @@
+import { add, differenceInWeeks } from "date-fns";
 import {
   addDoc,
   collection,
@@ -49,13 +50,15 @@ export default class Quest {
     this.ongoing = ongoing;
     this.numWeeks = QUEST_DURATION[difficulty];
     this.goalTotal = goalPerWeek * this.numWeeks;
+    this.name = QUEST_LORE[difficulty].name;
+    this.description = QUEST_LORE[difficulty].description;
   }
 
   get wholeWeeksSinceStart(): number {
     const now = new Date();
-    const diffMs = now.getTime() - this.startDateTime.getTime();
-    const diffWeeks = diffMs / (1000 * 60 * 60 * 24 * 7);
-    return Math.floor(diffWeeks);
+    return differenceInWeeks(now, this.startDateTime, {
+      roundingMethod: "floor",
+    });
   }
 
   /**
@@ -75,8 +78,9 @@ export default class Quest {
     userId: string,
   ): Promise<Quest> {
     const startDateTime = new Date();
-    const endDateTime = new Date(startDateTime);
-    endDateTime.setDate(endDateTime.getDate() + QUEST_DURATION[difficulty] * 7);
+    const endDateTime = add(startDateTime, {
+      weeks: QUEST_DURATION[difficulty],
+    });
     const questData: QuestData = {
       difficulty: difficulty,
       progressThisWeek: 0,
