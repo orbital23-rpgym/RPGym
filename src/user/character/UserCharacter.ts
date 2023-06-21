@@ -62,12 +62,12 @@ export class UserCharacter {
     this.ongoingQuest = undefined;
     if (party instanceof DocumentReference) {
       Party.fromRef(party).then((party) => (this.party = party));
-    } else if (party instanceof Party) {
+    } else if (party instanceof Party || party === null) {
       this.party = party;
     }
     if (ongoingQuest instanceof DocumentReference) {
       Quest.fromRef(ongoingQuest).then((quest) => (this.ongoingQuest = quest));
-    } else if (ongoingQuest instanceof Quest) {
+    } else if (ongoingQuest instanceof Quest || ongoingQuest === null) {
       this.ongoingQuest = ongoingQuest;
     }
   }
@@ -146,7 +146,8 @@ export class UserCharacter {
 
   public beginQuest(quest: Quest) {
     // Check if user already has ongoing quest
-    if (this.ongoingQuest !== null) throw new Error("Quest already ongoing.");
+    if (this.ongoingQuest !== null)
+      throw new Error("A quest is already in progress.");
     this.ongoingQuest = quest;
     this.updateToFirestore();
   }
@@ -154,6 +155,13 @@ export class UserCharacter {
   public updateToFirestore() {
     setDoc(this.ref.withConverter(characterConverter), this).catch((reason) => {
       throw new Error("Update to cloud failed.");
+    });
+  }
+
+  public updateFromFirestore() {
+    getDoc(this.ref.withConverter(characterConverter)).then((snap) => {
+      const updated = snap.data() as UserCharacter;
+      Object.assign(this, updated);
     });
   }
 }
