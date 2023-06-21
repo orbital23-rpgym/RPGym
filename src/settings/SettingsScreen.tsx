@@ -1,4 +1,4 @@
-import { Link, useRouter } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
@@ -25,6 +25,7 @@ export default function SettingsScreen() {
 
   return (
     <View style={styles.container}>
+      <Stack.Screen options={{ presentation: "card", title: "Settings" }} />
       <Button variant="primary">
         <Link href="settings/profileSettings" style={styles.buttonText}>
           Edit profile
