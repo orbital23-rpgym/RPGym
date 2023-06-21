@@ -95,9 +95,9 @@ export function MultiSelect(props: MultiSelectProps) {
       backgroundColor: themes[colorScheme].cardBackground,
     },
   });
-  function selectOption(i: number) {
+  function selectOption(i: number, key: string) {
     setSelected(i);
-    onSelect(options[selected].text);
+    onSelect(key);
   }
   const optionButtons = options.map((option, i) => {
     return (
@@ -105,7 +105,7 @@ export function MultiSelect(props: MultiSelectProps) {
         text={option.text}
         selected={selected === i}
         key={i}
-        onPress={() => selectOption(i)}
+        onPress={() => selectOption(i, option.key)}
         selectedColor={selectedColor}
         unselectedColor={unselectedColor}
         {...otherProps}
