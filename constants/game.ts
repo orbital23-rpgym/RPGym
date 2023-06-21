@@ -112,3 +112,12 @@ export const EQUIP_PRICES = {
   emerald: 50,
   obsidian: 100,
 };
+
+/**
+ * Quest durations in weeks.
+ */
+export const QUEST_DURATION = {
+  easy: 1,
+  medium: 2,
+  hard: 4,
+};
