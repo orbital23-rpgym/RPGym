@@ -46,6 +46,9 @@ export const DUMMY_CHAR = new UserCharacter(
   323,
   123,
   Avatar.DEFAULT,
+  [],
+  null,
+  null,
 );
 
 export const DUMMY_USER = new User(
