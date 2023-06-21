@@ -4,16 +4,16 @@ import AvatarBase from "./AvatarBase";
 import AvatarBaseRenderer from "./AvatarBaseRenderer";
 import AvatarEquipmentRenderer from "./AvatarEquipmentRenderer";
 
+import { palette } from "constants/colors";
 import { View, ViewProps } from "library/components/Themed";
 import Avatar from "src/rpg/avatar/Avatar";
 
 type AvatarProps = {
   avatar: Avatar;
-  zIndex?: number;
 } & Omit<ViewProps, "children">;
 
 export default function AvatarRenderer(props: AvatarProps) {
-  const { avatar, zIndex = 1, style, ...otherProps } = props;
+  const { avatar, style, ...otherProps } = props;
   const styles = StyleSheet.create({
     container: {
       alignItems: "center",
@@ -24,20 +24,21 @@ export default function AvatarRenderer(props: AvatarProps) {
       aspectRatio: 1,
       width: "100%",
       height: "100%",
-      zIndex: zIndex,
+    },
+    spriteLayers: {
+      backgroundColor: palette.transparent,
+      position: "relative",
+      width: "100%",
+      height: "100%",
     },
   });
 
-  const BaseZIndex = zIndex + 1;
-  const EquipZIndex = BaseZIndex + AvatarBase.NUM_LAYERS + 2;
-
   return (
     <View style={StyleSheet.compose(styles.container, style)} {...otherProps}>
-      <AvatarBaseRenderer avatarBase={avatar.avatarBase} zIndex={BaseZIndex} />
-      <AvatarEquipmentRenderer
-        avatarEquipment={avatar.avatarEquipment}
-        zIndex={EquipZIndex}
-      />
+      <View style={styles.spriteLayers}>
+        <AvatarBaseRenderer avatarBase={avatar.avatarBase} />
+        <AvatarEquipmentRenderer avatarEquipment={avatar.avatarEquipment} />
+      </View>
     </View>
   );
 }

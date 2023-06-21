@@ -1,32 +1,20 @@
 import { StyleSheet } from "react-native";
 
+import { avatarLayerStyles } from "./AvatarLayer";
+
 import { palette } from "constants/colors";
 import { View, ViewProps } from "library/components/Themed";
 import AvatarEquipment from "src/rpg/avatar/AvatarEquipment";
 
 type AvatarEquipmentProps = {
   avatarEquipment: AvatarEquipment;
-  zIndex: number;
 } & Omit<ViewProps, "children">;
 
 export default function AvatarEquipmentRenderer(props: AvatarEquipmentProps) {
-  const { avatarEquipment, zIndex } = props;
-  const styles = StyleSheet.create({
-    container: {
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: palette.transparent,
-      flex: 1,
-      aspectRatio: 1,
-      width: "100%",
-      height: "100%",
-      zIndex: 100,
-      position: "absolute",
-    },
-  });
+  const { avatarEquipment } = props;
 
   return (
-    <View style={styles.container}>
+    <View style={avatarLayerStyles.layer}>
       {/* <AvatarLayer
         source={
           AVATAR_BASE.faceHair[avatarBase.hairColor][avatarBase.facialHair]
