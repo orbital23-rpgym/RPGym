@@ -121,3 +121,30 @@ export const QUEST_DURATION = {
   medium: 2,
   hard: 4,
 };
+
+export type QuestLore = {
+  name: string;
+  description: string;
+};
+/** Titles and descriptions for each difficulty of quest. */
+export const QUEST_LORE: {
+  easy: QuestLore;
+  medium: QuestLore;
+  hard: QuestLore;
+} = {
+  easy: {
+    name: "Battle for the Bronze",
+    description:
+      "Embark on a grueling journey in “Battle for the Bronze”! Conquer a series of intense workouts, endure hardships and claim the Bronze Medal of Endurance as a testament to your unwavering dedication.",
+  },
+  medium: {
+    name: "Silver Summoning",
+    description:
+      "Embark on a herculean odyssey to prove your indomitable spirit in “Silver Summoning”.  Triumph over formidable obstacles, persevere through extreme hardships, and seize the Silver Medal of Resilience, an emblem of your unparalleled fortitude.",
+  },
+  hard: {
+    name: "Hitting the Gold Mine",
+    description:
+      "Plunge into an infernal crucible that will push your body and mind to their limits in “Hitting the Gold Mine”. Brave an onslaught of merciless workouts, conquering insurmountable barriers and claiming the Gold Metal of Invincibility, an irrefutable testament to your unyielding dominance.",
+  },
+};
