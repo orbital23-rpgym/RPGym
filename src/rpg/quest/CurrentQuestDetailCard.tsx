@@ -60,7 +60,7 @@ export default function CurrentQuestDetailCard(props: QuestCardProps) {
         <Text>{quest.description}</Text>
         <View style={styles.progressStats}>
           <ProgressBarWithLabels
-            title={"Workouts"}
+            title={"Workouts this week"}
             labelPosition={"stack"}
             max={quest.goalPerWeek}
             curr={quest.progressThisWeek}

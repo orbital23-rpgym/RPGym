@@ -1,22 +1,13 @@
-import { FontAwesome5 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useContext } from "react";
-import {
-  Pressable,
-  StyleSheet,
-  TouchableHighlight,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
-import Quest from "./Quest";
 import { QuestCardProps } from "./QuestCardProps";
 
 import { palette, themes } from "constants/colors";
-import { QUEST_DURATION, QUEST_LORE } from "constants/game";
 import { Card } from "library/components/Card";
 import { ProgressBarWithLabels } from "library/components/ProgressBar";
-import { ButtonText } from "library/components/StyledText";
-import { Text, View, ViewProps } from "library/components/Themed";
+import { Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 export default function CurrentQuestSummaryCard(props: QuestCardProps) {
@@ -32,7 +23,7 @@ export default function CurrentQuestSummaryCard(props: QuestCardProps) {
       gap: 5,
     },
   });
-  const CARD_TITLE = "⚔️ Current Quest";
+  const CARD_TITLE = "⚔️ Weekly Goal";
   return (
     <TouchableOpacity
       onPress={() => router.replace("(tabs)/quests")}
