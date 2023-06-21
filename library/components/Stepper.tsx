@@ -17,11 +17,20 @@ export type StepperProps = {
   decimalPlaces?: number;
   colorInc?: string;
   colorDec?: string;
+  onValueChange: (value: number) => void;
 } & Omit<ViewProps, "children">;
 
 export function Stepper(props: StepperProps) {
-  const { min, max, step, initialValue, style, decimalPlaces, ...otherProps } =
-    props;
+  const {
+    min,
+    max,
+    step,
+    initialValue,
+    style,
+    decimalPlaces,
+    onValueChange,
+    ...otherProps
+  } = props;
   const [value, setValue] = useState(min);
   const [canIncrement, setCanIncrement] = useState(true);
   const [canDecrement, setCanDecrement] = useState(false);
@@ -54,6 +63,7 @@ export function Stepper(props: StepperProps) {
       decimalPlaces ?? numDecimalPlaces(step),
     );
     setValue(newValue);
+    onValueChange(value);
   }
 
   const colorScheme = useContext(ColorSchemeContext);
