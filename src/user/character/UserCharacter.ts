@@ -14,6 +14,7 @@ import { LEVEL_EXP_BOUNDS, MAX_USER_HEALTH } from "constants/game";
 import { db } from "src/firebase-init";
 import Avatar, { AvatarData } from "src/rpg/avatar/Avatar";
 import { Party } from "src/rpg/party/Party";
+import Quest from "src/rpg/quest/Quest";
 
 /**
  * User character (social & RPG-related) data.
@@ -27,7 +28,10 @@ export class UserCharacter {
   exp: number;
   expLevel: number;
   money: number;
-  party: Party | null;
+  // null if does not exist, undefined if not retrieved
+  party: Party | null | undefined;
+  ongoingQuest: Quest | null | undefined;
+  completedQuests: Quest[] | undefined;
   avatar: Avatar;
 
   constructor(
@@ -39,7 +43,9 @@ export class UserCharacter {
     exp: number,
     money: number,
     avatar: Avatar,
-    party?: Party,
+    completedQuests: Quest[],
+    party: Party | null | DocumentReference,
+    ongoingQuest: Quest | null | DocumentReference,
   ) {
     this.ref = ref;
     this.displayName = displayName;
@@ -50,7 +56,20 @@ export class UserCharacter {
     this.expLevel = this.computeExpLevel();
     this.money = money;
     this.avatar = avatar;
-    this.party = party ?? null;
+    this.completedQuests = completedQuests;
+
+    this.party = undefined;
+    this.ongoingQuest = undefined;
+    if (party instanceof DocumentReference) {
+      Party.fromRef(party).then((party) => (this.party = party));
+    } else if (party instanceof Party) {
+      this.party = party;
+    }
+    if (ongoingQuest instanceof DocumentReference) {
+      Quest.fromRef(ongoingQuest).then((quest) => (this.ongoingQuest = quest));
+    } else if (ongoingQuest instanceof Quest) {
+      this.ongoingQuest = ongoingQuest;
+    }
   }
 
   computeExpLevel(): number {
@@ -69,7 +88,7 @@ export class UserCharacter {
     return this.exp - LEVEL_EXP_BOUNDS[this.expLevel];
   }
 
-  isMaxLevel() {
+  public isMaxLevel() {
     return this.expLevel >= LEVEL_EXP_BOUNDS.length;
   }
 
@@ -117,9 +136,25 @@ export class UserCharacter {
       0,
       0,
       Avatar.DEFAULT,
+      [],
+      null,
+      null,
     );
     await setDoc(ref, userCharacter);
     return userCharacter;
+  }
+
+  public beginQuest(quest: Quest) {
+    // Check if user already has ongoing quest
+    if (this.ongoingQuest !== null) throw new Error("Quest already ongoing.");
+    this.ongoingQuest = quest;
+    this.updateToFirestore();
+  }
+
+  public updateToFirestore() {
+    setDoc(this.ref.withConverter(characterConverter), this).catch((reason) => {
+      throw new Error("Update to cloud failed.");
+    });
   }
 }
 
@@ -134,6 +169,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
       money: character.money,
       party: character.party,
       avatar: character.avatar.toData(),
+      ongoingQuest: character.ongoingQuest?.ref ?? null,
     };
   },
   fromFirestore(
@@ -144,7 +180,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const data = snapshot.data(options)!;
     const avatar = Avatar.fromData(data.avatar as AvatarData);
-    return new UserCharacter(
+    const character = new UserCharacter(
       snapshot.ref,
       data.displayName,
       data.bio,
@@ -153,7 +189,24 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
       data.exp,
       data.money,
       avatar,
+      data.completedQuests,
       data.party,
+      data.ongoingQuest,
     );
+    return character;
   },
+};
+
+export type UserCharacterData = {
+  displayName: string;
+  bio: string;
+  maxHealth: number;
+  currentHealth: number;
+  exp: number;
+  expLevel: number;
+  money: number;
+  party: DocumentReference | null;
+  ongoingQuest: DocumentReference | null;
+  completedQuests: DocumentReference[];
+  avatar: Avatar;
 };
