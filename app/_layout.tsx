@@ -76,16 +76,6 @@ function RootLayoutNav() {
           >
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
-              name="settings/index"
-              options={{ presentation: "card", title: "Settings" }}
-            />
-            <Stack.Screen
-              name="settings/profileSettings"
-              options={{ title: "Profile Settings" }}
-            />
-            <Stack.Screen name="(auth)/signUp" options={{ title: "Sign Up" }} />
-            <Stack.Screen name="(auth)/login" options={{ title: "Log In" }} />
-            <Stack.Screen
               name="(auth)/welcome"
               options={{ headerShown: false }}
             />

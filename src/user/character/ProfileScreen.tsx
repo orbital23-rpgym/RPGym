@@ -1,6 +1,8 @@
+import { FontAwesome } from "@expo/vector-icons";
+import { Link, Tabs } from "expo-router";
 import { doc, DocumentData, getDoc } from "firebase/firestore";
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 
 import AvatarPic from "./AvatarPic";
 import { UserCharacter } from "./UserCharacter";
@@ -68,6 +70,28 @@ export default function ProfileScreen() {
 
   return character !== undefined ? (
     <Screen gap={20}>
+      <Tabs.Screen
+        options={{
+          title: "Profile",
+          headerRight: () => (
+            <Link href="/settings/" asChild>
+              <Pressable>
+                {({ pressed }) => {
+                  const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
+                  return (
+                    <FontAwesome
+                      name="gear"
+                      size={25}
+                      color={themes[colorScheme].text}
+                      style={style}
+                    />
+                  );
+                }}
+              </Pressable>
+            </Link>
+          ),
+        }}
+      />
       <View style={styles.profileInfoContainer}>
         <View style={styles.avatarContainer}>
           <AvatarPic avatar={character.avatar} />
