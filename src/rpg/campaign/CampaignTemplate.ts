@@ -2,6 +2,7 @@
  * Campaign template. (boss fight)
  */
 export default class CampaignTemplate {
+  id: CampaignId;
   bossName: string;
   bossImage: string;
   description: string;
@@ -9,12 +10,14 @@ export default class CampaignTemplate {
   difficulty: number;
 
   constructor(
+    id: CampaignId,
     bossName: string,
     bossImage: string,
     description: string,
     bossMaxHealth: number,
     difficulty: number,
   ) {
+    this.id = id;
     this.bossName = bossName;
     this.bossImage = bossImage;
     this.description = description;
@@ -22,3 +25,5 @@ export default class CampaignTemplate {
     this.difficulty = difficulty;
   }
 }
+
+export type CampaignId = "honk";
