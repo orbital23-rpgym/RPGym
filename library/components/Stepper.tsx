@@ -15,6 +15,7 @@ export type StepperProps = {
   step: number;
   initialValue?: number;
   decimalPlaces?: number;
+  color?: string;
   colorInc?: string;
   colorDec?: string;
   onValueChange: (value: number) => void;
@@ -29,6 +30,9 @@ export function Stepper(props: StepperProps) {
     style,
     decimalPlaces,
     onValueChange,
+    color,
+    colorInc,
+    colorDec,
     ...otherProps
   } = props;
   const [value, setValue] = useState(min);
@@ -115,6 +119,7 @@ export function Stepper(props: StepperProps) {
         disabled={!canDecrement}
         style={styles.button}
         variant="primary"
+        color={colorDec ?? color ?? undefined}
         onPress={() => updateValue(value - step)}
         accessibilityLabel={`Decrease value by ${step}`}
       >
@@ -132,6 +137,7 @@ export function Stepper(props: StepperProps) {
         disabled={!canIncrement}
         style={styles.button}
         variant="primary"
+        color={colorInc ?? color ?? undefined}
         onPress={() => updateValue(value + step)}
         accessibilityLabel={`Increase value by ${step}`}
       >
