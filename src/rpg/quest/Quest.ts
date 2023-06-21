@@ -27,6 +27,9 @@ export default class Quest {
   startDateTime: Date;
   endDateTime: Date;
   ongoing: boolean;
+  // computed fields
+  numWeeks: number;
+  goalTotal: number;
 
   constructor(
     ref: DocumentReference,
@@ -44,6 +47,15 @@ export default class Quest {
     this.startDateTime = startDateTime;
     this.endDateTime = endDateTime;
     this.ongoing = ongoing;
+    this.numWeeks = QUEST_DURATION[difficulty];
+    this.goalTotal = goalPerWeek * this.numWeeks;
+  }
+
+  get wholeWeeksSinceStart(): number {
+    const now = new Date();
+    const diffMs = now.getTime() - this.startDateTime.getTime();
+    const diffWeeks = diffMs / (1000 * 60 * 60 * 24 * 7);
+    return Math.floor(diffWeeks);
   }
 
   /**

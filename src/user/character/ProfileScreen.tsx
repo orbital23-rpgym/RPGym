@@ -1,6 +1,6 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
-import { Link, Tabs } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { Link, Tabs, useRouter } from "expo-router";
+import { useContext } from "react";
 import { Pressable, StyleSheet } from "react-native";
 
 import AvatarRenderer from "../../rpg/avatar/AvatarRenderer";
@@ -14,6 +14,7 @@ import { ProgressBarWithLabels } from "library/components/ProgressBar";
 import { Screen, Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import { useUserContext } from "library/context/UserContext";
+import CurrentQuestSummaryCard from "src/rpg/quest/CurrentQuestSummaryCard";
 
 export default function ProfileScreen() {
   const styles = StyleSheet.create({
@@ -71,6 +72,8 @@ export default function ProfileScreen() {
   const colorScheme = useContext(ColorSchemeContext);
 
   const character = user.character;
+
+  const router = useRouter();
 
   return (
     <Screen gap={20}>
@@ -139,9 +142,7 @@ export default function ProfileScreen() {
           </View>
         </View>
       </View>
-      <Card title="⚔️ Weekly Quest" headerColor={themes[colorScheme].orange}>
-        <Text>PLACEHOLDER</Text>
-      </Card>
+      <CurrentQuestSummaryCard quest={character.ongoingQuest} />
       <Card title="💪 Campaign" headerColor={themes[colorScheme].blueLight}>
         <Text>PLACEHOLDER</Text>
         <ProgressBarWithLabels

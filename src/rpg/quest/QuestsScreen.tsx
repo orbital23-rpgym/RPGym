@@ -2,7 +2,7 @@ import { Tabs } from "expo-router";
 import { useContext } from "react";
 import { StyleSheet } from "react-native";
 
-import QuestDetailCard from "./QuestDetailCard";
+import CurrentQuestDetailCard from "./CurrentQuestDetailCard";
 
 import { fullWidthButton } from "constants/styles";
 import { Button } from "library/components/Button";
@@ -15,7 +15,11 @@ export default function QuestsScreen() {
   const colorScheme = useContext(ColorSchemeContext);
   const user = useUserContext();
   const quest = user.character.ongoingQuest;
-  const styles = StyleSheet.create({});
+  const styles = StyleSheet.create({
+    heading: {
+      marginTop: 10,
+    },
+  });
   const pastQuests = [];
   return (
     <Screen gap={20}>
@@ -24,14 +28,14 @@ export default function QuestsScreen() {
           title: "Quests",
         }}
       />
-      <QuestDetailCard quest={quest} />
-      <HeadingText>Quest History</HeadingText>
+      <CurrentQuestDetailCard quest={quest} />
+      <HeadingText style={styles.heading}>Quest History</HeadingText>
       {pastQuests.length > 0 ? (
         <View>
           <Text>placeholder</Text>
         </View>
       ) : (
-        <Text>You have not attempted any quests.</Text>
+        <Text>You have not attempted any quests yet.</Text>
       )}
     </Screen>
   );

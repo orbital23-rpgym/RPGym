@@ -4,29 +4,30 @@ import { useContext } from "react";
 import { Pressable, StyleSheet } from "react-native";
 
 import Quest from "./Quest";
+import { QuestCardProps } from "./QuestCardProps";
 
 import { palette, themes } from "constants/colors";
+import { QUEST_DURATION, QUEST_LORE } from "constants/game";
 import { Card } from "library/components/Card";
+import { ProgressBarWithLabels } from "library/components/ProgressBar";
 import { ButtonText } from "library/components/StyledText";
 import { Text, View, ViewProps } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
-export type QuestDetailCardProps = {
-  quest: Quest | null | undefined;
-} & Omit<ViewProps, "children">;
-
-export default function QuestDetailCard(props: QuestDetailCardProps) {
+export default function CurrentQuestDetailCard(props: QuestCardProps) {
   const router = useRouter();
   const { quest, style, ...otherProps } = props;
   const colorScheme = useContext(ColorSchemeContext);
   const styles = StyleSheet.create({
     container: {
-      gap: 20,
+      gap: 15,
+      padding: 5,
       flex: 1,
       backgroundColor: palette.transparent,
     },
-    lastUsed: {
-      color: themes[colorScheme].blueLight,
+    inCardHeading: {
+      fontFamily: "Header",
+      fontSize: 18,
     },
     exerciseList: {
       width: "100%",
@@ -37,9 +38,15 @@ export default function QuestDetailCard(props: QuestDetailCardProps) {
       width: "100%",
       gap: 10,
       padding: 10,
+      marginTop: 10,
     },
     pressed: {
       opacity: 0.5,
+    },
+    progressStats: {
+      marginTop: 10,
+      gap: 15,
+      backgroundColor: palette.transparent,
     },
   });
   const CARD_TITLE = "⚔️ Current Quest";
@@ -51,11 +58,26 @@ export default function QuestDetailCard(props: QuestDetailCardProps) {
       {...otherProps}
     >
       <View style={styles.container}>
-        <Text style={styles.lastUsed} />
-
-        <Text numberOfLines={3} style={styles.exerciseList}>
-          eeee
+        <Text style={styles.inCardHeading}>
+          {QUEST_LORE[quest.difficulty].name}
         </Text>
+        <Text>{QUEST_LORE[quest.difficulty].description}</Text>
+        <View style={styles.progressStats}>
+          <ProgressBarWithLabels
+            title={"Workouts"}
+            labelPosition={"stack"}
+            max={quest.goalPerWeek}
+            curr={quest.progressThisWeek}
+            colorFg={themes[colorScheme].green}
+            colorBg={themes[colorScheme].gray}
+          />
+          <Text>
+            Week {quest.wholeWeeksSinceStart + 1} of {quest.numWeeks}{" "}
+            {quest.progressThisWeek >= quest.goalPerWeek
+              ? "🎉 Congratulations on hitting your goal!"
+              : "💪 You can do it!"}
+          </Text>
+        </View>
       </View>
     </Card>
   ) : (
@@ -67,7 +89,6 @@ export default function QuestDetailCard(props: QuestDetailCardProps) {
     >
       <View style={styles.container}>
         <Text>There is no ongoing quest.</Text>
-
         <Pressable
           style={({ pressed }) =>
             pressed
