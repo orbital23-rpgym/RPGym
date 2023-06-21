@@ -3,15 +3,13 @@ import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { Pressable, StyleSheet } from "react-native";
 
-import Quest from "./Quest";
 import { QuestCardProps } from "./QuestCardProps";
 
 import { palette, themes } from "constants/colors";
-import { QUEST_DURATION, QUEST_LORE } from "constants/game";
 import { Card } from "library/components/Card";
 import { ProgressBarWithLabels } from "library/components/ProgressBar";
 import { ButtonText } from "library/components/StyledText";
-import { Text, View, ViewProps } from "library/components/Themed";
+import { Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 export default function CurrentQuestDetailCard(props: QuestCardProps) {
@@ -58,10 +56,8 @@ export default function CurrentQuestDetailCard(props: QuestCardProps) {
       {...otherProps}
     >
       <View style={styles.container}>
-        <Text style={styles.inCardHeading}>
-          {QUEST_LORE[quest.difficulty].name}
-        </Text>
-        <Text>{QUEST_LORE[quest.difficulty].description}</Text>
+        <Text style={styles.inCardHeading}>{quest.name}</Text>
+        <Text>{quest.description}</Text>
         <View style={styles.progressStats}>
           <ProgressBarWithLabels
             title={"Workouts"}

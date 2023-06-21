@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
-import { QUEST_DURATION } from "constants/game";
+import { QUEST_DURATION, QUEST_LORE } from "constants/game";
 import { db } from "src/firebase-init";
 
 export type QuestDifficulty = "easy" | "medium" | "hard";
@@ -31,6 +31,8 @@ export default class Quest {
   // computed fields
   numWeeks: number;
   goalTotal: number;
+  name: string;
+  description: string;
 
   constructor(
     ref: DocumentReference,
