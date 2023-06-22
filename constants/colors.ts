@@ -27,6 +27,8 @@ export const branding = {
 export const themes = {
   light: {
     text: palette.white,
+    textSecondary: palette.blueGrayLight,
+    textBlue: palette.blueLight,
     background: palette.blueGrayDark,
     tint: palette.white,
     tabIconDefault: "#ccc",
@@ -40,6 +42,8 @@ export const themes = {
   },
   dark: {
     text: palette.white,
+    textSecondary: palette.blueGrayLight,
+    textBlue: palette.blueLight,
     background: palette.blueGrayDark,
     tint: palette.white,
     tabIconDefault: "#ccc",
