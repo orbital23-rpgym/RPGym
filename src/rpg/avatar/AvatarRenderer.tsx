@@ -10,10 +10,27 @@ import Avatar from "src/rpg/avatar/Avatar";
 
 type AvatarProps = {
   avatar: Avatar;
+  mini?: boolean;
 } & Omit<ViewProps, "children">;
 
 export default function AvatarRenderer(props: AvatarProps) {
-  const { avatar, style, ...otherProps } = props;
+  const { avatar, style, mini: isMini = false, ...otherProps } = props;
+  const spriteLayerDynamicStyles = isMini
+    ? {
+        width: "200%",
+        height: "200%",
+        marginTop: "110%",
+      }
+    : {
+        width: "100%",
+        height: "100%",
+      };
+  const containerDynamicStyles = isMini
+    ? { borderRadius: 10000, width: 65, height: 65 }
+    : {
+        width: "100%",
+        height: "100%",
+      };
   const styles = StyleSheet.create({
     container: {
       alignItems: "center",
@@ -22,14 +39,13 @@ export default function AvatarRenderer(props: AvatarProps) {
       padding: 10,
       flex: 1,
       aspectRatio: 1,
-      width: "100%",
-      height: "100%",
+      overflow: "hidden",
+      ...containerDynamicStyles,
     },
     spriteLayers: {
       backgroundColor: palette.transparent,
       position: "relative",
-      width: "100%",
-      height: "100%",
+      ...spriteLayerDynamicStyles,
     },
   });
 
