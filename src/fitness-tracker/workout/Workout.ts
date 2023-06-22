@@ -13,4 +13,12 @@ export default class Workout {
     this.endDateTime = endDateTime;
     this.exercises = exercises;
   }
+
+  /**
+   * Returns list of exercise names as a comma-separated string.
+   */
+  public exerciseNames(): string {
+    const mapFn = (exercise: Exercise) => exercise.template.name;
+    return this.exercises.map(mapFn).join(", ");
+  }
 }

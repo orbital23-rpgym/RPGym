@@ -21,14 +21,6 @@ export default class WorkoutPreset extends Workout {
     this.description = description;
     this.lastUsed = lastUsed;
   }
-
-  /**
-   * Returns list of exercise names as a comma-separated string.
-   */
-  public exerciseNames(): string {
-    const mapFn = (exercise: Exercise) => exercise.template.name;
-    return this.exercises.map(mapFn).join(", ");
-  }
 }
 
 const DATE_MAX = 8.64e15;
