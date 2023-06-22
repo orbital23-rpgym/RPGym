@@ -20,7 +20,7 @@ export default function WorkoutPresetCard(props: WorkoutPresetCardProps) {
       width: "100%",
     },
     lastUsed: {
-      color: themes[colorScheme].blueLight,
+      color: themes[colorScheme].textBlue,
     },
     exerciseList: {
       width: "100%",
