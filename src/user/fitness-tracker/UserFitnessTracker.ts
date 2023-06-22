@@ -70,6 +70,20 @@ export class UserFitnessTracker {
     await setDoc(ref, userFitnessTracker);
     return userFitnessTracker;
   }
+
+  /**
+   * Gets most recent completed workout, or null if nonexistent.
+   */
+  public async mostRecentWorkout(): Promise<Workout | undefined> {
+    return this.workouts[this.workouts.length - 1];
+  }
+
+  /**
+   * Gets number of completed workouts total.
+   */
+  public async numberOfWorkouts(): Promise<number> {
+    return this.workouts.length;
+  }
 }
 
 export const fitnessTrackerConverter: FirestoreDataConverter<UserFitnessTracker> =
