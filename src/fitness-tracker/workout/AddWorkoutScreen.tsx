@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Stack, Tabs } from "expo-router";
 import { useContext } from "react";
 import { StyleSheet } from "react-native";
 
@@ -15,6 +15,7 @@ export default function AddWorkoutScreen() {
   const styles = StyleSheet.create({});
   return (
     <Screen>
+      <Stack.Screen options={{ title: "Work Out" }} />
       <Button variant="primary" style={fullWidthButton.button}>
         <ButtonText style={fullWidthButton.text}>
           Start an empty workout
