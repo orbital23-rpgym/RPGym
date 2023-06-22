@@ -4,14 +4,9 @@ import { StyleSheet } from "react-native";
 import WorkoutPreset from "./WorkoutPreset";
 
 import { themes } from "constants/colors";
-import { fullWidthButton } from "constants/styles";
-import { Button } from "library/components/Button";
 import { Card } from "library/components/Card";
-import PlaceholderText from "library/components/Placeholder";
-import { ButtonText, HeadingText } from "library/components/StyledText";
-import { Screen, Text, View, ViewProps } from "library/components/Themed";
+import { Text, ViewProps } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { UserContext } from "library/context/UserContext";
 
 export type WorkoutPresetCardProps = {
   workoutPreset: WorkoutPreset;
