@@ -8,7 +8,7 @@ import { dropShadow } from "constants/styles";
 import { MAX_ELEMENT_WIDTH } from "constants/ui";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
-type CardProps = {
+export type CardProps = {
   title?: string;
   headerColor?: string;
   customHeaderBar?: React.ReactNode;
