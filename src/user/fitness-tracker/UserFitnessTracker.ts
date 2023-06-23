@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
+import { DATE_MAX, DATE_MIN } from "constants/misc";
 import { db } from "src/firebase-init";
 import ExerciseTemplate from "src/fitness-tracker/exercise/ExerciseTemplate";
 import WorkoutRoutine from "src/fitness-tracker/routine/WorkoutRoutine";
@@ -131,6 +132,38 @@ export class UserFitnessTracker {
     return this.workouts.filter((curr, index, arr) =>
       isWithinInterval(curr.startDateTime, interval),
     ).length;
+  }
+
+  /**
+   * Gets previous workout ordered by date.
+   * @param date Date to check
+   * @returns Most recent workout before the given start datetime, or undefined if nonexistent.
+   */
+  public async getPreviousWorkout(date: Date): Promise<Workout | undefined> {
+    const interval: Interval = {
+      start: DATE_MIN,
+      end: date,
+    };
+    const pastWorkouts = await this.allWorkoutsInDateInterval(interval);
+    if (pastWorkouts.length === 0) return undefined;
+    pastWorkouts.sort(Workout.compareByStartDateTimeAsc);
+    return pastWorkouts.at(0);
+  }
+
+  /**
+   * Gets next workout ordered by date.
+   * @param date Date to check
+   * @returns Next closest workout after the given start datetime, or undefined if nonexistent.
+   */
+  public async getNextWorkout(date: Date): Promise<Workout | undefined> {
+    const interval: Interval = {
+      start: date,
+      end: DATE_MAX,
+    };
+    const futureWorkouts = await this.allWorkoutsInDateInterval(interval);
+    if (futureWorkouts.length === 0) return undefined;
+    futureWorkouts.sort(Workout.compareByStartDateTimeDesc);
+    return futureWorkouts.at(0);
   }
 }
 
