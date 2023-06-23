@@ -23,6 +23,7 @@ import onlyUnique from "library/utils/arrays";
 
 export type WorkoutHistoryCalendarProps = {
   onSelect: (selected: Date) => void;
+  initialSelection?: Date;
 };
 export default function WorkoutHistoryCalendar(
   props: WorkoutHistoryCalendarProps,
@@ -67,7 +68,9 @@ export default function WorkoutHistoryCalendar(
   };
 
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date>(
+    props.initialSelection ?? new Date(),
+  );
 
   const [loadedDates, setLoadedDates] = useState<Date[]>([]);
 
