@@ -4,7 +4,7 @@ import { StyleSheet } from "react-native";
 
 import TrackingOverviewCard from "./TrackingOverviewCard";
 import Workout from "./Workout";
-import WorkoutOverviewCard from "./WorkoutOverviewCard";
+import { WorkoutOverviewCard } from "./WorkoutOverview";
 
 import { AddNewLink } from "library/components/AddNewLink";
 import { Card } from "library/components/Card";
@@ -24,14 +24,18 @@ export default function TrackingScreen() {
   useEffect(() => {
     user.fitnessTracker.mostRecentWorkout().then(setLastWorkout);
   }, []);
+  const lastWorkoutCardTitle = "🏋️ Last Workout";
   return (
     <Screen gap={20}>
       <Stack.Screen options={{ title: "Tracking" }} />
       <TrackingOverviewCard />
       {lastWorkout ? (
-        <WorkoutOverviewCard workout={lastWorkout} />
+        <WorkoutOverviewCard
+          title={lastWorkoutCardTitle}
+          workout={lastWorkout}
+        />
       ) : (
-        <Card title="🏋️ Last Workout">
+        <Card title={lastWorkoutCardTitle}>
           <Text style={styles.noWorkoutText}>
             {"You haven't completed any workouts yet."}
           </Text>
