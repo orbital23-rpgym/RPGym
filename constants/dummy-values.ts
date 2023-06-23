@@ -9,6 +9,7 @@ import { db } from "src/firebase-init";
 import Exercise from "src/fitness-tracker/exercise/Exercise";
 import ExerciseTemplate from "src/fitness-tracker/exercise/ExerciseTemplate";
 import WorkoutPreset from "src/fitness-tracker/workout/presets/WorkoutPreset";
+import Workout from "src/fitness-tracker/workout/Workout";
 import Avatar from "src/rpg/avatar/Avatar";
 import AppSettings from "src/settings/AppSettings";
 import { UserCharacter } from "src/user/character/UserCharacter";
@@ -77,10 +78,26 @@ export const DUMMY_WORKOUT_PRESET_C = new WorkoutPreset(
   new Date(0),
 );
 
+export const DUMMY_WORKOUT_1 = new Workout(
+  new Date(1686400780236),
+  new Date(1686400780236),
+  [DUMMY_EXERCISE_1A],
+);
+
+export const DUMMY_WORKOUT_2 = new Workout(
+  new Date(1687000000000),
+  new Date(1687000000000),
+  [DUMMY_EXERCISE_2],
+);
+
+export const DUMMY_WORKOUT_TODAY = new Workout(new Date(), new Date(), [
+  DUMMY_EXERCISE_3,
+]);
+
 /** Dummy user fitness. */
 export const DUMMY_FITNESS = new UserFitnessTracker(
   doc(db, DB.userFitness, "jim-bro"),
-  [],
+  [DUMMY_WORKOUT_1, DUMMY_WORKOUT_2],
   [DUMMY_WORKOUT_PRESET_A, DUMMY_WORKOUT_PRESET_B, DUMMY_WORKOUT_PRESET_C],
   [],
   [],
