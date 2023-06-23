@@ -61,9 +61,9 @@ export default function WorkoutHistoryCalendar(
     textDayFontFamily: "Header",
     textMonthFontFamily: "Header",
     textDayHeaderFontFamily: "Header",
-    textDayFontSize: 16,
+    textDayFontSize: 14,
     textMonthFontSize: 16,
-    textDayHeaderFontSize: 16,
+    textDayHeaderFontSize: 14,
   };
 
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
