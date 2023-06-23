@@ -120,7 +120,7 @@ export class UserFitnessTracker {
   }
 
   /**
-   * Checks the number of workouts on the specified date.
+   * Checks the number of workouts on the specified day of the date.
    * @param date Date to check
    * @returns Number of workouts on given date
    */
@@ -145,9 +145,10 @@ export class UserFitnessTracker {
       end: date,
     };
     const pastWorkouts = await this.allWorkoutsInDateInterval(interval);
-    if (pastWorkouts.length === 0) return undefined;
-    pastWorkouts.sort(Workout.compareByStartDateTimeAsc);
-    return pastWorkouts.at(0);
+    if (pastWorkouts.length === 1) return undefined;
+    const hasWorkoutsOnDate = (await this.numWorkoutsOnDate(date)) > 0;
+    pastWorkouts.sort(Workout.compareByStartDateTimeDesc);
+    return pastWorkouts.at(hasWorkoutsOnDate ? 1 : 0);
   }
 
   /**
@@ -161,9 +162,10 @@ export class UserFitnessTracker {
       end: DATE_MAX,
     };
     const futureWorkouts = await this.allWorkoutsInDateInterval(interval);
-    if (futureWorkouts.length === 0) return undefined;
-    futureWorkouts.sort(Workout.compareByStartDateTimeDesc);
-    return futureWorkouts.at(0);
+    if (futureWorkouts.length === 1) return undefined;
+    const hasWorkoutsOnDate = (await this.numWorkoutsOnDate(date)) > 0;
+    futureWorkouts.sort(Workout.compareByStartDateTimeAsc);
+    return futureWorkouts.at(hasWorkoutsOnDate ? 1 : 0);
   }
 }
 
