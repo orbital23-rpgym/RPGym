@@ -1,3 +1,4 @@
+import { endOfDay, Interval, isWithinInterval, startOfDay } from "date-fns";
 import {
   doc,
   DocumentData,
@@ -83,6 +84,55 @@ export class UserFitnessTracker {
    */
   public async numberOfWorkouts(): Promise<number> {
     return this.workouts.length;
+  }
+
+  public async allWorkoutDates(): Promise<Date[]> {
+    return this.workouts.map((workout) => workout.endDateTime);
+  }
+
+  public async allWorkoutsInDateInterval(
+    interval: Interval,
+  ): Promise<Workout[]> {
+    /*
+    //firebase:
+    ref.orderByChild("date").startAt(startDate).endAt(endDate)
+      .on("child_added", function(snapshot){
+      console.log("got the data!", snapshot);
+    });
+    */
+    return this.workouts.filter((curr, index, arr) =>
+      isWithinInterval(curr.startDateTime, interval),
+    );
+  }
+
+  /**
+   * Gets workouts starting on specified date.
+   * @param date Date to check
+   * @returns Array of workouts on specified date.
+   */
+  public async getWorkoutsWithDate(date: Date): Promise<Workout[]> {
+    const interval: Interval = {
+      start: startOfDay(date),
+      end: endOfDay(date),
+    };
+    return this.allWorkoutsInDateInterval(interval);
+  }
+
+  /**
+   * Checks if there is a workout on the specified date.
+   * @param date Date to check
+   * @returns True if there is workout on that date, false otherwise.
+   */
+  public async hasWorkoutOnDate(date: Date): Promise<boolean> {
+    const interval: Interval = {
+      start: startOfDay(date),
+      end: endOfDay(date),
+    };
+    return (
+      this.workouts.filter((curr, index, arr) =>
+        isWithinInterval(curr.startDateTime, interval),
+      ).length > 0
+    );
   }
 }
 
