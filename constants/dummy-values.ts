@@ -91,15 +91,15 @@ export const DUMMY_WORKOUT_2 = new Workout(
 );
 
 export const DUMMY_WORKOUT_3A = new Workout(
-  new Date(1686400780236),
-  new Date(1686400780236),
+  new Date(1686400780235),
+  new Date(1686400780235),
   [DUMMY_EXERCISE_2],
 );
 
 export const DUMMY_WORKOUT_3B = new Workout(
   new Date(1686400780236),
   new Date(1686400780236),
-  [DUMMY_EXERCISE_2],
+  [DUMMY_EXERCISE_3],
 );
 
 export const DUMMY_WORKOUT_TODAY = new Workout(new Date(), new Date(), [
