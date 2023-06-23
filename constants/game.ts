@@ -21,9 +21,9 @@ export const LEVEL_EXP_BOUNDS = [
 ];
 
 /**
- * Range for reward RNG.
+ * Range for game RNG.
  */
-export type RewardRange = {
+export type RNGRange = {
   min: number;
   max: number;
 };
@@ -35,9 +35,9 @@ export type RewardRange = {
  * @member hasEquipment True if has chance to reward with a random equipment item.
  */
 export type ActivityRewards = {
-  money: RewardRange;
+  money: RNGRange;
   exp: number;
-  attack: RewardRange;
+  attack: RNGRange;
   hasEquipment: boolean;
 };
 
@@ -51,19 +51,19 @@ export const QUEST_REWARDS: {
   hard: ActivityRewards;
 } = {
   easy: {
-    money: { min: 1, max: 15 },
+    money: { min: 1, max: 10 },
     exp: 75,
     attack: { min: 0, max: 0 },
     hasEquipment: false,
   },
   medium: {
-    money: { min: 5, max: 15 },
+    money: { min: 50, max: 50 },
     exp: 200,
     attack: { min: 0, max: 0 },
     hasEquipment: false,
   },
   hard: {
-    money: { min: 8, max: 15 },
+    money: { min: 100, max: 100 },
     exp: 500,
     attack: { min: 0, max: 0 },
     hasEquipment: false,
@@ -88,8 +88,8 @@ export const WORKOUT_REWARDS: ActivityRewards = {
  * Boss fight rewards are multiplied by the campaign difficulty modifier.
  */
 export const BOSS_REWARDS: ActivityRewards = {
-  money: { min: 10, max: 20 },
-  exp: 1000,
+  money: { min: 0, max: 0 },
+  exp: 600,
   attack: { min: 0, max: 0 },
   hasEquipment: true,
 };
@@ -99,7 +99,8 @@ export const BOSS_REWARDS: ActivityRewards = {
  * Boss fight health and parameters are multiplied by the campaign difficulty modifier.
  */
 export const BOSS_PARAMS = {
-  baseHealth: 500,
+  baseHealth: 100,
+  strength: { min: 0, max: 0 } as RNGRange,
   rewards: BOSS_REWARDS,
 };
 
