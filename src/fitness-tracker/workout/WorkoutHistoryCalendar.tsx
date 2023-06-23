@@ -10,6 +10,7 @@ import {
 import { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Calendar } from "react-native-calendars";
+import { MarkingProps } from "react-native-calendars/src/calendar/day/marking";
 import {
   Theme as CalendarTheme,
   MarkedDates,
@@ -66,6 +67,7 @@ export default function WorkoutHistoryCalendar(
     textMonthFontSize: 16,
     textDayHeaderFontSize: 14,
   };
+  const workoutDot = { color: themes[colorScheme].orange };
 
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
   const [selectedDate, setSelectedDate] = useState<Date>(
@@ -92,13 +94,17 @@ export default function WorkoutHistoryCalendar(
   async function markDates(dates: Date[]) {
     const tempMarkedDates: MarkedDates = {};
     for (const date of dates) {
-      const hasWorkout = await user.fitnessTracker.hasWorkoutOnDate(date);
+      const numWorkouts = await user.fitnessTracker.numWorkoutsOnDate(date);
+      const dots: MarkingProps["dots"] = [];
+      for (let i = 0; i < numWorkouts; i++) {
+        dots.push(workoutDot);
+      }
       const dateString = format(date, "yyyy-MM-dd");
       const isSelected = isSameDay(date, selectedDate);
       tempMarkedDates[dateString] = {
         ...tempMarkedDates[dateString],
         marked: true,
-        dotColor: hasWorkout ? themes[colorScheme].orange : "transparent",
+        dots: dots,
         selected: isSelected,
         disableTouchEvent: isSelected,
       };
@@ -124,6 +130,7 @@ export default function WorkoutHistoryCalendar(
     <View style={styles.calendarContainer}>
       <Calendar
         style={styles.calendar}
+        markingType={"multi-dot"}
         onDayPress={(data) => {
           const selected = new Date(data.timestamp);
           selectDate(selected);

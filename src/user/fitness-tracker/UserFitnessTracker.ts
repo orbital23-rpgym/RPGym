@@ -119,20 +119,18 @@ export class UserFitnessTracker {
   }
 
   /**
-   * Checks if there is a workout on the specified date.
+   * Checks the number of workouts on the specified date.
    * @param date Date to check
-   * @returns True if there is workout on that date, false otherwise.
+   * @returns Number of workouts on given date
    */
-  public async hasWorkoutOnDate(date: Date): Promise<boolean> {
+  public async numWorkoutsOnDate(date: Date): Promise<number> {
     const interval: Interval = {
       start: startOfDay(date),
       end: endOfDay(date),
     };
-    return (
-      this.workouts.filter((curr, index, arr) =>
-        isWithinInterval(curr.startDateTime, interval),
-      ).length > 0
-    );
+    return this.workouts.filter((curr, index, arr) =>
+      isWithinInterval(curr.startDateTime, interval),
+    ).length;
   }
 }
 

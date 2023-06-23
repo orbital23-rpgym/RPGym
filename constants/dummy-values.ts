@@ -79,14 +79,26 @@ export const DUMMY_WORKOUT_PRESET_C = new WorkoutPreset(
 );
 
 export const DUMMY_WORKOUT_1 = new Workout(
-  new Date(1686400780236),
-  new Date(1686400780236),
+  new Date(1676400780236),
+  new Date(1676400780236),
   [DUMMY_EXERCISE_1A],
 );
 
 export const DUMMY_WORKOUT_2 = new Workout(
   new Date(1687000000000),
   new Date(1687000000000),
+  [DUMMY_EXERCISE_2],
+);
+
+export const DUMMY_WORKOUT_3A = new Workout(
+  new Date(1686400780236),
+  new Date(1686400780236),
+  [DUMMY_EXERCISE_2],
+);
+
+export const DUMMY_WORKOUT_3B = new Workout(
+  new Date(1686400780236),
+  new Date(1686400780236),
   [DUMMY_EXERCISE_2],
 );
 
@@ -97,7 +109,7 @@ export const DUMMY_WORKOUT_TODAY = new Workout(new Date(), new Date(), [
 /** Dummy user fitness. */
 export const DUMMY_FITNESS = new UserFitnessTracker(
   doc(db, DB.userFitness, "jim-bro"),
-  [DUMMY_WORKOUT_1, DUMMY_WORKOUT_2],
+  [DUMMY_WORKOUT_1, DUMMY_WORKOUT_2, DUMMY_WORKOUT_3A, DUMMY_WORKOUT_3B],
   [DUMMY_WORKOUT_PRESET_A, DUMMY_WORKOUT_PRESET_B, DUMMY_WORKOUT_PRESET_C],
   [],
   [],
