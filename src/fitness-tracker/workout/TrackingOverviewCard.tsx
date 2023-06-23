@@ -19,6 +19,7 @@ export default function TrackingOverviewCard() {
     container: {
       alignItems: "center",
       justifyContent: "center",
+      alignContent: "center",
       backgroundColor: themes[colorScheme].cardBackground,
       flex: 1,
       width: "100%",
@@ -28,6 +29,7 @@ export default function TrackingOverviewCard() {
       paddingRight: 20,
       borderRadius: 10,
       gap: 15,
+      flexWrap: "wrap",
       ...dropShadow(themes[colorScheme].shadowColor),
     },
     avatar: {
@@ -42,6 +44,10 @@ export default function TrackingOverviewCard() {
     content: {
       backgroundColor: "transparent",
       flex: 1,
+      minWidth: "auto",
+      alignContent: "center",
+      alignItems: "flex-start",
+      justifyContent: "center",
     },
     numWorkouts: {
       fontFamily: "Header",
