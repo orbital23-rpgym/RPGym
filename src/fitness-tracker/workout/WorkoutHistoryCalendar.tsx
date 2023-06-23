@@ -3,6 +3,7 @@ import {
   eachDayOfInterval,
   endOfMonth,
   format,
+  isEqual,
   isSameDay,
   startOfMonth,
   sub,
@@ -24,12 +25,12 @@ import onlyUnique from "library/utils/arrays";
 
 export type WorkoutHistoryCalendarProps = {
   onSelect: (selected: Date) => void;
-  initialSelection?: Date;
+  selection?: Date;
 };
 export default function WorkoutHistoryCalendar(
   props: WorkoutHistoryCalendarProps,
 ) {
-  const onSelect = props.onSelect;
+  const { onSelect, selection } = props;
   const colorScheme = useContext(ColorSchemeContext);
   const user = useUserContext();
   const styles = StyleSheet.create({
@@ -71,18 +72,34 @@ export default function WorkoutHistoryCalendar(
 
   const [markedDates, setMarkedDates] = useState<MarkedDates>({});
   const [selectedDate, setSelectedDate] = useState<Date>(
-    props.initialSelection ?? new Date(),
+    selection ?? new Date(),
   );
 
   const [loadedDates, setLoadedDates] = useState<Date[]>([]);
 
+  function formatForCalendar(date: Date): string {
+    return format(date, "yyyy-MM-dd");
+  }
+
   useEffect(() => {
-    const initialInterval: Interval = {
-      start: sub(startOfMonth(selectedDate), { weeks: 1 }),
-      end: add(endOfMonth(selectedDate), { weeks: 1 }),
-    };
-    loadDates(eachDayOfInterval(initialInterval));
+    // init
+    updateSelected(new Date(), true);
   }, []);
+
+  useEffect(() => {
+    // if selection is updated from parent
+    props.selection && updateSelected(props.selection);
+  }, [props.selection]);
+
+  function updateSelected(date: Date, doCallback = false) {
+    const interval: Interval = {
+      start: sub(startOfMonth(date), { weeks: 1 }),
+      end: add(endOfMonth(date), { weeks: 1 }),
+    };
+    loadDates(eachDayOfInterval(interval)).then(() => {
+      if (!isEqual(date, selectedDate)) selectDate(date, doCallback);
+    });
+  }
 
   async function loadDates(dates: Date[]) {
     const concatDates = loadedDates.concat(dates);
@@ -99,7 +116,7 @@ export default function WorkoutHistoryCalendar(
       for (let i = 0; i < numWorkouts; i++) {
         dots.push(workoutDot);
       }
-      const dateString = format(date, "yyyy-MM-dd");
+      const dateString = formatForCalendar(date);
       const isSelected = isSameDay(date, selectedDate);
       tempMarkedDates[dateString] = {
         ...tempMarkedDates[dateString],
@@ -112,8 +129,8 @@ export default function WorkoutHistoryCalendar(
     setMarkedDates(tempMarkedDates);
   }
 
-  function selectDate(date: Date) {
-    const dateString = format(date, "yyyy-MM-dd");
+  function selectDate(date: Date, doCallback = true) {
+    const dateString = formatForCalendar(date);
     const tempMarkedDates: MarkedDates = {};
     for (const key in markedDates) {
       const markedDate = markedDates[key];
@@ -121,9 +138,14 @@ export default function WorkoutHistoryCalendar(
       markedDate.selected = key === dateString;
       markedDate.disableTouchEvent = markedDate.selected;
     }
-    setMarkedDates(markedDates);
+    tempMarkedDates[dateString] = {
+      ...tempMarkedDates[dateString],
+      selected: true,
+      disableTouchEvent: true,
+    };
+    setMarkedDates(tempMarkedDates);
     setSelectedDate(date);
-    onSelect(date);
+    doCallback && onSelect(date);
   }
 
   return (
@@ -138,7 +160,6 @@ export default function WorkoutHistoryCalendar(
         markedDates={markedDates}
         enableSwipeMonths={true}
         onVisibleMonthsChange={(monthsData) => {
-          setMarkedDates({});
           monthsData.forEach((monthData) => {
             const month = new Date(monthData.timestamp);
             const interval: Interval = {
@@ -150,6 +171,7 @@ export default function WorkoutHistoryCalendar(
         }}
         theme={CALENDAR_THEME}
         displayLoadingIndicator
+        initialDate={formatForCalendar(selectedDate)}
       />
     </View>
   );
