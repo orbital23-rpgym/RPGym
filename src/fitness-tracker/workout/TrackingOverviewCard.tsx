@@ -40,7 +40,7 @@ export default function TrackingOverviewCard() {
       justifyContent: "center",
     },
     content: {
-      backgroundColor: themes[colorScheme].cardBackground,
+      backgroundColor: "transparent",
       flex: 1,
     },
     numWorkouts: {
