@@ -11,6 +11,8 @@ import ExerciseTemplate from "src/fitness-tracker/exercise/ExerciseTemplate";
 import WorkoutPreset from "src/fitness-tracker/workout/presets/WorkoutPreset";
 import Workout from "src/fitness-tracker/workout/Workout";
 import Avatar from "src/rpg/avatar/Avatar";
+import AvatarBase from "src/rpg/avatar/AvatarBase";
+import AvatarEquipment from "src/rpg/avatar/AvatarEquipment";
 import AppSettings from "src/settings/AppSettings";
 import { UserCharacter } from "src/user/character/UserCharacter";
 import { UserFitnessTracker } from "src/user/fitness-tracker/UserFitnessTracker";
@@ -115,15 +117,39 @@ export const DUMMY_FITNESS = new UserFitnessTracker(
   [],
 );
 
+/** Dummy avatar base. */
+export const DUMMY_AVATAR_BASE = new AvatarBase(
+  "slim",
+  "a",
+  "red",
+  "a",
+  "a",
+  "b",
+  "purple",
+  "#444333",
+);
+/** Dummy avatar equipment. */
+export const DUMMY_AVATAR_EQUIPMENT = AvatarEquipment.DEFAULT;
+/** Dummy avatar. */
+export const DUMMY_AVATAR = new Avatar(
+  DUMMY_AVATAR_BASE,
+  DUMMY_AVATAR_EQUIPMENT,
+);
+
+
 /** Dummy user character. */
 export const DUMMY_CHAR = new UserCharacter(
   doc(db, DB.userCharacter, "jim-bro"),
   "Jim Bro",
   "Married to the grind",
   4444,
-  6666,
+  3333,
+  323,
   123,
   Avatar.DEFAULT,
+  [],
+  null,
+  null,
 );
 
 /** Dummy user. */

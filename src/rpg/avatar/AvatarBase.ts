@@ -1,24 +1,35 @@
+import { palette } from "constants/colors";
+
+export type GlassesColor = "none" | "red" | "purple" | "blue" | "green";
+export type HairColor = "red";
+export type BodySize = "slim" | "broad";
+export type SkinColor = "a";
+export type FrontHair = "none" | "a";
+export type BackHair = "none" | "a";
+export type FacialHair = "none" | "a" | "b" | "c";
+
 /**
  * Avatar base traits.
  */
 export default class AvatarBase {
-  bodySize: string;
-  skinColor: string;
-  hairColor: string;
-  frontHair: string;
-  backHair: string;
-  facialHair: string;
-  glasses: string;
+  bodySize: BodySize;
+  skinColor: SkinColor;
+  hairColor: HairColor;
+  frontHair: FrontHair;
+  backHair: BackHair;
+  facialHair: FacialHair;
+  glasses: GlassesColor;
+  /** Background color (hex code) */
   background: string;
 
   constructor(
-    bodySize: string,
-    skinColor: string,
-    hairColor: string,
-    frontHair: string,
-    backHair: string,
-    facialHair: string,
-    glasses: string,
+    bodySize: BodySize,
+    skinColor: SkinColor,
+    hairColor: HairColor,
+    frontHair: FrontHair,
+    backHair: BackHair,
+    facialHair: FacialHair,
+    glasses: GlassesColor,
     background: string,
   ) {
     this.bodySize = bodySize;
@@ -31,8 +42,18 @@ export default class AvatarBase {
     this.background = background;
   }
 
-  // TODO
-  static readonly DEFAULT = new AvatarBase("", "", "", "", "", "", "", "");
+  /** Number of layers for display */
+  static readonly NUM_LAYERS = 6;
+  static readonly DEFAULT = new AvatarBase(
+    "slim",
+    "a",
+    "red",
+    "a",
+    "a",
+    "a",
+    "red",
+    palette.blueDark,
+  );
 
   public toData(): AvatarBaseData {
     return {
@@ -62,12 +83,12 @@ export default class AvatarBase {
 }
 
 export type AvatarBaseData = {
-  bodySize: string;
-  skinColor: string;
-  hairColor: string;
-  frontHair: string;
-  backHair: string;
-  facialHair: string;
-  glasses: string;
+  bodySize: BodySize;
+  skinColor: SkinColor;
+  hairColor: HairColor;
+  frontHair: FrontHair;
+  backHair: BackHair;
+  facialHair: FacialHair;
+  glasses: GlassesColor;
   background: string;
 };
