@@ -12,7 +12,7 @@ export const useUserContext = () => {
   if (!user) {
     if (DEBUG_MODE) return DUMMY_USER;
     throw new Error(
-      "No UserContext.Provider found when calling useGridItemContext.",
+      "No UserContext.Provider found when calling useUserContext.",
     );
   }
   return user;

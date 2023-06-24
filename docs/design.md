@@ -54,6 +54,7 @@ classDiagram
     class UserExercise {
         customExercises
         workoutPresets
+        workoutRoutines
         workouts
         createPreset()
         createRoutine()

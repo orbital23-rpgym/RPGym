@@ -8,12 +8,21 @@ import { dropShadow } from "constants/styles";
 import { MAX_ELEMENT_WIDTH } from "constants/ui";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
-type CardProps = {
+export type CardProps = {
   title?: string;
   headerColor?: string;
+  customHeaderBar?: React.ReactNode;
 } & ViewProps;
 
 export function Card(props: CardProps) {
+  const {
+    style,
+    customHeaderBar,
+    title,
+    headerColor,
+    children,
+    ...otherProps
+  } = props;
   const colorScheme = useContext(ColorSchemeContext);
 
   const styles = StyleSheet.create({
@@ -32,7 +41,7 @@ export function Card(props: CardProps) {
       fontSize: 20,
     },
     titleBar: {
-      backgroundColor: props.headerColor ?? themes[colorScheme].blueLight,
+      backgroundColor: headerColor ?? themes[colorScheme].blueLight,
       top: 0,
       paddingTop: 10,
       paddingBottom: 10,
@@ -42,26 +51,29 @@ export function Card(props: CardProps) {
     },
     childContainer: {
       padding: 20,
+      paddingTop: 12,
+      paddingBottom: 15,
       height: "auto",
       backgroundColor: themes[colorScheme].cardBackground,
     },
   });
 
-  const headerBar = props.title ? (
+  const headerBar = customHeaderBar ? (
+    <View style={styles.titleBar}>{customHeaderBar}</View>
+  ) : title ? (
     <View style={styles.titleBar}>
-      <Text style={styles.titleText}>{props.title}</Text>
+      <Text style={styles.titleText}>{title}</Text>
     </View>
   ) : (
     <></>
   );
   return (
-    <>
-      <View
-        style={StyleSheet.flatten([{ ...styles.cardContainer }, props.style])}
-      >
-        {headerBar}
-        <View style={styles.childContainer}>{props.children}</View>
-      </View>
-    </>
+    <View
+      style={StyleSheet.flatten([{ ...styles.cardContainer }, style])}
+      {...otherProps}
+    >
+      {headerBar}
+      <View style={styles.childContainer}>{children}</View>
+    </View>
   );
 }
