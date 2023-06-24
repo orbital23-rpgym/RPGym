@@ -33,6 +33,8 @@ export default class AvatarEquipment {
     this.offHandItem = offHandItem;
   }
 
+  /** Number of layers for display */
+  static readonly NUM_LAYERS = 6;
   // TODO
   static readonly DEFAULT = new AvatarEquipment(
     new HelmetItem("", ""),

@@ -16,6 +16,7 @@ export const palette = {
   blueGrayDark: "#25272B",
   black: "#000",
   white: "#fff",
+  transparent: "transparent",
 };
 
 export const branding = {

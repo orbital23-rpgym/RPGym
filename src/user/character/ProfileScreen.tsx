@@ -1,22 +1,20 @@
-import { FontAwesome } from "@expo/vector-icons";
-import { Link, Tabs } from "expo-router";
-import { doc, DocumentData, getDoc } from "firebase/firestore";
-import { useContext, useEffect, useState } from "react";
+import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { Link, Tabs, useRouter } from "expo-router";
+import { useContext } from "react";
 import { Pressable, StyleSheet } from "react-native";
 
-import AvatarPic from "./AvatarPic";
+import AvatarRenderer from "../../rpg/avatar/AvatarRenderer";
+
 import { UserCharacter } from "./UserCharacter";
 
 import { themes } from "constants/colors";
 import { MAX_ELEMENT_WIDTH } from "constants/ui";
 import { Card } from "library/components/Card";
-import LoadingScreen from "library/components/LoadingScreen";
 import { ProgressBarWithLabels } from "library/components/ProgressBar";
-import { Screen, Text, useThemeColor, View } from "library/components/Themed";
+import { Screen, Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { UserContext } from "library/context/UserContext";
-import { useAuthentication } from "library/hooks/useAuthentication";
-import { db } from "src/firebase-init";
+import { useUserContext } from "library/context/UserContext";
+import CurrentQuestSummaryCard from "src/rpg/quest/CurrentQuestSummaryCard";
 
 export default function ProfileScreen() {
   const styles = StyleSheet.create({
@@ -50,25 +48,34 @@ export default function ProfileScreen() {
       fontFamily: "Header",
       fontSize: 25,
     },
-    text: {
-      fontFamily: "BodyRegular",
+    levelCoinsContainer: {
+      width: "100%",
+      flexDirection: "row",
+      flexWrap: "wrap",
+      alignContent: "center",
+      gap: 10,
+      justifyContent: "space-between",
+      marginTop: 5,
+    },
+    levelCoinsContainerInner: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: 5,
+    },
+    levelCoinsText: {
+      fontFamily: "Header",
       fontSize: 16,
     },
   });
 
-  const user = useContext(UserContext);
+  const user = useUserContext();
   const colorScheme = useContext(ColorSchemeContext);
 
-  const [character, setCharacter] = useState<UserCharacter | undefined>(
-    user?.character,
-  );
+  const character = user.character;
 
-  useEffect(() => {
-    // console.log(user);
-    // if (user !== undefined) setCharacter(user.character);
-  }, []);
+  const router = useRouter();
 
-  return character !== undefined ? (
+  return (
     <Screen gap={20}>
       <Tabs.Screen
         options={{
@@ -94,11 +101,10 @@ export default function ProfileScreen() {
       />
       <View style={styles.profileInfoContainer}>
         <View style={styles.avatarContainer}>
-          <AvatarPic avatar={character.avatar} />
+          <AvatarRenderer avatar={character.avatar} />
         </View>
         <View style={styles.profileDetailsContainer}>
           <Text style={styles.displayNameText}>{character.displayName}</Text>
-          <Text style={styles.text}>Level: X</Text>
           <ProgressBarWithLabels
             title="Health"
             labelPosition="stack"
@@ -109,15 +115,34 @@ export default function ProfileScreen() {
           <ProgressBarWithLabels
             title="Experience"
             labelPosition="stack"
-            max={100}
+            max={character.expForNextLevel}
             colorFg={themes[colorScheme].blueLight}
-            curr={character.exp}
+            curr={character.expForLevel}
           />
+          <View style={styles.levelCoinsContainer}>
+            <View style={styles.levelCoinsContainerInner}>
+              <FontAwesome
+                name="star"
+                size={15}
+                color={themes[colorScheme].blueLight}
+              />
+              <Text style={styles.levelCoinsText}>
+                Level {character.expLevel}
+              </Text>
+            </View>
+
+            <View style={styles.levelCoinsContainerInner}>
+              <FontAwesome5
+                name="coins"
+                size={15}
+                color={themes[colorScheme].orange}
+              />
+              <Text style={styles.levelCoinsText}>{character.money} coins</Text>
+            </View>
+          </View>
         </View>
       </View>
-      <Card title="⚔️ Weekly Quest" headerColor={themes[colorScheme].orange}>
-        <Text>PLACEHOLDER</Text>
-      </Card>
+      <CurrentQuestSummaryCard quest={character.ongoingQuest} />
       <Card title="💪 Campaign" headerColor={themes[colorScheme].blueLight}>
         <Text>PLACEHOLDER</Text>
         <ProgressBarWithLabels
@@ -130,7 +155,5 @@ export default function ProfileScreen() {
         />
       </Card>
     </Screen>
-  ) : (
-    <LoadingScreen />
   );
 }
