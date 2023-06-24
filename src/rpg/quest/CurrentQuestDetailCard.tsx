@@ -6,6 +6,7 @@ import { Pressable, StyleSheet } from "react-native";
 import { QuestCardProps } from "./QuestCardProps";
 
 import { palette, themes } from "constants/colors";
+import { AddNewLink } from "library/components/AddNewLink";
 import { Card } from "library/components/Card";
 import { ProgressBarWithLabels } from "library/components/ProgressBar";
 import { ButtonText } from "library/components/StyledText";
@@ -13,7 +14,6 @@ import { Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 export default function CurrentQuestDetailCard(props: QuestCardProps) {
-  const router = useRouter();
   const { quest, style, ...otherProps } = props;
   const colorScheme = useContext(ColorSchemeContext);
   const styles = StyleSheet.create({
@@ -29,17 +29,6 @@ export default function CurrentQuestDetailCard(props: QuestCardProps) {
     },
     exerciseList: {
       width: "100%",
-    },
-    newQuestButton: {
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100%",
-      gap: 10,
-      padding: 10,
-      marginTop: 10,
-    },
-    pressed: {
-      opacity: 0.5,
     },
     progressStats: {
       marginTop: 10,
@@ -85,21 +74,7 @@ export default function CurrentQuestDetailCard(props: QuestCardProps) {
     >
       <View style={styles.container}>
         <Text>There is no ongoing quest.</Text>
-        <Pressable
-          style={({ pressed }) =>
-            pressed
-              ? StyleSheet.compose(styles.newQuestButton, styles.pressed)
-              : styles.newQuestButton
-          }
-          onPress={() => router.push("/quest/new")}
-        >
-          <FontAwesome5
-            name="plus"
-            size={30}
-            color={themes[colorScheme].text}
-          />
-          <ButtonText>Start a new quest</ButtonText>
-        </Pressable>
+        <AddNewLink text="Start a new quest" href="/quest/new" />
       </View>
     </Card>
   );
