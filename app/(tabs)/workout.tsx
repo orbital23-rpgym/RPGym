@@ -1,3 +1,3 @@
-import AddWorkoutScreen from "src/fitness-tracker/workout/AddWorkoutScreen";
+import WorkoutsOverviewScreen from "src/fitness-tracker/workout/WorkoutsOverviewScreen";
 
-export default AddWorkoutScreen;
+export default WorkoutsOverviewScreen;
