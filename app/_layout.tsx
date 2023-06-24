@@ -79,6 +79,14 @@ function RootLayoutNav() {
               name="(auth)/welcome"
               options={{ headerShown: false }}
             />
+
+            <Stack.Screen
+              name="workout/rest-timer"
+              options={{
+                // Set the presentation mode to modal for our modal route.
+                presentation: "modal",
+              }}
+            />
           </Stack>
         </ColorSchemeContext.Provider>
       </ThemeProvider>
