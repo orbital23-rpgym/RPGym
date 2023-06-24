@@ -4,6 +4,8 @@
 
 import { doc } from "firebase/firestore";
 
+import { DEFAULT_EXERCISE_TEMPLATES } from "./workout";
+
 import { collections as DB } from "constants/db";
 import { db } from "src/firebase-init";
 import Exercise from "src/fitness-tracker/exercise/Exercise";
@@ -114,7 +116,7 @@ export const DUMMY_FITNESS = new UserFitnessTracker(
   [DUMMY_WORKOUT_1, DUMMY_WORKOUT_2, DUMMY_WORKOUT_3A, DUMMY_WORKOUT_3B],
   [DUMMY_WORKOUT_PRESET_A, DUMMY_WORKOUT_PRESET_B, DUMMY_WORKOUT_PRESET_C],
   [],
-  [],
+  [...DEFAULT_EXERCISE_TEMPLATES],
 );
 
 /** Dummy avatar base. */
@@ -135,7 +137,6 @@ export const DUMMY_AVATAR = new Avatar(
   DUMMY_AVATAR_BASE,
   DUMMY_AVATAR_EQUIPMENT,
 );
-
 
 /** Dummy user character. */
 export const DUMMY_CHAR = new UserCharacter(

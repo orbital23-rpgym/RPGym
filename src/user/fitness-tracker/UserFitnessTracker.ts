@@ -12,6 +12,7 @@ import {
 
 import { collections as DB } from "constants/db";
 import { DATE_MAX, DATE_MIN } from "constants/misc";
+import { DEFAULT_EXERCISE_TEMPLATES } from "constants/workout";
 import { db } from "src/firebase-init";
 import ExerciseTemplate from "src/fitness-tracker/exercise/ExerciseTemplate";
 import WorkoutRoutine from "src/fitness-tracker/routine/WorkoutRoutine";
@@ -68,7 +69,13 @@ export class UserFitnessTracker {
     const ref = doc(db, DB.userFitness, id).withConverter(
       fitnessTrackerConverter,
     );
-    const userFitnessTracker = new UserFitnessTracker(ref, [], [], [], []);
+    const userFitnessTracker = new UserFitnessTracker(
+      ref,
+      [],
+      [],
+      [],
+      DEFAULT_EXERCISE_TEMPLATES,
+    );
     await setDoc(ref, userFitnessTracker);
     return userFitnessTracker;
   }
