@@ -9,6 +9,7 @@ import { HeadingText } from "library/components/StyledText";
 import { Text, View, ViewProps } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import { useUserContext } from "library/context/UserContext";
+import AvatarRenderer from "src/rpg/avatar/AvatarRenderer";
 
 export type TrackingOverviewCardProps = Omit<ViewProps, "children">;
 export default function TrackingOverviewCard() {
@@ -34,15 +35,14 @@ export default function TrackingOverviewCard() {
     },
     avatar: {
       borderRadius: 100,
-      height: 65,
-      width: 65,
-      backgroundColor: palette.green,
+      maxHeight: 65,
+      maxWidth: 65,
       alignContent: "center",
       alignItems: "center",
       justifyContent: "center",
     },
     content: {
-      backgroundColor: "transparent",
+      backgroundColor: palette.transparent,
       flex: 1,
       minWidth: "auto",
       alignContent: "center",
@@ -67,9 +67,11 @@ export default function TrackingOverviewCard() {
       onPress={() => router.push("/workout/history")}
       style={styles.container}
     >
-      <View style={styles.avatar}>
-        <Text>AVATAR HERE</Text>
-      </View>
+      <AvatarRenderer
+        mini
+        avatar={user.character.avatar}
+        style={styles.avatar}
+      />
       <View style={styles.content}>
         <HeadingText>{user.character.displayName}</HeadingText>
         <Text style={styles.numWorkouts}>{numWorkouts} workouts</Text>
