@@ -12,9 +12,11 @@ import {
 
 import { collections as DB } from "constants/db";
 import { DATE_MAX, DATE_MIN } from "constants/misc";
-import { DEFAULT_EXERCISE_TEMPLATES } from "constants/workout";
+import { DEFAULT_EXERCISE_TEMPLATES_DATA } from "constants/workout";
 import { db } from "src/firebase-init";
-import ExerciseTemplate from "src/fitness-tracker/exercise/ExerciseTemplate";
+import ExerciseTemplate, {
+  ExerciseTemplateData,
+} from "src/fitness-tracker/exercise/ExerciseTemplate";
 import WorkoutRoutine from "src/fitness-tracker/routine/WorkoutRoutine";
 import WorkoutPreset from "src/fitness-tracker/workout/presets/WorkoutPreset";
 import Workout from "src/fitness-tracker/workout/Workout";
@@ -27,20 +29,23 @@ export class UserFitnessTracker {
   workouts: Workout[];
   workoutPresets: WorkoutPreset[];
   workoutRoutines: WorkoutRoutine[];
-  customExercises: ExerciseTemplate[];
+  #exerciseTemplates: ExerciseTemplate[] | undefined;
+  #exerciseTemplatesRefs: DocumentReference[];
 
   constructor(
     ref: DocumentReference,
     workouts: Workout[],
     workoutPresets: WorkoutPreset[],
     workoutRoutines: WorkoutRoutine[],
-    customExercises: ExerciseTemplate[],
+    exerciseTemplates: ExerciseTemplate[] | undefined,
+    exerciseTemplatesRefs: DocumentReference[],
   ) {
     this.ref = ref;
     this.workouts = workouts;
     this.workoutPresets = workoutPresets;
     this.workoutRoutines = workoutRoutines;
-    this.customExercises = customExercises;
+    this.#exerciseTemplates = exerciseTemplates;
+    this.#exerciseTemplatesRefs = exerciseTemplatesRefs;
   }
 
   /**
@@ -69,22 +74,40 @@ export class UserFitnessTracker {
     const ref = doc(db, DB.userFitness, id).withConverter(
       fitnessTrackerConverter,
     );
+    const defaultTemplates = await ExerciseTemplate.getDefaultTemplates();
     const userFitnessTracker = new UserFitnessTracker(
       ref,
       [],
       [],
       [],
-      DEFAULT_EXERCISE_TEMPLATES,
+      defaultTemplates,
+      defaultTemplates.map((template) => template.ref),
     );
     await setDoc(ref, userFitnessTracker);
     return userFitnessTracker;
   }
 
   /**
+   * Gets exercise instances, or generates it from exercise data if unavailable.
+   * @returns Exercise templates
+   */
+  public async getExerciseTemplates(): Promise<ExerciseTemplate[]> {
+    if (!this.#exerciseTemplates) {
+      const loadedExerciseTemplates = await Promise.all(
+        this.#exerciseTemplatesRefs.map((templateRef) =>
+          ExerciseTemplate.fromRef(templateRef),
+        ),
+      );
+      this.#exerciseTemplates = loadedExerciseTemplates;
+    }
+    return this.#exerciseTemplates as ExerciseTemplate[];
+  }
+
+  /**
    * Gets most recent completed workout, or null if nonexistent.
    */
   public async mostRecentWorkout(): Promise<Workout | undefined> {
-    return this.workouts[this.workouts.length - 1];
+    return this.workouts.sort(Workout.compareByStartDateTimeDesc).at(0);
   }
 
   /**
@@ -188,6 +211,7 @@ export const fitnessTrackerConverter: FirestoreDataConverter<UserFitnessTracker>
       // Data from QueryDocumentSnapshot will never return undefined.
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const data = snapshot.data(options)!;
-      return new UserFitnessTracker(snapshot.ref, [], [], [], []);
+      // TODO
+      return new UserFitnessTracker(snapshot.ref, [], [], [], [], []);
     },
   };

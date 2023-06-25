@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 
 import WorkoutPreset from "./WorkoutPreset";
@@ -26,6 +26,20 @@ export default function WorkoutPresetCard(props: WorkoutPresetCardProps) {
       width: "100%",
     },
   });
+
+  const [exerciseNames, setExerciseNames] = useState<string | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    props.workoutPreset
+      .getExerciseNames()
+      .then((names) => setExerciseNames(names))
+      .catch((reason) =>
+        setExerciseNames(`Error retrieving exercises: ${reason}`),
+      );
+  }, [props.workoutPreset]);
+
   return (
     <Card
       style={StyleSheet.compose(styles.container, style)}
@@ -37,7 +51,7 @@ export default function WorkoutPresetCard(props: WorkoutPresetCardProps) {
       </Text>
 
       <Text numberOfLines={3} style={styles.exerciseList}>
-        {workoutPreset.exerciseNames()}
+        {exerciseNames ? exerciseNames : "Loading..."}
       </Text>
     </Card>
   );

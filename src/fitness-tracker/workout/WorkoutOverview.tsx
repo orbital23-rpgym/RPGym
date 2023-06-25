@@ -1,7 +1,7 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { intlFormat } from "date-fns";
-import { useContext } from "react";
-import { StyleSheet, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 
 import Workout from "./Workout";
 
@@ -56,6 +56,14 @@ export function WorkoutOverview(props: WorkoutOverviewProps) {
       width: "100%",
     },
   });
+  const [exerciseNames, setExerciseNames] = useState<string | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    props.workout.getExerciseNames().then((names) => setExerciseNames(names));
+  }, [props.workout]);
+
   return (
     <View style={StyleSheet.compose(styles.container, style)} {...otherProps}>
       <View style={styles.dateTimeContainer}>
@@ -66,7 +74,7 @@ export function WorkoutOverview(props: WorkoutOverviewProps) {
             color={themes[colorScheme].textBlue}
           />
           <Text style={styles.dateTimeText}>
-            {intlFormat(workout.startDateTime, {
+            {intlFormat(props.workout.startDateTime, {
               weekday: "short",
               year: "numeric",
               month: "short",
@@ -81,12 +89,12 @@ export function WorkoutOverview(props: WorkoutOverviewProps) {
             color={themes[colorScheme].textBlue}
           />
           <Text style={styles.dateTimeText}>
-            {intlFormat(workout.startDateTime, {
+            {intlFormat(props.workout.startDateTime, {
               hour: "numeric",
               minute: "numeric",
             })}
             {" - "}
-            {intlFormat(workout.endDateTime, {
+            {intlFormat(props.workout.endDateTime, {
               hour: "numeric",
               minute: "numeric",
             })}
@@ -95,7 +103,7 @@ export function WorkoutOverview(props: WorkoutOverviewProps) {
       </View>
 
       <Text numberOfLines={5} style={styles.exerciseList}>
-        {workout.exerciseNames()}
+        {exerciseNames ? exerciseNames : "Loading..."}
       </Text>
     </View>
   );

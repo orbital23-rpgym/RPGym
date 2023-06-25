@@ -1,10 +1,11 @@
 /**
- * Placeholder values for testing/development purposes
+ * Dummy values for testing/development purposes.
+ * Dummy refs are mostly used.
+ * Will probably break if requests are made using dummy refs.
+ * TODO: move dummy data to firebase or make local things work without fb.
  */
 
 import { doc } from "firebase/firestore";
-
-import { DEFAULT_EXERCISE_TEMPLATES } from "./workout";
 
 import { collections as DB } from "constants/db";
 import { db } from "src/firebase-init";
@@ -20,20 +21,47 @@ import { UserCharacter } from "src/user/character/UserCharacter";
 import { UserFitnessTracker } from "src/user/fitness-tracker/UserFitnessTracker";
 import { User } from "src/user/User";
 
+/**
+ * Dummy user ID.
+ */
+const DUMMY_USERID = "jim-bro";
+const DUMMY_DOCUMENT_REF = doc(db, "rpgym/dummy");
+
+/************************/
+/*   Fitness tracking   */
+/************************/
+
+/**
+ * Default exercise templates for users
+ */
+export const DUMMY_DEFAULT_EXERCISE_TEMPLATES: ExerciseTemplate[] = [
+  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Bench Press", "Chest", ""),
+  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Squat", "Legs", ""),
+  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Deadlift", "Legs", ""),
+  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Lat Pulldown", "Back", ""),
+  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Cable Row", "Back", ""),
+  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Bicep Curl", "Bicep", ""),
+  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Tricep Extension", "Tricep", ""),
+  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Lateral Raise", "Shoulder", ""),
+];
+
 /** Dummy exercise template. */
 export const DUMMY_EXERCISE_TEMPLATE_1 = new ExerciseTemplate(
+  DUMMY_DOCUMENT_REF,
   "Bench Press",
   "Chest",
   "yeahhhh",
 );
 /** Dummy exercise template. */
 export const DUMMY_EXERCISE_TEMPLATE_2 = new ExerciseTemplate(
+  DUMMY_DOCUMENT_REF,
   "Box Squat",
   "Legs",
   "ya",
 );
 /** Dummy exercise template. */
 export const DUMMY_EXERCISE_TEMPLATE_3 = new ExerciseTemplate(
+  DUMMY_DOCUMENT_REF,
   "Deadlift",
   "Legs",
   "yup",
@@ -50,8 +78,7 @@ export const DUMMY_EXERCISE_3 = new Exercise(DUMMY_EXERCISE_TEMPLATE_3, []);
 
 /** Dummy workout preset. */
 export const DUMMY_WORKOUT_PRESET_A = new WorkoutPreset(
-  "every day",
-  "nope no legs",
+  DUMMY_DOCUMENT_REF,
   [
     DUMMY_EXERCISE_1A,
     DUMMY_EXERCISE_1B,
@@ -64,51 +91,70 @@ export const DUMMY_WORKOUT_PRESET_A = new WorkoutPreset(
     DUMMY_EXERCISE_1B,
     DUMMY_EXERCISE_1B,
   ],
+  undefined,
+  "every day",
+  "nope no legs",
   new Date(1687276324742),
 );
 /** Dummy workout preset. */
 export const DUMMY_WORKOUT_PRESET_B = new WorkoutPreset(
+  DUMMY_DOCUMENT_REF,
+  [DUMMY_EXERCISE_2, DUMMY_EXERCISE_3],
+  undefined,
   "leg day :(",
   "sike",
-  [DUMMY_EXERCISE_2, DUMMY_EXERCISE_3],
   new Date(1110000000000),
 );
 
 /** Dummy workout preset. */
 export const DUMMY_WORKOUT_PRESET_C = new WorkoutPreset(
+  DUMMY_DOCUMENT_REF,
+  [DUMMY_EXERCISE_2],
+  undefined,
   "example",
   "placeholder",
-  [DUMMY_EXERCISE_2],
   new Date(0),
 );
 
 export const DUMMY_WORKOUT_1 = new Workout(
+  DUMMY_DOCUMENT_REF,
   new Date(1676400780236),
   new Date(1676400780236),
   [DUMMY_EXERCISE_1A],
+  undefined,
 );
 
 export const DUMMY_WORKOUT_2 = new Workout(
+  DUMMY_DOCUMENT_REF,
   new Date(1687000000000),
   new Date(1687000000000),
   [DUMMY_EXERCISE_2],
+  undefined,
 );
 
 export const DUMMY_WORKOUT_3A = new Workout(
+  DUMMY_DOCUMENT_REF,
   new Date(1686400780235),
   new Date(1686400780235),
   [DUMMY_EXERCISE_2],
+  undefined,
 );
 
 export const DUMMY_WORKOUT_3B = new Workout(
+  DUMMY_DOCUMENT_REF,
   new Date(1686400780236),
   new Date(1686400780236),
   [DUMMY_EXERCISE_3],
+  undefined,
 );
 
-export const DUMMY_WORKOUT_TODAY = new Workout(new Date(), new Date(), [
-  DUMMY_EXERCISE_3,
-]);
+export const DUMMY_WORKOUT_TODAY = new Workout(
+  DUMMY_DOCUMENT_REF,
+  new Date(),
+  new Date(),
+  [DUMMY_EXERCISE_3],
+  undefined,
+);
 
 /** Dummy user fitness. */
 export const DUMMY_FITNESS = new UserFitnessTracker(
@@ -116,8 +162,13 @@ export const DUMMY_FITNESS = new UserFitnessTracker(
   [DUMMY_WORKOUT_1, DUMMY_WORKOUT_2, DUMMY_WORKOUT_3A, DUMMY_WORKOUT_3B],
   [DUMMY_WORKOUT_PRESET_A, DUMMY_WORKOUT_PRESET_B, DUMMY_WORKOUT_PRESET_C],
   [],
-  [...DEFAULT_EXERCISE_TEMPLATES],
+  [...DUMMY_DEFAULT_EXERCISE_TEMPLATES],
+  [],
 );
+
+/************************/
+/*   Profile/game data  */
+/************************/
 
 /** Dummy avatar base. */
 export const DUMMY_AVATAR_BASE = new AvatarBase(
@@ -153,9 +204,13 @@ export const DUMMY_CHAR = new UserCharacter(
   null,
 );
 
+/************************/
+/* Overall user account */
+/************************/
+
 /** Dummy user. */
 export const DUMMY_USER = new User(
-  "jim-bro",
+  DUMMY_USERID,
   "jimbro",
   "jimbro@example.com",
   DUMMY_FITNESS,

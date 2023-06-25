@@ -20,4 +20,13 @@ export default abstract class ExerciseSet {
     this.notes = notes;
     this.perceivedExertion = perceivedExertion;
   }
+
+  public toData(): ExerciseSetData {
+    return { notes: this.notes, perceivedExertion: this.perceivedExertion };
+  }
 }
+
+export type ExerciseSetData = {
+  notes: string;
+  perceivedExertion: number;
+};
