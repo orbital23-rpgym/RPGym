@@ -1,23 +1,51 @@
-import { useRouter } from "expo-router";
-import { useContext } from "react";
+import { useLocalSearchParams, useRouter } from "expo-router";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 
-import CreateWorkoutView from "./CreateWorkoutView";
+import CreateWorkoutForm, { TempExerciseData } from "./CreateWorkoutForm";
+import Workout from "./Workout";
 
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
+import {
+  CreateWorkoutFormContext,
+  useCreateWorkoutFormContext,
+} from "library/context/CreateWorkoutFormContext";
+import { useUserContext } from "library/context/UserContext";
 
 export default function CreateWorkoutController() {
   const colorScheme = useContext(ColorSchemeContext);
   const router = useRouter();
-  const styles = StyleSheet.create({});
+  const user = useUserContext();
+  const { data, setData } = useCreateWorkoutFormContext();
+
+  const [tempData, setTempData] = useState(data);
+  const [exercisesData, setExercisesData] = useState<TempExerciseData[]>([]);
+
+  function createExercise() {
+    setData(tempData);
+    router.push("/workout/new/exercise-picker");
+  }
+
+  function onSubmit(
+    data: TempExerciseData[],
+    startDateTime: Date,
+    endDateTime: Date,
+  ) {
+    return new Promise<void>((resolve, reject) => {
+      const exerciseData = data.map((value) => value.exercise);
+      return Workout.create(startDateTime, endDateTime, exerciseData, user.id);
+    });
+  }
+
   return (
-    <CreateWorkoutView
-      exerciseData={[]}
-      onSubmit={(data) => {
-        return new Promise<void>((resolve, reject) => console.log("submitted"));
-      }}
+    <CreateWorkoutForm
+      exerciseData={exercisesData}
+      onSubmit={onSubmit}
       onCancel={() => {
         router.back();
+      }}
+      onAddExercise={() => {
+        createExercise();
       }}
     />
   );

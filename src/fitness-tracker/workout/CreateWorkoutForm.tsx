@@ -1,9 +1,9 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Link, Stack } from "expo-router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, View, ViewProps } from "react-native";
 
-import Exercise from "../exercise/Exercise";
+import Exercise, { ExerciseData } from "../exercise/Exercise";
 
 import { themes } from "constants/colors";
 import { fullWidthButton } from "constants/styles";
@@ -12,19 +12,25 @@ import { ErrorDisplay } from "library/components/ErrorDisplay";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
+import { useCreateWorkoutFormContext } from "library/context/CreateWorkoutFormContext";
 
 export type TempExerciseData = {
   key: number;
-  exercise: Exercise;
+  exercise: Omit<ExerciseData, "ref">;
 };
 
-export type CreateWorkoutViewProps = {
+export type CreateWorkoutFormProps = {
   exerciseData: TempExerciseData[];
-  onSubmit: (exerciseData: TempExerciseData[]) => Promise<void>;
+  onSubmit: (
+    exerciseData: TempExerciseData[],
+    startDateTime: Date,
+    endDateTime: Date,
+  ) => Promise<void>;
   onCancel: () => void;
+  onAddExercise: () => void;
 } & Omit<ViewProps, "children">;
 
-export default function CreateWorkoutView(props: CreateWorkoutViewProps) {
+export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
   const colorScheme = useContext(ColorSchemeContext);
   const styles = StyleSheet.create({
     container: {
@@ -47,8 +53,13 @@ export default function CreateWorkoutView(props: CreateWorkoutViewProps) {
   });
   const [exercisesData, setExercisesData] = useState<TempExerciseData[]>([]);
   const [maxExerciseId, setMaxExerciseId] = useState(0);
+
+  const { data, setData } = useCreateWorkoutFormContext();
   const [error, setError] = useState<Error | undefined>();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const startDateTime = new Date();
+
+  // useEffect(()=>{}, [data]);
 
   function onSubmitWrapped() {
     // Disable submit button
@@ -56,7 +67,7 @@ export default function CreateWorkoutView(props: CreateWorkoutViewProps) {
     // Reset list of errors
     setError(undefined);
     props
-      .onSubmit(exercisesData)
+      .onSubmit(exercisesData, startDateTime, new Date())
       .catch((e: Error) => {
         setError(e);
       })
@@ -71,7 +82,7 @@ export default function CreateWorkoutView(props: CreateWorkoutViewProps) {
         options={{
           headerTitle: "New Workout",
           headerRight: () => (
-            <Link href="/workout/rest-timer" asChild>
+            <Link href="/workout/new/rest-timer" asChild>
               <Pressable>
                 {({ pressed }) => {
                   const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
@@ -89,7 +100,11 @@ export default function CreateWorkoutView(props: CreateWorkoutViewProps) {
           ),
         }}
       />
-      <Button variant="primary" style={fullWidthButton.button}>
+      <Button
+        variant="primary"
+        style={fullWidthButton.button}
+        onPress={props.onAddExercise}
+      >
         <ButtonText style={fullWidthButton.text}>Add Exercise</ButtonText>
       </Button>
       <HeadingText>Exercises</HeadingText>
