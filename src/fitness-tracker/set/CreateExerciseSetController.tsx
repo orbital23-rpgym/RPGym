@@ -14,8 +14,12 @@ export default function CreateExerciseSetController() {
   const { data, setData } = useCreateWorkoutFormContext();
 
   const [localData, setLocalData] = useState(data);
-  const [exerciseData, setExerciseData] = useState<TempExerciseData>();
-  const [exerciseSetData, setExerciseSetData] = useState<TempSetData>();
+  const [exerciseData, setExerciseData] = useState<
+    TempExerciseData | undefined
+  >(data.selectedExercise);
+  const [exerciseSetData, setExerciseSetData] = useState<
+    TempSetData | undefined
+  >(data.selectedSet);
 
   useEffect(() => {
     setLocalData(data);
@@ -30,7 +34,7 @@ export default function CreateExerciseSetController() {
       newData.exercises[exerciseData.key].sets[set.key].deleted = true;
       setLocalData(newData);
       setData(newData);
-      router.back();
+      router.push("../");
     }
   }
 
@@ -52,7 +56,6 @@ export default function CreateExerciseSetController() {
         setLocalData(newData);
         setData(newData);
         router.push("../");
-        resolve();
       }
     });
   }

@@ -144,14 +144,16 @@ export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
                 style={styles.listItem}
                 name={item.template.name}
                 onPress={() => props.editExercise(item)}
-                sets={item.sets.map((value) => {
-                  return {
-                    weightKg: value.weightKg,
-                    notes: value.notes,
-                    perceivedExertion: value.perceivedExertion,
-                    reps: value.reps,
-                  };
-                })}
+                sets={item.sets
+                  .filter((value) => !value.deleted)
+                  .map((value) => {
+                    return {
+                      weightKg: value.weightKg,
+                      notes: value.notes,
+                      perceivedExertion: value.perceivedExertion,
+                      reps: value.reps,
+                    };
+                  })}
               />
             );
           }}

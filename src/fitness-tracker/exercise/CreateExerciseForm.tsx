@@ -69,7 +69,9 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
   const [exerciseData, setExerciseData] = useState<TempExerciseData>(
     props.exerciseData,
   );
-  const [setsData, setSetsData] = useState<TempSetData[]>([]);
+  const [setsData, setSetsData] = useState<TempSetData[]>(
+    props.exerciseData.sets,
+  );
 
   const [error, setError] = useState<Error | undefined>();
   const [isSubmitting, setIsSubmitting] = useState(false);

@@ -68,7 +68,7 @@ export default function CreateExerciseController() {
   useEffect(() => {
     setLocalData(data);
     setExerciseData(data.selectedExercise);
-  }, [data.selectedExercise]);
+  }, [data]);
 
   function onSubmit(setsData: TempSetData[]) {
     return new Promise<void>((resolve, reject) => {
