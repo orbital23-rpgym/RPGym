@@ -15,7 +15,6 @@ import {
 import { useUserContext } from "library/context/UserContext";
 
 export default function CreateWorkoutController() {
-  const colorScheme = useContext(ColorSchemeContext);
   const router = useRouter();
   const user = useUserContext();
   const { data, setData } = useCreateWorkoutFormContext();
@@ -54,14 +53,16 @@ export default function CreateWorkoutController() {
       const exerciseData: ExerciseData[] = data.map((value) => {
         return {
           template: value.template.ref,
-          sets: value.sets.map((value): WeightRepsExerciseSetData => {
-            return {
-              notes: value.notes,
-              perceivedExertion: value.perceivedExertion,
-              weightKg: value.weightKg,
-              reps: value.reps,
-            };
-          }),
+          sets: value.sets
+            .filter((value) => !value.deleted)
+            .map((value): WeightRepsExerciseSetData => {
+              return {
+                notes: value.notes,
+                perceivedExertion: value.perceivedExertion,
+                weightKg: value.weightKg,
+                reps: value.reps,
+              };
+            }),
         };
       });
       Workout.create(startDateTime, endDateTime, exerciseData, user.id)
