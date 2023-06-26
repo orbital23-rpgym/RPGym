@@ -115,14 +115,12 @@ export class UserFitnessTracker {
   }
 
   /**
-   * Adds new workout to user data. Also triggers quest progression, if any.
+   * Adds new workout to user data.
    */
   public async addWorkout(workout: Workout) {
     this.workouts.push(workout);
     this.mostRecentWorkout = workout;
     updateDoc(this.ref, { mostRecentWorkout: this.mostRecentWorkout.ref });
-
-    // TODO: trigger quest/campaign progression.
   }
 
   /**

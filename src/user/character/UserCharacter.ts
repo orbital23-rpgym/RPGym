@@ -152,6 +152,27 @@ export class UserCharacter {
     this.updateToFirestore();
   }
 
+  /**
+   * Trigger rewards associated with workout completion.
+   */
+  public completeWorkout() {
+    return;
+  }
+
+  /**
+   * Trigger rewards associated with workout completion.
+   */
+  public completeQuest() {
+    return;
+  }
+
+  /**
+   * Trigger rewards associated with workout completion.
+   */
+  public completeCampaign() {
+    return;
+  }
+
   public updateToFirestore() {
     setDoc(this.ref.withConverter(characterConverter), this).catch((reason) => {
       throw new Error("Update to cloud failed.");

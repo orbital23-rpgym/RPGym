@@ -16,6 +16,7 @@ import {
 import { collections as DB } from "constants/db";
 import { UsernameTakenError } from "library/error";
 import { db } from "src/firebase-init";
+import Workout from "src/fitness-tracker/workout/Workout";
 import AppSettings from "src/settings/AppSettings";
 import {
   characterConverter,
@@ -164,6 +165,14 @@ export class User {
     );
     await setDoc(ref, user);
     return user;
+  }
+
+  /**
+   * Adds new workout to user data. Also triggers rewards.
+   */
+  public async addWorkout(workout: Workout) {
+    this.fitnessTracker.addWorkout(workout);
+    this.character.completeWorkout();
   }
 }
 
