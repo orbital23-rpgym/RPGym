@@ -71,15 +71,29 @@ export function View(props: ViewProps) {
   );
 }
 
-export type ScreenProps = { gap?: number } & ViewProps;
+export type ScreenProps = {
+  gap?: number;
+  noScroll?: boolean;
+  noTabBar?: boolean;
+} & ViewProps;
 
 export function Screen(props: ScreenProps) {
+  const {
+    gap,
+    noScroll: isNotScrollable = false,
+    noTabBar: shouldHaveBottomPadding = false,
+    style,
+    children,
+    ...otherProps
+  } = props;
   const insets = useSafeAreaInsets();
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       paddingLeft: insets.left,
       paddingRight: insets.right,
+      paddingBottom: shouldHaveBottomPadding ? insets.bottom : 0,
+      minHeight: 500,
     },
     scroll: {
       flex: 1,
@@ -89,23 +103,36 @@ export function Screen(props: ScreenProps) {
       alignItems: "center",
       justifyContent: "flex-start",
       flexDirection: "column",
-      gap: props.gap ?? 15,
+      gap: gap ?? 15,
       paddingLeft: 25,
       paddingRight: 25,
       paddingTop: 10,
       paddingBottom: 10,
     },
+    noScroll: {
+      flex: 1,
+      paddingLeft: insets.left + 25,
+      paddingRight: insets.right + 25,
+      paddingBottom: shouldHaveBottomPadding ? insets.bottom + 20 : 10,
+      paddingTop: 10,
+      minHeight: 500,
+      alignItems: "center",
+      justifyContent: "flex-start",
+      flexDirection: "column",
+      gap: gap ?? 15,
+      width: "100%",
+    },
   });
 
-  const { style, ...otherProps } = props;
-
-  return (
-    <View style={StyleSheet.flatten([styles.container, style])} {...otherProps}>
+  return isNotScrollable ? (
+    <View style={StyleSheet.compose(styles.noScroll, style)}>{children}</View>
+  ) : (
+    <View style={StyleSheet.compose(styles.container, style)} {...otherProps}>
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollChildren}
       >
-        {props.children}
+        {children}
       </ScrollView>
     </View>
   );
