@@ -16,7 +16,7 @@ export default function CreateWorkoutStack() {
   const colorScheme = useContext(ColorSchemeContext);
 
   // initialise new empty shared data context for this stack
-  const [data, setData] = useState<CreateWorkoutFormData>({});
+  const [data, setData] = useState<CreateWorkoutFormData>({ exercises: [] });
   return (
     <CreateWorkoutFormContext.Provider value={{ data, setData }}>
       <Stack.Screen options={{ headerShown: false }} />
@@ -31,20 +31,30 @@ export default function CreateWorkoutStack() {
           headerTintColor: themes[colorScheme].text,
         }}
       >
-        <Stack.Screen name="index" options={{}} />
-
+        <Stack.Screen name="index" options={{ presentation: "card" }} />
         <Stack.Screen
           name="rest-timer"
           options={{
-            // Set the presentation mode to modal for our modal route.
             presentation: "modal",
           }}
         />
         <Stack.Screen
           name="exercise-picker"
           options={{
-            // Set the presentation mode to modal for our modal route.
             presentation: "modal",
+          }}
+        />
+        <Stack.Screen
+          name="set"
+          options={{
+            presentation: "card",
+          }}
+        />
+
+        <Stack.Screen
+          name="exercise"
+          options={{
+            presentation: "card",
           }}
         />
       </Stack>

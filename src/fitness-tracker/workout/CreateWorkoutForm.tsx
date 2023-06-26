@@ -3,7 +3,7 @@ import { Link, Stack } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { FlatList, Pressable, StyleSheet, View, ViewProps } from "react-native";
 
-import Exercise, { ExerciseData } from "../exercise/Exercise";
+import ExerciseCard from "../exercise/ExerciseCard";
 
 import { themes } from "constants/colors";
 import { fullWidthButton } from "constants/styles";
@@ -12,12 +12,7 @@ import { ErrorDisplay } from "library/components/ErrorDisplay";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { useCreateWorkoutFormContext } from "library/context/CreateWorkoutFormContext";
-
-export type TempExerciseData = {
-  key: number;
-  exercise: Omit<ExerciseData, "ref">;
-};
+import { TempExerciseData } from "library/context/CreateWorkoutFormContext";
 
 export type CreateWorkoutFormProps = {
   exerciseData: TempExerciseData[];
@@ -27,11 +22,14 @@ export type CreateWorkoutFormProps = {
     endDateTime: Date,
   ) => Promise<void>;
   onCancel: () => void;
-  onAddExercise: () => void;
+  addExercise: () => void;
+  removeExercise: (exercise: TempExerciseData) => void;
+  editExercise: (exercise: TempExerciseData) => void;
 } & Omit<ViewProps, "children">;
 
 export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
   const colorScheme = useContext(ColorSchemeContext);
+
   const styles = StyleSheet.create({
     container: {
       width: "100%",
@@ -50,16 +48,15 @@ export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
       marginTop: 20,
       alignItems: "center",
     },
+    listItem: {
+      marginBottom: 20,
+    },
   });
   const [exercisesData, setExercisesData] = useState<TempExerciseData[]>([]);
-  const [maxExerciseId, setMaxExerciseId] = useState(0);
 
-  const { data, setData } = useCreateWorkoutFormContext();
   const [error, setError] = useState<Error | undefined>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const startDateTime = new Date();
-
-  // useEffect(()=>{}, [data]);
 
   function onSubmitWrapped() {
     // Disable submit button
@@ -75,6 +72,12 @@ export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
         setIsSubmitting(false);
       });
   }
+
+  useEffect(() => {
+    setExercisesData(props.exerciseData);
+  }, [props.exerciseData]);
+
+  const noExercisesText = <Text>No exercises added yet.</Text>;
 
   return (
     <View style={styles.container}>
@@ -103,20 +106,33 @@ export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
       <Button
         variant="primary"
         style={fullWidthButton.button}
-        onPress={props.onAddExercise}
+        onPress={props.addExercise}
       >
         <ButtonText style={fullWidthButton.text}>Add Exercise</ButtonText>
       </Button>
       <HeadingText>Exercises</HeadingText>
       {exercisesData.length === 0 ? (
-        <Text>
-          No exercises added yet. Add an exercise by clicking the button above!
-        </Text>
+        // one-element flatlist for visual layout consistency
+        <FlatList data={[noExercisesText]} renderItem={({ item }) => item} />
       ) : (
         <FlatList
           data={exercisesData}
           renderItem={({ item }: { item: TempExerciseData }) => {
-            return <Text>item.exercise.name</Text>;
+            return (
+              <ExerciseCard
+                style={styles.listItem}
+                name={item.template.name}
+                onPress={() => props.editExercise(item)}
+                sets={item.sets.map((value) => {
+                  return {
+                    weightKg: value.weightKg,
+                    notes: value.notes,
+                    perceivedExertion: value.perceivedExertion,
+                    reps: value.reps,
+                  };
+                })}
+              />
+            );
           }}
         />
       )}

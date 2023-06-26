@@ -1,7 +1,7 @@
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { Link, Stack } from "expo-router";
 import { useContext } from "react";
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable } from "react-native";
 
 import CreateWorkoutController from "./CreateWorkoutController";
 
@@ -11,10 +11,9 @@ import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 export default function CreateWorkoutScreen() {
   const colorScheme = useContext(ColorSchemeContext);
-  const styles = StyleSheet.create({});
 
   return (
-    <Screen gap={20}>
+    <Screen noScroll noTabBar>
       <Stack.Screen
         options={{
           headerTitle: "New Workout",
@@ -22,7 +21,11 @@ export default function CreateWorkoutScreen() {
             <Link href="../" asChild>
               <Pressable>
                 {({ pressed }) => {
-                  const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
+                  const style = {
+                    marginLeft: 10,
+                    marginRight: 15,
+                    opacity: pressed ? 0.5 : 1,
+                  };
                   return (
                     <FontAwesome5
                       name="chevron-left"

@@ -1,13 +1,15 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
 
-import CreateWorkoutForm, { TempExerciseData } from "./CreateWorkoutForm";
+import { ExerciseData } from "../exercise/Exercise";
+import { WeightRepsExerciseSetData } from "../set/WeightRepsExerciseSet";
+
+import CreateWorkoutForm from "./CreateWorkoutForm";
 import Workout from "./Workout";
 
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import {
-  CreateWorkoutFormContext,
+  TempExerciseData,
   useCreateWorkoutFormContext,
 } from "library/context/CreateWorkoutFormContext";
 import { useUserContext } from "library/context/UserContext";
@@ -18,13 +20,30 @@ export default function CreateWorkoutController() {
   const user = useUserContext();
   const { data, setData } = useCreateWorkoutFormContext();
 
-  const [tempData, setTempData] = useState(data);
+  const [localData, setLocalData] = useState(data);
   const [exercisesData, setExercisesData] = useState<TempExerciseData[]>([]);
 
-  function createExercise() {
-    setData(tempData);
+  function addExercise() {
+    setData(localData);
     router.push("/workout/new/exercise-picker");
   }
+
+  function removeExercise(exercise: TempExerciseData) {
+    localData.exercises[exercise.key].deleted = true;
+    setLocalData(localData);
+  }
+
+  function editExercise(exercise: TempExerciseData) {
+    localData.selectedExercise = exercise;
+    setLocalData(localData);
+    setData(localData);
+    router.push("/workout/new/exercise");
+  }
+
+  useEffect(() => {
+    setLocalData(data);
+    setExercisesData(data.exercises.filter((value) => !value.deleted));
+  }, [data]);
 
   function onSubmit(
     data: TempExerciseData[],
@@ -32,8 +51,26 @@ export default function CreateWorkoutController() {
     endDateTime: Date,
   ) {
     return new Promise<void>((resolve, reject) => {
-      const exerciseData = data.map((value) => value.exercise);
-      return Workout.create(startDateTime, endDateTime, exerciseData, user.id);
+      const exerciseData: ExerciseData[] = data.map((value) => {
+        return {
+          template: value.template.ref,
+          sets: value.sets.map((value): WeightRepsExerciseSetData => {
+            return {
+              notes: value.notes,
+              perceivedExertion: value.perceivedExertion,
+              weightKg: value.weightKg,
+              reps: value.reps,
+            };
+          }),
+        };
+      });
+      Workout.create(startDateTime, endDateTime, exerciseData, user.id)
+        .then((workout) => {
+          user.addWorkout(workout);
+          resolve();
+          router.push("../");
+        })
+        .catch((reason) => reject(reason));
     });
   }
 
@@ -44,9 +81,9 @@ export default function CreateWorkoutController() {
       onCancel={() => {
         router.back();
       }}
-      onAddExercise={() => {
-        createExercise();
-      }}
+      addExercise={addExercise}
+      removeExercise={removeExercise}
+      editExercise={editExercise}
     />
   );
 }
