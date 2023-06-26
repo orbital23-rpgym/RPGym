@@ -1,4 +1,4 @@
-import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
 import { Link, Stack } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import {
@@ -25,10 +25,10 @@ import {
 export type CreateExerciseFormProps = {
   exerciseData: TempExerciseData;
   onSubmit: (setsData: TempSetData[]) => Promise<void>;
-  onCancel: () => void;
   onDelete: (exercise: TempExerciseData) => void;
-  onAddSet: () => void;
-  onRemoveSet: (set: TempSetData) => void;
+  addSet: () => void;
+  removeSet: (set: TempSetData) => void;
+  editSet: (set: TempSetData) => void;
 } & Omit<ViewProps, "children">;
 
 export default function CreateExerciseForm(props: CreateExerciseFormProps) {
@@ -75,7 +75,6 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
         setIsSubmitting(false);
       });
   }
-
   useEffect(() => {
     setExerciseData(props.exerciseData);
     setSetsData(props.exerciseData.sets.filter((value) => !value.deleted));
@@ -88,8 +87,29 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
       <Stack.Screen
         options={{
           headerTitle: props.exerciseData.template.name,
+          headerLeft: () => (
+            <Link href="../" asChild>
+              <Pressable>
+                {({ pressed }) => {
+                  const style = {
+                    marginLeft: 10,
+                    marginRight: 15,
+                    opacity: pressed ? 0.5 : 1,
+                  };
+                  return (
+                    <FontAwesome5
+                      name="chevron-left"
+                      size={25}
+                      color={themes[colorScheme].text}
+                      style={style}
+                    />
+                  );
+                }}
+              </Pressable>
+            </Link>
+          ),
           headerRight: () => (
-            <Link href="/workout/new/rest-timer" asChild>
+            <Link href="workout/new/rest-timer" asChild>
               <Pressable>
                 {({ pressed }) => {
                   const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
@@ -110,7 +130,7 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
       <Button
         variant="primary"
         style={fullWidthButton.button}
-        onPress={() => props.onAddSet()}
+        onPress={() => props.addSet()}
       >
         <ButtonText style={fullWidthButton.text}>Add Set</ButtonText>
       </Button>
@@ -122,7 +142,10 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
           data={setsData}
           renderItem={({ item }: { item: TempSetData }) => {
             return (
-              <TouchableOpacity activeOpacity={0.6}>
+              <TouchableOpacity
+                activeOpacity={0.6}
+                onPress={() => props.editSet}
+              >
                 <Text>{item.reps}</Text>
               </TouchableOpacity>
             );
