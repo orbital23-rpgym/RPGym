@@ -19,8 +19,9 @@ export default function CreateQuestController() {
       Quest.create(difficulty, timesPerWeek, user.id)
         .then((quest) => {
           // Add quest to user
-          userCharacter.beginQuest(quest);
-          router.replace("(tabs)/quests");
+          userCharacter
+            .beginQuest(quest)
+            .then(() => router.replace("(tabs)/quests"));
         })
         .catch((reason) => reject(reason));
     });

@@ -68,9 +68,7 @@ export default function CreateWorkoutController() {
       });
       Workout.create(startDateTime, endDateTime, exerciseData, user.id)
         .then((workout) => {
-          user.addWorkout(workout);
-          resolve();
-          router.push("../");
+          user.addWorkout(workout).then(() => router.push("../"));
         })
         .catch((reason) => reject(reason));
     });

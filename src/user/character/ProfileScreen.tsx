@@ -1,6 +1,6 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { Link, Tabs, useRouter } from "expo-router";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Pressable, StyleSheet } from "react-native";
 
 import AvatarRenderer from "../../rpg/avatar/AvatarRenderer";
@@ -74,6 +74,9 @@ export default function ProfileScreen() {
   const character = user.character;
 
   const router = useRouter();
+
+  const [quest, setQuestData] = useState(user.character.ongoingQuest);
+  useEffect(() => setQuestData(quest), [quest?.progressThisWeek]);
 
   return (
     <Screen gap={20}>

@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 
 import CurrentQuestDetailCard from "./CurrentQuestDetailCard";
@@ -14,12 +14,15 @@ import { useUserContext } from "library/context/UserContext";
 export default function QuestsScreen() {
   const colorScheme = useContext(ColorSchemeContext);
   const user = useUserContext();
-  const quest = user.character.ongoingQuest;
   const styles = StyleSheet.create({
     heading: {
       marginTop: 10,
     },
   });
+
+  const [quest, setQuestData] = useState(user.character.ongoingQuest);
+  useEffect(() => setQuestData(quest), [quest?.progressThisWeek]);
+
   const pastQuests = [];
   return (
     <Screen gap={20}>

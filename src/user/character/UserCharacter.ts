@@ -144,39 +144,44 @@ export class UserCharacter {
     return userCharacter;
   }
 
-  public beginQuest(quest: Quest) {
+  public async beginQuest(quest: Quest) {
     // Check if user already has ongoing quest
     if (this.ongoingQuest !== null)
       throw new Error("A quest is already in progress.");
     this.ongoingQuest = quest;
-    this.updateToFirestore();
+    await this.updateToFirestore();
   }
 
   /**
    * Trigger rewards associated with workout completion.
    */
-  public completeWorkout() {
-    return;
+  public async completeWorkout() {
+    if (this.ongoingQuest) {
+      this.ongoingQuest.progressThisWeek += 1;
+      await this.updateToFirestore();
+    }
   }
 
   /**
-   * Trigger rewards associated with workout completion.
+   * Trigger rewards associated with quest completion.
    */
   public completeQuest() {
     return;
   }
 
   /**
-   * Trigger rewards associated with workout completion.
+   * Trigger rewards associated with campaign completion.
    */
   public completeCampaign() {
     return;
   }
 
-  public updateToFirestore() {
-    setDoc(this.ref.withConverter(characterConverter), this).catch((reason) => {
-      throw new Error("Update to cloud failed.");
-    });
+  public async updateToFirestore() {
+    await setDoc(this.ref.withConverter(characterConverter), this).catch(
+      (reason) => {
+        throw new Error("Update to cloud failed.");
+      },
+    );
   }
 
   public updateFromFirestore() {
