@@ -13,7 +13,9 @@ import {
 import { themes } from "constants/colors";
 import { fullWidthButton } from "constants/styles";
 import { Button } from "library/components/Button";
+import { Card } from "library/components/Card";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
+import { ProgressBarWithLabels } from "library/components/ProgressBar";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
@@ -52,6 +54,17 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
       marginTop: 20,
       alignItems: "center",
     },
+    cardContainer: {
+      maxWidth: "100%",
+      marginBottom: 15,
+    },
+    card: {
+      padding: 5,
+    },
+    infoText: {
+      fontFamily: "Header",
+      fontSize: 16,
+    },
   });
   const [exerciseData, setExerciseData] = useState<TempExerciseData>(
     props.exerciseData,
@@ -75,6 +88,7 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
         setIsSubmitting(false);
       });
   }
+
   useEffect(() => {
     setExerciseData(props.exerciseData);
     setSetsData(props.exerciseData.sets.filter((value) => !value.deleted));
@@ -144,9 +158,27 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
             return (
               <TouchableOpacity
                 activeOpacity={0.6}
-                onPress={() => props.editSet}
+                onPress={() => props.editSet(item)}
+                style={styles.cardContainer}
               >
-                <Text>{item.reps}</Text>
+                <Card style={styles.card}>
+                  <Text style={styles.infoText}>
+                    {"Weight (kg): " + item.weightKg + "\n"}
+                  </Text>
+                  <Text style={styles.infoText}>
+                    {"Reps: " + item.reps + "\n"}
+                  </Text>
+                  <ProgressBarWithLabels
+                    title={"Perceived Exertion:"}
+                    labelPosition={"stack"}
+                    max={10}
+                    curr={item.perceivedExertion}
+                    colorFg={themes[colorScheme].orange}
+                    colorBg={themes[colorScheme].gray}
+                  />
+                  <Text style={styles.infoText}>{"\nNotes:\n"}</Text>
+                  <Text>{item.notes === "" ? "(no notes)" : item.notes}</Text>
+                </Card>
               </TouchableOpacity>
             );
           }}

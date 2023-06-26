@@ -1,3 +1,3 @@
-import EditExerciseSetScreen from "src/fitness-tracker/set/EditExerciseSetScreen";
+import CreateExerciseSetScreen from "src/fitness-tracker/set/CreateExerciseSetScreen";
 
-export default EditExerciseSetScreen;
+export default CreateExerciseSetScreen;

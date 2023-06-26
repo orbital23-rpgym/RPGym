@@ -45,14 +45,13 @@ export default function CreateWorkoutStack() {
           }}
         />
         <Stack.Screen
-          name="set"
+          name="exercise"
           options={{
             presentation: "card",
           }}
         />
-
         <Stack.Screen
-          name="exercise"
+          name="set"
           options={{
             presentation: "card",
           }}

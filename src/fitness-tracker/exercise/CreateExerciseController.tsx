@@ -17,14 +17,43 @@ export default function CreateExerciseController() {
   const [exerciseData, setExerciseData] = useState<TempExerciseData>();
 
   function addSet() {
-    setData(localData);
-    router.push("/workout/new/set");
+    if (exerciseData) {
+      const newData = { ...localData };
+      newData.selectedExercise = exerciseData;
+      newData.selectedSet = {
+        key: exerciseData.sets.length,
+        deleted: false,
+        notes: "",
+        perceivedExertion: 1,
+        reps: 0,
+        weightKg: 0,
+      };
+      newData.exercises[exerciseData.key].sets[newData.selectedSet.key] =
+        newData.selectedSet;
+      setExerciseData(newData.exercises[exerciseData.key]);
+      setLocalData(newData);
+      setData(newData);
+      router.push("/workout/new/set");
+    }
   }
 
   function removeSet(set: TempSetData) {
-    if (localData.selectedExercise)
-      localData.selectedExercise.sets[set.key].deleted = true;
-    setLocalData(localData);
+    const newData = { ...localData };
+    if (newData.selectedExercise) {
+      newData.selectedExercise.sets[set.key].deleted = true;
+      newData.exercises[newData.selectedExercise.key] =
+        newData.selectedExercise;
+      setLocalData(newData);
+      router.push("/workout/new/exercise");
+    }
+  }
+
+  function editSet(set: TempSetData) {
+    const newData = { ...localData };
+    newData.selectedSet = set;
+    setLocalData(newData);
+    setData(newData);
+    router.push("/workout/new/set");
   }
 
   function deleteExercise(exercise: TempExerciseData) {
@@ -33,7 +62,7 @@ export default function CreateExerciseController() {
     newData.exercises[exercise.key].deleted = true;
     setLocalData(newData);
     setData(newData);
-    router.back();
+    router.push("../");
   }
 
   useEffect(() => {
@@ -65,12 +94,10 @@ export default function CreateExerciseController() {
         <CreateExerciseForm
           exerciseData={exerciseData}
           onSubmit={onSubmit}
-          onCancel={() => {
-            router.back();
-          }}
-          onAddSet={addSet}
-          onRemoveSet={removeSet}
+          addSet={addSet}
+          removeSet={removeSet}
           onDelete={deleteExercise}
+          editSet={editSet}
         />
       )}
     </>

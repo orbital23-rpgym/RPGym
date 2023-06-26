@@ -27,14 +27,13 @@ export default function ExerciseCard(props: ExerciseCardProps) {
   const [setsData, setSetsData] = useState<SetsListItem[]>([]);
   const styles = StyleSheet.create({
     container: {
-      width: "100%",
+      maxWidth: "100%",
     },
     card: {
       width: "100%",
     },
     tableContainer: {
       width: "100%",
-      minWidth: 250,
     },
     setRow: {
       flexDirection: "row",
@@ -42,24 +41,37 @@ export default function ExerciseCard(props: ExerciseCardProps) {
       padding: 5,
       gap: 5,
       justifyContent: "space-between",
+      alignItems: "center",
     },
     setColNum: {
-      // flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      flex: 1,
     },
     setColWeight: {
-      // flex: 3,
+      alignItems: "center",
+      justifyContent: "center",
+      flex: 2,
     },
     setColReps: {
-      // flex: 1,
+      alignItems: "center",
+      justifyContent: "center",
+      flex: 1,
     },
     setColRpe: {
-      // flex: 2,
+      alignItems: "center",
+      justifyContent: "center",
+      flex: 2,
     },
     heading: {
       fontSize: 16,
+      textAlign: "center",
+      flex: 1,
     },
     cellText: {
       fontSize: 16,
+      textAlign: "center",
+      flex: 1,
     },
   });
 
@@ -105,7 +117,7 @@ export default function ExerciseCard(props: ExerciseCardProps) {
                   return (
                     <View style={styles.setRow}>
                       <View style={styles.setColNum}>
-                        <Text style={styles.cellText}>{item.key}</Text>
+                        <Text style={styles.cellText}>{item.key + 1}</Text>
                       </View>
                       <View style={styles.setColWeight}>
                         <Text style={styles.cellText}>{item.set.weightKg}</Text>
