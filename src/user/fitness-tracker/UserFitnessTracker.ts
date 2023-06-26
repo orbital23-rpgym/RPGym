@@ -1,25 +1,28 @@
 import { endOfDay, Interval, isWithinInterval, startOfDay } from "date-fns";
 import {
+  collection,
+  CollectionReference,
   doc,
   DocumentData,
   DocumentReference,
   FirestoreDataConverter,
   getDoc,
+  getDocs,
   QueryDocumentSnapshot,
   setDoc,
   SnapshotOptions,
+  updateDoc,
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
 import { DATE_MAX, DATE_MIN } from "constants/misc";
-import { DEFAULT_EXERCISE_TEMPLATES_DATA } from "constants/workout";
 import { db } from "src/firebase-init";
 import ExerciseTemplate, {
   ExerciseTemplateData,
 } from "src/fitness-tracker/exercise/ExerciseTemplate";
 import WorkoutRoutine from "src/fitness-tracker/routine/WorkoutRoutine";
 import WorkoutPreset from "src/fitness-tracker/workout/presets/WorkoutPreset";
-import Workout from "src/fitness-tracker/workout/Workout";
+import Workout, { workoutConverter } from "src/fitness-tracker/workout/Workout";
 
 /**
  * User fitness (workouts, custom exercises) data.
@@ -31,6 +34,8 @@ export class UserFitnessTracker {
   workoutRoutines: WorkoutRoutine[];
   #exerciseTemplates: ExerciseTemplate[] | undefined;
   #exerciseTemplatesRefs: DocumentReference[];
+  mostRecentWorkout: Workout | null;
+  workoutsRef: CollectionReference;
 
   constructor(
     ref: DocumentReference,
@@ -39,6 +44,7 @@ export class UserFitnessTracker {
     workoutRoutines: WorkoutRoutine[],
     exerciseTemplates: ExerciseTemplate[] | undefined,
     exerciseTemplatesRefs: DocumentReference[],
+    mostRecentWorkout: Workout | null,
   ) {
     this.ref = ref;
     this.workouts = workouts;
@@ -46,6 +52,10 @@ export class UserFitnessTracker {
     this.workoutRoutines = workoutRoutines;
     this.#exerciseTemplates = exerciseTemplates;
     this.#exerciseTemplatesRefs = exerciseTemplatesRefs;
+    this.mostRecentWorkout = mostRecentWorkout;
+    this.workoutsRef = collection(db, this.ref.path, "workouts").withConverter(
+      workoutConverter,
+    );
   }
 
   /**
@@ -82,6 +92,7 @@ export class UserFitnessTracker {
       [],
       defaultTemplates,
       defaultTemplates.map((template) => template.ref),
+      null,
     );
     await setDoc(ref, userFitnessTracker);
     return userFitnessTracker;
@@ -104,10 +115,22 @@ export class UserFitnessTracker {
   }
 
   /**
-   * Gets most recent completed workout, or null if nonexistent.
+   * Adds new workout to user data. Also triggers quest progression, if any.
    */
-  public async mostRecentWorkout(): Promise<Workout | undefined> {
-    return this.workouts.sort(Workout.compareByStartDateTimeDesc).at(0);
+  public async addWorkout(workout: Workout) {
+    this.workouts.push(workout);
+    this.mostRecentWorkout = workout;
+    updateDoc(this.ref, { mostRecentWorkout: this.mostRecentWorkout.ref });
+
+    // TODO: trigger quest/campaign progression.
+  }
+
+  /**
+   * Updates workouts from Firestore.
+   */
+  public async pullWorkouts() {
+    const snapshot = await getDocs(this.workoutsRef);
+    this.workouts = snapshot.docs.map((snap) => snap.data() as Workout);
   }
 
   /**
@@ -212,6 +235,12 @@ export const fitnessTrackerConverter: FirestoreDataConverter<UserFitnessTracker>
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const data = snapshot.data(options)!;
       // TODO
-      return new UserFitnessTracker(snapshot.ref, [], [], [], [], []);
+      return new UserFitnessTracker(snapshot.ref, [], [], [], [], [], null);
     },
   };
+
+export type UserFitnessTrackerData = {
+  workouts: CollectionReference;
+  exerciseTemplates: CollectionReference;
+  mostRecentWorkout: DocumentReference;
+};

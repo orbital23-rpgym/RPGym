@@ -35,14 +35,102 @@ const DUMMY_DOCUMENT_REF = doc(db, "rpgym/dummy");
  * Default exercise templates for users
  */
 export const DUMMY_DEFAULT_EXERCISE_TEMPLATES: ExerciseTemplate[] = [
-  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Bench Press", "Chest", ""),
-  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Squat", "Legs", ""),
-  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Deadlift", "Legs", ""),
-  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Lat Pulldown", "Back", ""),
-  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Cable Row", "Back", ""),
-  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Bicep Curl", "Bicep", ""),
-  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Tricep Extension", "Tricep", ""),
-  new ExerciseTemplate(DUMMY_DOCUMENT_REF, "Lateral Raise", "Shoulder", ""),
+  new ExerciseTemplate(
+    doc(
+      db,
+      DB.userFitness,
+      "rpgym",
+      "exerciseTemplates",
+      "3K08HbRis62QJShkctvV",
+    ),
+    "Bench Press",
+    "Chest",
+    "",
+  ),
+  new ExerciseTemplate(
+    doc(
+      db,
+      DB.userFitness,
+      "rpgym",
+      "exerciseTemplates",
+      "6zb9vUTOrbzPhIV2r6Op",
+    ),
+    "Squat",
+    "Legs",
+    "",
+  ),
+  new ExerciseTemplate(
+    doc(
+      db,
+      DB.userFitness,
+      "rpgym",
+      "exerciseTemplates",
+      "RDHAACz6XiPgArjT2T2G",
+    ),
+    "Deadlift",
+    "Legs",
+    "",
+  ),
+  new ExerciseTemplate(
+    doc(
+      db,
+      DB.userFitness,
+      "rpgym",
+      "exerciseTemplates",
+      "POc6oE69x3aOi1E3DPlw",
+    ),
+    "Lat Pulldown",
+    "Back",
+    "",
+  ),
+  new ExerciseTemplate(
+    doc(
+      db,
+      DB.userFitness,
+      "rpgym",
+      "exerciseTemplates",
+      "zgnROZXL8oMzZLVv96ia",
+    ),
+    "Cable Row",
+    "Back",
+    "",
+  ),
+  new ExerciseTemplate(
+    doc(
+      db,
+      DB.userFitness,
+      "rpgym",
+      "exerciseTemplates",
+      "5SfREfphygEVIumz3v69",
+    ),
+    "Bicep Curl",
+    "Bicep",
+    "",
+  ),
+  new ExerciseTemplate(
+    doc(
+      db,
+      DB.userFitness,
+      "rpgym",
+      "exerciseTemplates",
+      "cysgSoKg3cEjPEUC0UXu",
+    ),
+    "Tricep Extension",
+    "Tricep",
+    "",
+  ),
+  new ExerciseTemplate(
+    doc(
+      db,
+      DB.userFitness,
+      "rpgym",
+      "exerciseTemplates",
+      "eUcJMQHCXUP6IvxLu5Uh",
+    ),
+    "Lateral Raise",
+    "Shoulder",
+    "",
+  ),
 ];
 
 /** Dummy exercise template. */
@@ -164,6 +252,7 @@ export const DUMMY_FITNESS = new UserFitnessTracker(
   [],
   [...DUMMY_DEFAULT_EXERCISE_TEMPLATES],
   [],
+  DUMMY_WORKOUT_3B,
 );
 
 /************************/

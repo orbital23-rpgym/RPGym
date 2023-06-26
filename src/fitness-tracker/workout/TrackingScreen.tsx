@@ -18,11 +18,9 @@ export default function TrackingScreen() {
   const styles = StyleSheet.create({
     noWorkoutText: { textAlign: "center" },
   });
-  const [lastWorkout, setLastWorkout] = useState<Workout | undefined>(
-    undefined,
-  );
+  const [lastWorkout, setLastWorkout] = useState<Workout | null>(null);
   useEffect(() => {
-    user.fitnessTracker.mostRecentWorkout().then(setLastWorkout);
+    setLastWorkout(user.fitnessTracker.mostRecentWorkout);
   }, []);
   const lastWorkoutCardTitle = "🏋️ Last Workout";
   return (

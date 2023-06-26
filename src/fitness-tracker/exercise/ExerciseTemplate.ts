@@ -6,6 +6,7 @@ import {
   DocumentReference,
   FirestoreDataConverter,
   getDoc,
+  getDocs,
   QueryDocumentSnapshot,
   SnapshotOptions,
 } from "firebase/firestore";
@@ -37,16 +38,14 @@ export default class ExerciseTemplate {
    * Get default templates from Firestore.
    */
   static async getDefaultTemplates() {
-    const defaultsRef = doc(db, DB.rpgym, "fitness");
-    const snapshot = await getDoc(defaultsRef);
-    const data = snapshot.data() as ExerciseTemplateData[];
-    return data.map((templateData) =>
-      // TODO: rework ref
-      ExerciseTemplate.fromData(
-        templateData,
-        doc(db, DB.userCharacter, "rpgym", "exerciseTemplates"),
-      ),
-    );
+    const defaultsRef = collection(
+      db,
+      DB.userFitness,
+      "rpgym",
+      "exerciseTemplates",
+    ).withConverter(exerciseTemplateConverter);
+    const snapshot = await getDocs(defaultsRef);
+    return snapshot.docs.map((doc) => doc.data());
   }
 
   /**
@@ -72,7 +71,7 @@ export default class ExerciseTemplate {
       notes: notes,
     };
     const ref = await addDoc(
-      collection(db, DB.userCharacter, userId, "exerciseTemplates"),
+      collection(db, DB.userFitness, userId, "exerciseTemplates"),
       templateData,
     );
     const template = new ExerciseTemplate(
