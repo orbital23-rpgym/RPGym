@@ -24,6 +24,7 @@ export type CreateWorkoutFormData = {
   selectedExerciseTemplate?: ExerciseTemplate;
   selectedExercise?: TempExerciseData;
   selectedSet?: TempSetData;
+  restTimer?: never;
 };
 
 export const CreateWorkoutFormContext = createContext<{
