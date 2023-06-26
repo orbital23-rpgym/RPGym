@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ExerciseData } from "../exercise/Exercise";
 import { WeightRepsExerciseSetData } from "../set/WeightRepsExerciseSet";
@@ -7,7 +7,6 @@ import { WeightRepsExerciseSetData } from "../set/WeightRepsExerciseSet";
 import CreateWorkoutForm from "./CreateWorkoutForm";
 import Workout from "./Workout";
 
-import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import {
   TempExerciseData,
   useCreateWorkoutFormContext,
@@ -28,14 +27,16 @@ export default function CreateWorkoutController() {
   }
 
   function removeExercise(exercise: TempExerciseData) {
-    localData.exercises[exercise.key].deleted = true;
-    setLocalData(localData);
+    const newData = { ...localData };
+    newData.exercises[exercise.key].deleted = true;
+    setLocalData(newData);
   }
 
   function editExercise(exercise: TempExerciseData) {
-    localData.selectedExercise = exercise;
-    setLocalData(localData);
-    setData(localData);
+    const newData = { ...localData };
+    newData.selectedExercise = exercise;
+    setLocalData(newData);
+    setData(newData);
     router.push("/workout/new/exercise");
   }
 
