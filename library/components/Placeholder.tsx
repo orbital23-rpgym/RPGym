@@ -6,7 +6,7 @@ export default function PlaceholderText() {
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.title}>PLACEHOLDER</Text>
+        <Text style={styles.title}>COMING SOON</Text>
         <View
           style={styles.separator}
           lightColor="#eee"
@@ -17,7 +17,7 @@ export default function PlaceholderText() {
           lightColor="rgba(0,0,0,0.8)"
           darkColor="rgba(255,255,255,0.8)"
         >
-          This has not been implemented yet
+          {"This has not been implemented yet. Stay tuned :)"}
         </Text>
       </View>
     </View>
