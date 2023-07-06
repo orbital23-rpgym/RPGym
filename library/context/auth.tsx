@@ -1,16 +1,16 @@
 import { useRouter, useSegments } from "expo-router";
+import { User as FirebaseUser } from "firebase/auth";
 import { useEffect } from "react";
 import { ViewProps } from "react-native/types";
 
 import { UserContext } from "./UserContext";
 
 import { useAuthentication } from "library/hooks/useAuthentication";
-import { User } from "src/user/User";
 
 /**
  * Protects the route access based on user authentication.
  */
-function useProtectedRoute(user?: User) {
+function useProtectedRoute(user?: FirebaseUser) {
   const segments = useSegments();
   const router = useRouter();
 
@@ -25,20 +25,22 @@ function useProtectedRoute(user?: User) {
       !isInAuthGroup
     ) {
       // Redirect to the sign-in page.
-      router.replace("/welcome");
+      router.replace("/(auth)/welcome");
     } else if (user && isInAuthGroup) {
       // Redirect away from the sign-in page.
-      router.replace("(tabs)/");
+      router.replace("/(tabs)/profile");
     }
   }, [user, segments]);
 }
 
 export function AuthProvider(props: ViewProps) {
-  const { user } = useAuthentication();
+  const authResult = useAuthentication();
 
-  useProtectedRoute(user);
+  useProtectedRoute(authResult.authUser);
 
   return (
-    <UserContext.Provider value={user}>{props.children}</UserContext.Provider>
+    <UserContext.Provider value={authResult.appUser}>
+      {props.children}
+    </UserContext.Provider>
   );
 }

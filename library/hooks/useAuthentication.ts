@@ -30,7 +30,9 @@ export function useAuthentication() {
         } else {
           // User is signed out
           setAuthUser(undefined);
-          setAppUser(undefined);
+          // authenticated pages do not unload when protected route redirects to login page
+          // for now to avoid crashes, return dummy user
+          setAppUser(DUMMY_USER);
         }
       },
     );
@@ -38,5 +40,5 @@ export function useAuthentication() {
     return unsubscribeFromAuthStatusChanged;
   }, []);
 
-  return { authUser, user: appUser };
+  return { authUser, appUser };
 }

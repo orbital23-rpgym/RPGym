@@ -26,7 +26,7 @@ export default function LoginController() {
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           // Signed in
-          router.replace("(tabs)/");
+          // Auth provider will automatically redirect to default authenticated route
         })
         .catch((error) => {
           const errorCode = error.code;
