@@ -7,7 +7,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Slot, SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 
@@ -25,31 +25,47 @@ export {
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
   auth: {
     initialRouteName: "welcome",
   },
+  initialRouteName: "(tabs)/",
 };
 
 export default function RootLayout() {
-  const [isLoaded, error] = useFonts({
+  const [isLoadedFonts, error] = useFonts({
     BodyRegular: NotoSans_400Regular,
     Header: WorkSans_600SemiBold,
     ...FontAwesome.font,
   });
+
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+
+    prepare();
+  }, []);
+
+  useEffect(() => {
+    if (isLoadedFonts) {
+      // Hide the splash screen after the fonts have loaded and the
+      // UI is ready.
+      SplashScreen.hideAsync();
+    }
+  }, [isLoadedFonts]);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
-  return (
-    <>
-      {/* Keep the splash screen open until the assets have loaded. In the future, we should just support async font loading with a native version of font-display. */}
-      {!isLoaded && <SplashScreen />}
-      {isLoaded && <RootLayoutNav />}
-    </>
-  );
+  // Prevent rendering real layout until fonts loaded
+  if (!isLoadedFonts) {
+    return <Slot initialRouteName="(auth)/loading" />;
+  }
+
+  // Render the children routes now that all the assets are loaded.
+  return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
@@ -67,6 +83,7 @@ function RootLayoutNav() {
             style={colorScheme === "dark" ? "light" : "dark"}
           />
           <Stack
+            initialRouteName="(auth)/welcome"
             screenOptions={{
               headerStyle: {
                 backgroundColor: themes[colorScheme].background,
@@ -80,7 +97,7 @@ function RootLayoutNav() {
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen
               name="(auth)/welcome"
-              options={{ headerShown: false }}
+              options={{ headerShown: false, title: "Welcome to RPGym" }}
             />
           </Stack>
         </ColorSchemeContext.Provider>

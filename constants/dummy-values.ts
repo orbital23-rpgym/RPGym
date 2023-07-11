@@ -287,7 +287,7 @@ export const DUMMY_CHAR = new UserCharacter(
   3333,
   323,
   123,
-  Avatar.DEFAULT,
+  DUMMY_AVATAR,
   [],
   null,
   null,

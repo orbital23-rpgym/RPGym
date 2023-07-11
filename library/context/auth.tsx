@@ -5,6 +5,7 @@ import { ViewProps } from "react-native/types";
 
 import { UserContext } from "./UserContext";
 
+import { PLACEHOLDER_USER } from "constants/placeholder-values";
 import { useAuthentication } from "library/hooks/useAuthentication";
 
 /**
@@ -39,7 +40,7 @@ export function AuthProvider(props: ViewProps) {
   useProtectedRoute(authResult.authUser);
 
   return (
-    <UserContext.Provider value={authResult.appUser}>
+    <UserContext.Provider value={authResult.appUser ?? PLACEHOLDER_USER}>
       {props.children}
     </UserContext.Provider>
   );
