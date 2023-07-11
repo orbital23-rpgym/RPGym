@@ -2,10 +2,10 @@
   "name": "rpgym",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
+    "start": "expo start --go",
+    "android": "expo start --go --android",
+    "ios": "expo start --go --ios",
+    "web": "expo start --go --web",
     "prettier-format": "prettier --config .prettierrc '**/*.{json,js,jsx,ts,tsx,css,scss,md}' --write",
     "lint": "eslint . --ext .ts,.tsx,.js,.jsx,.json",
     "lint-ci": "eslint . --ext .ts,.tsx,.js,.jsx,.json --fix --config ./ci-eslint.json",
@@ -51,7 +51,7 @@
     "react-dom": "18.2.0",
     "react-native": "0.72.1",
     "react-native-calendars": "^1.1299.0",
-    "react-native-gesture-handler": "^2.12.0",
+    "react-native-gesture-handler": "~2.12.0",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
     "react-native-web": "~0.19.6"
