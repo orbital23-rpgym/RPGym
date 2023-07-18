@@ -10,6 +10,7 @@ import { useFonts } from "expo-font";
 import { Slot, SplashScreen, Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
+import { LogBox } from "react-native";
 
 import { themes } from "constants/colors";
 import { headingTextStyle } from "constants/styles";
@@ -30,6 +31,11 @@ export const unstable_settings = {
   },
   initialRouteName: "(tabs)/",
 };
+
+// Suppress font loading error as the splashscreen method doesn't really work
+LogBox.ignoreLogs([
+  "You need to wait for Font.loadAsync to complete before using the font.",
+]);
 
 export default function RootLayout() {
   const [isLoadedFonts, error] = useFonts({
@@ -61,11 +67,12 @@ export default function RootLayout() {
 
   // Prevent rendering real layout until fonts loaded
   if (!isLoadedFonts) {
+    // return <SplashScreen />;
     return <Slot initialRouteName="(auth)/loading" />;
   }
 
   // Render the children routes now that all the assets are loaded.
-  return <RootLayoutNav />;
+  return isLoadedFonts ? <RootLayoutNav /> : <SplashScreen />;
 }
 
 function RootLayoutNav() {
