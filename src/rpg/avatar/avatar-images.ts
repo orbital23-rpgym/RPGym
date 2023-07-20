@@ -1,31 +1,195 @@
-import EMPTY_LAYER from "assets/avatar/onbody_empty.png";
+import ICON_EMPTY from "assets/avatar/icon_empty.png";
+import ONBODY_EMPTY from "assets/avatar/onbody_empty.png";
 
-export const AVATAR_BASE = {
-  base: {
-    slim: {
-      a: require("assets/avatar/base/slim/base_slim_a.png"),
-      clothes: require("assets/avatar/base/slim/onbody_slim_clothes.png"),
-    },
-    broad: { a: 0, clothes: 0 },
+export const AVATAR_BASE_ICONS = {
+  skinColor: {
+    peach: "#F6C9A0",
+    lightBrown: "#B27B62",
+    mediumBrown: "#713E29",
+    darkBrown: "#353535",
+  },
+  hairColor: {
+    red: "#7B2135",
+    darkBlond: "#917531",
+    black: "#3C3A3A",
+    yellow: "#FFDD63",
   },
   frontHair: {
     red: {
-      a: require("assets/avatar/front-hair/onbody_fronthair_red_a.png"),
-      none: EMPTY_LAYER,
+      a: require("assets/avatar/front-hair/icon_fronthair_red_a.png"),
+      b: require("assets/avatar/front-hair/icon_fronthair_red_b.png"),
+      none: ICON_EMPTY,
+    },
+    darkBlond: {
+      a: require("assets/avatar/front-hair/icon_fronthair_brown_a.png"),
+      b: require("assets/avatar/front-hair/icon_fronthair_brown_b.png"),
+      none: ICON_EMPTY,
+    },
+    black: {
+      a: require("assets/avatar/front-hair/icon_fronthair_black_a.png"),
+      b: require("assets/avatar/front-hair/icon_fronthair_black_b.png"),
+      none: ICON_EMPTY,
+    },
+    yellow: {
+      a: require("assets/avatar/front-hair/icon_fronthair_yellow_a.png"),
+      b: require("assets/avatar/front-hair/icon_fronthair_yellow_b.png"),
+      none: ICON_EMPTY,
     },
   },
   backHair: {
     red: {
-      a: require("assets/avatar/back-hair/onbody_backhair_red_a.png"),
-      none: EMPTY_LAYER,
+      long: require("assets/avatar/back-hair/icon_backhair_red_a.png"),
+      short: require("assets/avatar/back-hair/icon_backhair_red_b.png"),
+      none: ICON_EMPTY,
+    },
+    darkBlond: {
+      long: require("assets/avatar/back-hair/icon_backhair_brown_a.png"),
+      short: require("assets/avatar/back-hair/icon_backhair_brown_b.png"),
+      none: ICON_EMPTY,
+    },
+    black: {
+      long: require("assets/avatar/back-hair/icon_backhair_black_a.png"),
+      short: require("assets/avatar/back-hair/icon_backhair_black_b.png"),
+      none: ICON_EMPTY,
+    },
+    yellow: {
+      long: require("assets/avatar/back-hair/icon_backhair_yellow_a.png"),
+      short: require("assets/avatar/back-hair/icon_backhair_yellow_b.png"),
+      none: ICON_EMPTY,
     },
   },
   faceHair: {
     red: {
-      a: require("assets/avatar/facial-hair/onbody_facialhair_red_a.png"),
-      b: require("assets/avatar/facial-hair/onbody_facialhair_red_b.png"),
-      c: require("assets/avatar/facial-hair/onbody_facialhair_red_c.png"),
-      none: EMPTY_LAYER,
+      moustache: require("assets/avatar/facial-hair/icon_facialhair_red_moustache.png"),
+      // beard: require("assets/avatar/facial-hair/icon_facialhair_red_beard.png"),
+      beard: 0,
+      both: require("assets/avatar/facial-hair/icon_facialhair_red_both.png"),
+      none: ICON_EMPTY,
+    },
+    darkBlond: {
+      moustache: require("assets/avatar/facial-hair/icon_facialhair_brown_moustache.png"),
+      // beard: require("assets/avatar/facial-hair/icon_facialhair_brown_beard.png"),
+      beard: 0,
+      both: require("assets/avatar/facial-hair/icon_facialhair_brown_both.png"),
+      none: ICON_EMPTY,
+    },
+    black: {
+      moustache: require("assets/avatar/facial-hair/icon_facialhair_black_moustache.png"),
+      // beard: require("assets/avatar/facial-hair/icon_facialhair_black_beard.png"),
+      beard: 0,
+      both: require("assets/avatar/facial-hair/icon_facialhair_black_both.png"),
+      none: ICON_EMPTY,
+    },
+    yellow: {
+      moustache: require("assets/avatar/facial-hair/icon_facialhair_yellow_moustache.png"),
+      // beard: require("assets/avatar/facial-hair/icon_facialhair_yellow_beard.png"),
+      beard: 0,
+      both: require("assets/avatar/facial-hair/icon_facialhair_yellow_both.png"),
+      none: ICON_EMPTY,
+    },
+  },
+  glasses: {
+    red: require("assets/avatar/glasses/icon_glasses_red.png"),
+    purple: require("assets/avatar/glasses/icon_glasses_purple.png"),
+    blue: require("assets/avatar/glasses/icon_glasses_blue.png"),
+    green: require("assets/avatar/glasses/icon_glasses_green.png"),
+    none: ICON_EMPTY,
+  },
+  background: {
+    pink: "#F0ADB9",
+    blue: "#9ECED9",
+    green: "#A3C7AD",
+    purple: "#D2B7F6",
+    yellow: "#E8DEC4",
+  },
+};
+
+export const AVATAR_BASE_ONBODY = {
+  base: {
+    slim: {
+      peach: require("assets/avatar/base/slim/base_slim_peach.png"),
+      lightBrown: require("assets/avatar/base/slim/base_slim_lightbrown.png"),
+      mediumBrown: require("assets/avatar/base/slim/base_slim_mediumbrown.png"),
+      darkBrown: require("assets/avatar/base/slim/base_slim_darkbrown.png"),
+      clothes: require("assets/avatar/base/slim/onbody_slim_clothes.png"),
+    },
+    broad: {
+      // temporarily use the slim sprites as we don't have the broad ones rn
+      peach: require("assets/avatar/base/slim/base_slim_peach.png"),
+      lightBrown: require("assets/avatar/base/slim/base_slim_lightbrown.png"),
+      mediumBrown: require("assets/avatar/base/slim/base_slim_mediumbrown.png"),
+      darkBrown: require("assets/avatar/base/slim/base_slim_darkbrown.png"),
+      clothes: require("assets/avatar/base/slim/onbody_slim_clothes.png"),
+    },
+  },
+  frontHair: {
+    red: {
+      a: require("assets/avatar/front-hair/onbody_fronthair_red_a.png"),
+      b: require("assets/avatar/front-hair/onbody_fronthair_red_b.png"),
+      none: ONBODY_EMPTY,
+    },
+    darkBlond: {
+      a: require("assets/avatar/front-hair/onbody_fronthair_brown_a.png"),
+      b: require("assets/avatar/front-hair/onbody_fronthair_brown_b.png"),
+      none: ONBODY_EMPTY,
+    },
+    black: {
+      a: require("assets/avatar/front-hair/onbody_fronthair_black_a.png"),
+      b: require("assets/avatar/front-hair/onbody_fronthair_black_b.png"),
+      none: ONBODY_EMPTY,
+    },
+    yellow: {
+      a: require("assets/avatar/front-hair/onbody_fronthair_yellow_a.png"),
+      b: require("assets/avatar/front-hair/onbody_fronthair_yellow_b.png"),
+      none: ONBODY_EMPTY,
+    },
+  },
+  backHair: {
+    red: {
+      long: require("assets/avatar/back-hair/onbody_backhair_red_a.png"),
+      short: require("assets/avatar/back-hair/onbody_backhair_red_b.png"),
+      none: ONBODY_EMPTY,
+    },
+    darkBlond: {
+      long: require("assets/avatar/back-hair/onbody_backhair_brown_a.png"),
+      short: require("assets/avatar/back-hair/onbody_backhair_brown_b.png"),
+      none: ONBODY_EMPTY,
+    },
+    black: {
+      long: require("assets/avatar/back-hair/onbody_backhair_black_a.png"),
+      short: require("assets/avatar/back-hair/onbody_backhair_black_b.png"),
+      none: ONBODY_EMPTY,
+    },
+    yellow: {
+      long: require("assets/avatar/back-hair/onbody_backhair_yellow_a.png"),
+      short: require("assets/avatar/back-hair/onbody_backhair_yellow_b.png"),
+      none: ONBODY_EMPTY,
+    },
+  },
+  faceHair: {
+    red: {
+      moustache: require("assets/avatar/facial-hair/onbody_facialhair_red_moustache.png"),
+      beard: require("assets/avatar/facial-hair/onbody_facialhair_red_beard.png"),
+      both: require("assets/avatar/facial-hair/onbody_facialhair_red_both.png"),
+      none: ONBODY_EMPTY,
+    },
+    darkBlond: {
+      moustache: require("assets/avatar/facial-hair/onbody_facialhair_brown_moustache.png"),
+      beard: require("assets/avatar/facial-hair/onbody_facialhair_brown_beard.png"),
+      both: require("assets/avatar/facial-hair/onbody_facialhair_brown_both.png"),
+      none: ONBODY_EMPTY,
+    },
+    black: {
+      moustache: require("assets/avatar/facial-hair/onbody_facialhair_black_moustache.png"),
+      beard: require("assets/avatar/facial-hair/onbody_facialhair_black_beard.png"),
+      both: require("assets/avatar/facial-hair/onbody_facialhair_black_both.png"),
+      none: ONBODY_EMPTY,
+    },
+    yellow: {
+      moustache: require("assets/avatar/facial-hair/onbody_facialhair_yellow_moustache.png"),
+      beard: require("assets/avatar/facial-hair/onbody_facialhair_yellow_beard.png"),
+      both: require("assets/avatar/facial-hair/onbody_facialhair_yellow_both.png"),
+      none: ONBODY_EMPTY,
     },
   },
   glasses: {
@@ -33,15 +197,13 @@ export const AVATAR_BASE = {
     purple: require("assets/avatar/glasses/onbody_glasses_purple.png"),
     blue: require("assets/avatar/glasses/onbody_glasses_blue.png"),
     green: require("assets/avatar/glasses/onbody_glasses_green.png"),
-    none: EMPTY_LAYER,
+    none: ONBODY_EMPTY,
+  },
+  background: {
+    pink: "#F0ADB9",
+    blue: "#9ECED9",
+    green: "#A3C7AD",
+    purple: "#D2B7F6",
+    yellow: "#E8DEC4",
   },
 };
-
-// export type AvatarBaseLayer = keyof typeof AVATAR_BASE;
-// export type GlassesColor = keyof typeof AVATAR_BASE.glasses;
-// export type HairColor = keyof typeof AVATAR_BASE.backHair;
-// export type BodySize = keyof typeof AVATAR_BASE.base;
-// export type SkinColor = keyof typeof AVATAR_BASE.base.slim;
-// export type FrontHair = keyof typeof AVATAR_BASE.frontHair.red;
-// export type BackHair = keyof typeof AVATAR_BASE.backHair.red;
-// export type FacialHair = keyof typeof AVATAR_BASE.faceHair.red;

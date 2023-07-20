@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 
+import { AVATAR_BASE_ONBODY } from "./avatar-images";
 import AvatarBase from "./AvatarBase";
 import AvatarBaseRenderer from "./AvatarBaseRenderer";
 import AvatarEquipmentRenderer from "./AvatarEquipmentRenderer";
@@ -50,7 +51,7 @@ export default function AvatarRenderer(props: AvatarProps) {
       overflow: "hidden",
       backgroundColor: hasTransparentBackground
         ? palette.transparent
-        : avatar.avatarBase.background,
+        : AVATAR_BASE_ONBODY.background[avatar.avatarBase.background],
       ...containerDynamicStyles,
     },
     spriteLayers: {
