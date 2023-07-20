@@ -17,19 +17,19 @@ export default function AvatarRenderer(props: AvatarProps) {
   const { avatar, style, mini: isMini = false, ...otherProps } = props;
   const spriteLayerDynamicStyles = isMini
     ? {
-        width: "200%",
-        height: "200%",
-        marginTop: "110%",
+        width: "200%" as const,
+        height: "200%" as const,
+        marginTop: "110%" as const,
       }
     : {
-        width: "100%",
-        height: "100%",
+        width: "100%" as const,
+        height: "100%" as const,
       };
   const containerDynamicStyles = isMini
     ? { borderRadius: 10000, width: 65, height: 65 }
     : {
-        width: "100%",
-        height: "100%",
+        width: "100%" as const,
+        height: "100%" as const,
       };
   const styles = StyleSheet.create({
     container: {
