@@ -12,6 +12,7 @@ type AvatarProps = {
   avatar: Avatar;
   mini?: boolean;
   baseOnly?: boolean;
+  transparentBg?: boolean;
 } & Omit<ViewProps, "children">;
 
 export default function AvatarRenderer(props: AvatarProps) {
@@ -20,6 +21,7 @@ export default function AvatarRenderer(props: AvatarProps) {
     style,
     mini: isMini = false,
     baseOnly: isBaseOnly = false,
+    transparentBg: hasTransparentBackground = false,
     ...otherProps
   } = props;
   const spriteLayerDynamicStyles = isMini
@@ -42,11 +44,13 @@ export default function AvatarRenderer(props: AvatarProps) {
     container: {
       alignItems: "center",
       justifyContent: "center",
-      backgroundColor: avatar.avatarBase.background,
       padding: 10,
       flex: 1,
       aspectRatio: 1,
       overflow: "hidden",
+      backgroundColor: hasTransparentBackground
+        ? palette.transparent
+        : avatar.avatarBase.background,
       ...containerDynamicStyles,
     },
     spriteLayers: {
