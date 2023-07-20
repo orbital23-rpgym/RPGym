@@ -11,10 +11,17 @@ import Avatar from "src/rpg/avatar/Avatar";
 type AvatarProps = {
   avatar: Avatar;
   mini?: boolean;
+  baseOnly?: boolean;
 } & Omit<ViewProps, "children">;
 
 export default function AvatarRenderer(props: AvatarProps) {
-  const { avatar, style, mini: isMini = false, ...otherProps } = props;
+  const {
+    avatar,
+    style,
+    mini: isMini = false,
+    baseOnly: isBaseOnly = false,
+    ...otherProps
+  } = props;
   const spriteLayerDynamicStyles = isMini
     ? {
         width: "200%" as const,
@@ -53,7 +60,9 @@ export default function AvatarRenderer(props: AvatarProps) {
     <View style={StyleSheet.compose(styles.container, style)} {...otherProps}>
       <View style={styles.spriteLayers}>
         <AvatarBaseRenderer avatarBase={avatar.avatarBase} />
-        <AvatarEquipmentRenderer avatarEquipment={avatar.avatarEquipment} />
+        {!isBaseOnly && (
+          <AvatarEquipmentRenderer avatarEquipment={avatar.avatarEquipment} />
+        )}
       </View>
     </View>
   );
