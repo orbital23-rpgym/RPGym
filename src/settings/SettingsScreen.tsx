@@ -15,7 +15,7 @@ export default function SettingsScreen() {
     signOut(auth)
       .then(() => {
         // Sign-out successful.
-        router.replace("(auth)/welcome");
+        // Auth provider will automatically redirect to welcome page.
       })
       .catch((error) => {
         // An error happened.
@@ -31,7 +31,6 @@ export default function SettingsScreen() {
           Edit profile
         </Link>
       </Button>
-      <Text>(app, account settings go here)</Text>
 
       <Button variant="destructive" onPress={logout}>
         <Text style={styles.buttonText}>Log Out</Text>

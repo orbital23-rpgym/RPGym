@@ -118,7 +118,7 @@
           },
           {
             "selector": "memberLike",
-            "format": ["camelCase", "PascalCase"]
+            "format": ["camelCase", "PascalCase", "UPPER_CASE"]
           },
           {
             "selector": "memberLike",

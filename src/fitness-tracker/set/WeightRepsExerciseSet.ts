@@ -1,4 +1,4 @@
-import ExerciseSet from "./ExerciseSet";
+import ExerciseSet, { ExerciseSetData } from "./ExerciseSet";
 
 /**
  * Set of an exercise.
@@ -28,4 +28,22 @@ export default class WeightRepsExerciseSet extends ExerciseSet {
     this.weightKg = weightKg;
     this.reps = reps;
   }
+
+  public toData(): WeightRepsExerciseSetData {
+    return { ...super.toData(), weightKg: this.weightKg, reps: this.reps };
+  }
+
+  static fromData(data: WeightRepsExerciseSetData): WeightRepsExerciseSet {
+    return new WeightRepsExerciseSet(
+      data.notes,
+      data.perceivedExertion,
+      data.weightKg,
+      data.reps,
+    );
+  }
 }
+
+export type WeightRepsExerciseSetData = ExerciseSetData & {
+  weightKg: number;
+  reps: number;
+};

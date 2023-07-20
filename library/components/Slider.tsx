@@ -20,6 +20,7 @@ export type SliderProps = {
   fgColor?: string;
   thumbColor?: string;
   animationType?: "spring" | "timing";
+  onValueChange?: (value: number) => void;
 } & Omit<
   DefaultSliderProps,
   | "minimumValue"
@@ -27,6 +28,7 @@ export type SliderProps = {
   | "minimumTrackTintColor"
   | "maximumTrackTintColor"
   | "animationType"
+  | "onValueChange"
 >;
 
 /**
@@ -42,6 +44,7 @@ export function Slider(props: SliderProps) {
     fgColor = themes[colorScheme].orange,
     thumbColor,
     animationType,
+    onValueChange = () => null,
     showLegend: shouldShowLegend = false,
     ...otherProps
   } = props;
@@ -110,6 +113,7 @@ export function Slider(props: SliderProps) {
     // Avoid floating point errors
     const newValue = roundToDecimal(value, precision);
     setValue(newValue);
+    onValueChange(newValue);
   }
 
   return (

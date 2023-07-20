@@ -15,13 +15,26 @@ export type StepperProps = {
   step: number;
   initialValue?: number;
   decimalPlaces?: number;
+  color?: string;
   colorInc?: string;
   colorDec?: string;
+  onValueChange: (value: number) => void;
 } & Omit<ViewProps, "children">;
 
 export function Stepper(props: StepperProps) {
-  const { min, max, step, initialValue, style, decimalPlaces, ...otherProps } =
-    props;
+  const {
+    min,
+    max,
+    step,
+    initialValue,
+    style,
+    decimalPlaces,
+    onValueChange,
+    color,
+    colorInc,
+    colorDec,
+    ...otherProps
+  } = props;
   const [value, setValue] = useState(min);
   const [canIncrement, setCanIncrement] = useState(true);
   const [canDecrement, setCanDecrement] = useState(false);
@@ -54,6 +67,7 @@ export function Stepper(props: StepperProps) {
       decimalPlaces ?? numDecimalPlaces(step),
     );
     setValue(newValue);
+    onValueChange(value);
   }
 
   const colorScheme = useContext(ColorSchemeContext);
@@ -64,13 +78,13 @@ export function Stepper(props: StepperProps) {
       alignItems: "center",
       alignContent: "center",
       justifyContent: "center",
-      height: 40,
+      height: 45,
       minWidth: 50,
       gap: 10,
     },
     button: {
-      width: 35,
-      height: 35,
+      width: 40,
+      height: 40,
       aspectRatio: 1,
       flexGrow: 0,
       flexShrink: 0,
@@ -85,7 +99,7 @@ export function Stepper(props: StepperProps) {
     },
     textInput: {
       flex: 1,
-      height: 35,
+      height: 40,
       margin: 0,
       marginBottom: 0,
       minWidth: 35,
@@ -105,6 +119,7 @@ export function Stepper(props: StepperProps) {
         disabled={!canDecrement}
         style={styles.button}
         variant="primary"
+        color={colorDec ?? color ?? undefined}
         onPress={() => updateValue(value - step)}
         accessibilityLabel={`Decrease value by ${step}`}
       >
@@ -122,6 +137,7 @@ export function Stepper(props: StepperProps) {
         disabled={!canIncrement}
         style={styles.button}
         variant="primary"
+        color={colorInc ?? color ?? undefined}
         onPress={() => updateValue(value + step)}
         accessibilityLabel={`Increase value by ${step}`}
       >

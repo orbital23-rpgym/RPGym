@@ -1,4 +1,4 @@
-import WorkoutPreset from "../workout/WorkoutPreset";
+import WorkoutPreset from "../workout/presets/WorkoutPreset";
 
 /**
  * Group of related workout presets.

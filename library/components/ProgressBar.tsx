@@ -80,9 +80,11 @@ export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
       width: "100%",
     },
     titleText: {
+      fontSize: 16,
       fontFamily: TITLE_FONT,
     },
     labelText: {
+      fontSize: 14,
       fontFamily: LABEL_FONT,
     },
   });
@@ -96,11 +98,9 @@ export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
       ...stylesAll.container,
     },
     titleText: {
-      fontSize: 16,
       ...stylesAll.titleText,
     },
     labelText: {
-      fontSize: 13,
       ...stylesAll.labelText,
     },
   });
@@ -123,12 +123,10 @@ export function ProgressBarWithLabels(props: ProgressBarWithLabelsProps) {
       flexWrap: "wrap",
     },
     titleText: {
-      fontSize: 14,
       textAlign: "left",
       ...stylesAll.titleText,
     },
     labelText: {
-      fontSize: 12,
       textAlign: "right",
       ...stylesAll.labelText,
     },

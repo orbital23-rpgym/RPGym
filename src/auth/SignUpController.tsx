@@ -46,8 +46,8 @@ export default function SignUpController() {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           User.create(user.uid, username, user.email!)
             .then((user) => {
+              router.replace("/(tabs)/");
               resolve();
-              router.replace("(tabs)/");
             })
             .catch((error) => reject(error));
         })

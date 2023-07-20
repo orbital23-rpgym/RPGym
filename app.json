@@ -14,7 +14,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#25272A"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.xenosf.rpgym",
@@ -42,6 +44,9 @@
     },
     "updates": {
       "url": "https://u.expo.dev/12770219-c5aa-411d-8c08-9adc3e4b6714"
-    }
+    },
+    "plugins": [
+      "expo-router"
+    ]
   }
 }

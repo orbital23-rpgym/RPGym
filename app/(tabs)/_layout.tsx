@@ -101,7 +101,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="addWorkout"
+        name="workout"
         options={{
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="dumbbell" color={color} />
@@ -114,7 +114,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="workoutHistory"
+        name="tracking"
         options={{
           title: "History",
           tabBarIcon: ({ color }) => (

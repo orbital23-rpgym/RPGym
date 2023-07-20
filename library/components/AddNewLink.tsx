@@ -12,11 +12,18 @@ import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 export type AddNewLinkProps = {
   text: string;
+  replace?: boolean;
 } & Omit<ViewProps, "children"> &
   Pick<LinkProps, "href">;
 export function AddNewLink(props: AddNewLinkProps) {
   const router = useRouter();
-  const { text, style, href, ...otherProps } = props;
+  const {
+    text,
+    style,
+    href,
+    replace: shouldReplace = false,
+    ...otherProps
+  } = props;
   const colorScheme = useContext(ColorSchemeContext);
   const styles = StyleSheet.create({
     addNewLink: {
@@ -37,7 +44,7 @@ export function AddNewLink(props: AddNewLinkProps) {
       style={({ pressed }) =>
         pressed ? StyleSheet.compose(newStyle, styles.pressed) : newStyle
       }
-      onPress={() => router.push(href)}
+      onPress={() => (shouldReplace ? router.replace(href) : router.push(href))}
     >
       <FontAwesome5 name="plus" size={30} color={themes[colorScheme].text} />
       <ButtonText>{text}</ButtonText>
