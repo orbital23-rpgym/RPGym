@@ -1,3 +1,13 @@
+import {
+  BackgroundColor,
+  BackHair,
+  FacialHair,
+  FrontHair,
+  GlassesColor,
+  HairColor,
+  SkinColor,
+} from "./AvatarBase";
+
 import ICON_EMPTY from "assets/avatar/icon_empty.png";
 import ONBODY_EMPTY from "assets/avatar/onbody_empty.png";
 
@@ -6,7 +16,7 @@ export const AVATAR_BASE_ICONS = {
     peach: "#F6C9A0",
     lightBrown: "#B27B62",
     mediumBrown: "#713E29",
-    darkBrown: "#353535",
+    darkBrown: "#502612",
   },
   hairColor: {
     red: "#7B2135",
@@ -206,4 +216,14 @@ export const AVATAR_BASE_ONBODY = {
     purple: "#D2B7F6",
     yellow: "#E8DEC4",
   },
+};
+
+export const AVATAR_BASE_OPTIONS = {
+  skinColor: Object.keys(AVATAR_BASE_ICONS.skinColor) as SkinColor[],
+  hairColor: Object.keys(AVATAR_BASE_ICONS.hairColor) as HairColor[],
+  frontHair: Object.keys(AVATAR_BASE_ICONS.frontHair.red) as FrontHair[],
+  backHair: Object.keys(AVATAR_BASE_ICONS.backHair.red) as BackHair[],
+  facialHair: Object.keys(AVATAR_BASE_ICONS.faceHair.red) as FacialHair[],
+  glasses: Object.keys(AVATAR_BASE_ICONS.glasses) as GlassesColor[],
+  background: Object.keys(AVATAR_BASE_ICONS.background) as BackgroundColor[],
 };
