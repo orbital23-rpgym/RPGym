@@ -27,6 +27,7 @@ export default function LoginController() {
         .then((userCredential) => {
           // Signed in
           // Auth provider will automatically redirect to default authenticated route
+          router.replace("/(tabs)/");
         })
         .catch((error) => {
           const errorCode = error.code;
