@@ -45,7 +45,8 @@ export default function OnboardingStack() {
           name="routine/index"
           options={{ title: "Starter Routine" }}
         />
-        {/* <Stack.Screen name="tutorial" options={{ title: "App Tutorial" }} /> */}
+        <Stack.Screen name="tutorial" options={{ title: "App Tutorial" }} />
+        <Stack.Screen name="complete" options={{ title: "Let's go!" }} />
       </Stack>
     </OnboardingContext.Provider>
   );

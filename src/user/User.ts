@@ -174,6 +174,26 @@ export class User {
   }
 
   /**
+   * Marks user as having completed onboarding.
+   *
+   * @returns New User instance with completed onboarding.
+   */
+  public async setOnboarded(): Promise<User> {
+    const ref = doc(db, DB.users, this.id).withConverter(userConverter);
+    const user = new User(
+      this.id,
+      this.username,
+      this.emailAddress,
+      this.fitnessTracker,
+      this.character,
+      this.settings,
+      true,
+    );
+    await setDoc(ref, user);
+    return user;
+  }
+
+  /**
    * Adds new workout to user data. Also triggers rewards.
    */
   public async addWorkout(workout: Workout) {

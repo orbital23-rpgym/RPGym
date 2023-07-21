@@ -97,7 +97,7 @@ export default function OnboardingAvatarScreen() {
     <GradientBackgroundScreen>
       <Stack.Screen
         options={{
-          headerTitle: "",
+          headerTitle: "Appearance",
           headerShown: true,
           headerBackButtonMenuEnabled: true,
         }}
