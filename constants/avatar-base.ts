@@ -1,3 +1,7 @@
+/**
+ * Image imports and option constants for user avatar base customisation.
+ */
+
 import ICON_EMPTY from "assets/avatar/icon_empty.png";
 import ONBODY_EMPTY from "assets/avatar/onbody_empty.png";
 import {
