@@ -5,7 +5,6 @@ import { ViewProps } from "react-native/types";
 
 import { UserContext } from "./UserContext";
 
-import { DUMMY_USER } from "constants/dummy-values";
 import { PLACEHOLDER_USER } from "constants/placeholder-values";
 import { useAuthentication } from "library/hooks/useAuthentication";
 import { DEBUG_MODE } from "src/init";
@@ -22,14 +21,16 @@ function useProtectedRoute(user?: FirebaseUser) {
     const AUTH_GROUP = "(auth)";
     const isInAuthGroup = segments[0] === AUTH_GROUP;
 
+    const isAuthenticated = user || DEBUG_MODE;
+
     if (
       // If the user is not signed in and the initial segment is not anything in the auth group.
-      !user &&
+      !isAuthenticated &&
       !isInAuthGroup
     ) {
       // Redirect to the sign-in page.
       router.replace("/(auth)/welcome");
-    } else if (user && isInAuthGroup) {
+    } else if (isAuthenticated && isInAuthGroup) {
       // Redirect away from the sign-in page.
       router.replace("/(tabs)/profile");
     }
@@ -39,7 +40,7 @@ function useProtectedRoute(user?: FirebaseUser) {
 export function AuthProvider(props: ViewProps) {
   const {
     authUser,
-    appUser = DEBUG_MODE ? DUMMY_USER : PLACEHOLDER_USER,
+    appUser = PLACEHOLDER_USER,
     setAppUser,
   } = useAuthentication();
 
