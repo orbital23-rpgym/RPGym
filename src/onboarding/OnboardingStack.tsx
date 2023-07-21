@@ -24,7 +24,7 @@ export default function OnboardingStack() {
     <OnboardingContext.Provider value={{ data, setData }}>
       <Stack.Screen options={{ headerShown: false }} />
       <Stack
-        initialRouteName="name"
+        initialRouteName="index"
         screenOptions={{
           headerTitleStyle: {
             ...headingTextStyle,
@@ -34,7 +34,7 @@ export default function OnboardingStack() {
         }}
       >
         <Stack.Screen
-          name="name"
+          name="index"
           options={{ title: "Profile Setup | Display Name" }}
         />
         <Stack.Screen
