@@ -37,14 +37,16 @@ function useProtectedRoute(user?: FirebaseUser) {
 }
 
 export function AuthProvider(props: ViewProps) {
-  const { appUser, authUser } = useAuthentication();
+  const {
+    authUser,
+    appUser = DEBUG_MODE ? DUMMY_USER : PLACEHOLDER_USER,
+    setAppUser,
+  } = useAuthentication();
 
   useProtectedRoute(authUser);
 
   return (
-    <UserContext.Provider
-      value={DEBUG_MODE ? DUMMY_USER : appUser ?? PLACEHOLDER_USER}
-    >
+    <UserContext.Provider value={{ appUser, setAppUser }}>
       {props.children}
     </UserContext.Provider>
   );

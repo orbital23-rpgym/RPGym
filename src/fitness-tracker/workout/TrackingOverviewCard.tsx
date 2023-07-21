@@ -8,14 +8,14 @@ import { dropShadow } from "constants/styles";
 import { HeadingText } from "library/components/StyledText";
 import { Text, View, ViewProps } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { useUserContext } from "library/context/UserContext";
+import { useAppUser } from "library/context/UserContext";
 import AvatarRenderer from "src/rpg/avatar/AvatarRenderer";
 
 export type TrackingOverviewCardProps = Omit<ViewProps, "children">;
 export default function TrackingOverviewCard() {
   const colorScheme = useContext(ColorSchemeContext);
   const router = useRouter();
-  const user = useUserContext();
+  const user = useAppUser();
   const styles = StyleSheet.create({
     container: {
       alignItems: "center",

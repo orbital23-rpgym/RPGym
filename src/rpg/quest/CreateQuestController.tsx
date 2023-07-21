@@ -3,11 +3,11 @@ import { useRouter } from "expo-router";
 import CreateQuestForm from "./CreateQuestForm";
 import Quest, { QuestDifficulty } from "./Quest";
 
-import { useUserContext } from "library/context/UserContext";
+import { useAppUser } from "library/context/UserContext";
 
 export default function CreateQuestController() {
   const router = useRouter();
-  const user = useUserContext();
+  const user = useAppUser();
   const userCharacter = user.character;
 
   function submit(

@@ -97,6 +97,11 @@ export function useAuthentication() {
 
   useEffect(() => {
     if (!authUser) {
+      // debug mode override
+      if (DEBUG_MODE) {
+        setAppUser(DUMMY_USER);
+        return;
+      }
       // Seems like authenticated pages do not unload when protected route redirects to login page.
       // To avoid crashes, return placeholder user
       setAppUser(PLACEHOLDER_USER);
@@ -111,7 +116,10 @@ export function useAuthentication() {
 
   useEffect(() => {
     saveUserDataToLocalStorage(appUser);
+    if (appUser) {
+      // appUser.character.updateToFirestore();
+    }
   }, [appUser]);
 
-  return { authUser, appUser };
+  return { authUser, appUser, setAppUser };
 }

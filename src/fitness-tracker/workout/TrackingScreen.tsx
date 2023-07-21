@@ -10,11 +10,11 @@ import { AddNewLink } from "library/components/AddNewLink";
 import { Card } from "library/components/Card";
 import { Screen, Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { useUserContext } from "library/context/UserContext";
+import { useAppUser } from "library/context/UserContext";
 
 export default function TrackingScreen() {
   const colorScheme = useContext(ColorSchemeContext);
-  const user = useUserContext();
+  const user = useAppUser();
   const styles = StyleSheet.create({
     noWorkoutText: { textAlign: "center" },
   });

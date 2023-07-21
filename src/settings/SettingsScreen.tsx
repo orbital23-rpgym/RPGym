@@ -5,7 +5,7 @@ import { StyleSheet } from "react-native";
 
 import { Button } from "library/components/Button";
 import { Text, useThemeColor, View } from "library/components/Themed";
-import { DEBUG_MODE } from "src/dist/init";
+import { DEBUG_MODE } from "src/init";
 
 export default function SettingsScreen() {
   const auth = getAuth();

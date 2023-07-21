@@ -1,5 +1,6 @@
 import { endOfDay, Interval, isWithinInterval, startOfDay } from "date-fns";
 import {
+  addDoc,
   collection,
   CollectionReference,
   doc,
@@ -18,6 +19,7 @@ import { collections as DB } from "constants/db";
 import { DATE_MAX, DATE_MIN } from "constants/misc";
 import { db } from "src/firebase-init";
 import ExerciseTemplate, {
+  exerciseTemplateConverter,
   ExerciseTemplateData,
 } from "src/fitness-tracker/exercise/ExerciseTemplate";
 import WorkoutRoutine from "src/fitness-tracker/routine/WorkoutRoutine";
@@ -95,6 +97,16 @@ export class UserFitnessTracker {
       null,
     );
     await setDoc(ref, userFitnessTracker);
+    defaultTemplates.forEach((template) =>
+      addDoc(
+        collection(
+          db,
+          userFitnessTracker.ref.path,
+          "exerciseTemplates",
+        ).withConverter(exerciseTemplateConverter),
+        template,
+      ),
+    );
     return userFitnessTracker;
   }
 

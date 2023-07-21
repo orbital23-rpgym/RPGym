@@ -174,6 +174,25 @@ export class User {
     await this.character.completeWorkout();
     await this.fitnessTracker.addWorkout(workout);
   }
+
+  /**
+   * Updates user character.
+   *
+   * @returns New User instance with edited character.
+   */
+  public async setUserCharacter(newCharacter: UserCharacter): Promise<User> {
+    const ref = doc(db, DB.users, this.id).withConverter(userConverter);
+    const user = new User(
+      this.id,
+      this.username,
+      this.emailAddress,
+      this.fitnessTracker,
+      newCharacter,
+      this.settings,
+    );
+    await setDoc(ref, user);
+    return user;
+  }
 }
 
 /**

@@ -31,7 +31,7 @@ export class UserCharacter {
   // null if does not exist, undefined if not retrieved
   party: Party | null | undefined;
   ongoingQuest: Quest | null | undefined;
-  completedQuests: Quest[] | undefined;
+  completedQuests: Quest[];
   avatar: Avatar;
 
   constructor(
@@ -142,6 +142,34 @@ export class UserCharacter {
     );
     await setDoc(ref, userCharacter);
     return userCharacter;
+  }
+
+  /**
+   * Edits user profile and uploads to Firestore.
+   *
+   * @returns Modified character.
+   */
+  async updateProfile(
+    displayName: string,
+    bio: string,
+    avatar: Avatar,
+  ): Promise<UserCharacter> {
+    const ref = this.ref.withConverter(characterConverter);
+    const newCharacter = new UserCharacter(
+      this.ref,
+      displayName,
+      bio,
+      this.maxHealth,
+      this.currentHealth,
+      this.exp,
+      this.money,
+      avatar,
+      this.completedQuests,
+      this.party ?? null,
+      this.ongoingQuest ?? null,
+    );
+    await setDoc(ref, newCharacter);
+    return newCharacter;
   }
 
   public async beginQuest(quest: Quest) {
