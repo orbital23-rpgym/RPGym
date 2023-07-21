@@ -1,3 +1,5 @@
+import ICON_EMPTY from "assets/avatar/icon_empty.png";
+import ONBODY_EMPTY from "assets/avatar/onbody_empty.png";
 import {
   BackgroundColor,
   BackHair,
@@ -6,10 +8,7 @@ import {
   GlassesColor,
   HairColor,
   SkinColor,
-} from "./AvatarBase";
-
-import ICON_EMPTY from "assets/avatar/icon_empty.png";
-import ONBODY_EMPTY from "assets/avatar/onbody_empty.png";
+} from "src/rpg/avatar/AvatarBase";
 
 export const AVATAR_BASE_ICONS = {
   skinColor: {

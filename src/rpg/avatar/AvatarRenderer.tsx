@@ -1,10 +1,9 @@
 import { StyleSheet } from "react-native";
 
-import { AVATAR_BASE_ONBODY } from "./avatar-images";
-import AvatarBase from "./AvatarBase";
 import AvatarBaseRenderer from "./AvatarBaseRenderer";
 import AvatarEquipmentRenderer from "./AvatarEquipmentRenderer";
 
+import { AVATAR_BASE_ONBODY } from "constants/avatar";
 import { palette } from "constants/colors";
 import { View, ViewProps } from "library/components/Themed";
 import Avatar from "src/rpg/avatar/Avatar";

@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
 
-import { AVATAR_BASE_ONBODY } from "./avatar-images";
 import { AvatarLayer, avatarLayerStyles } from "./AvatarLayer";
 
+import { AVATAR_BASE_ONBODY } from "constants/avatar";
 import { palette } from "constants/colors";
 import { View } from "library/components/Themed";
 import AvatarBase from "src/rpg/avatar/AvatarBase";
