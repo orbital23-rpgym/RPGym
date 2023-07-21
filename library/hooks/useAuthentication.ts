@@ -109,7 +109,7 @@ export function useAuthentication() {
       // Different user id signed in; update user instance
       // TODO: Seems to be requesting multiple times per reload
       // is there a way to make sure it only requests once?
-      if (appUser === undefined || appUser.id !== authUser.uid)
+      if (!DEBUG_MODE && (appUser === undefined || appUser.id !== authUser.uid))
         syncUserDataFromWeb();
     }
   }, [authUser]);
