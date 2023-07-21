@@ -71,29 +71,25 @@ export const AVATAR_BASE_ICONS = {
   faceHair: {
     red: {
       moustache: require("assets/avatar/facial-hair/icon_facialhair_red_moustache.png"),
-      // beard: require("assets/avatar/facial-hair/icon_facialhair_red_beard.png"),
-      beard: 0,
+      beard: require("assets/avatar/facial-hair/icon_facialhair_red_beard.png"),
       both: require("assets/avatar/facial-hair/icon_facialhair_red_both.png"),
       none: ICON_EMPTY,
     },
     darkBlond: {
       moustache: require("assets/avatar/facial-hair/icon_facialhair_brown_moustache.png"),
-      // beard: require("assets/avatar/facial-hair/icon_facialhair_brown_beard.png"),
-      beard: 0,
+      beard: require("assets/avatar/facial-hair/icon_facialhair_brown_beard.png"),
       both: require("assets/avatar/facial-hair/icon_facialhair_brown_both.png"),
       none: ICON_EMPTY,
     },
     black: {
       moustache: require("assets/avatar/facial-hair/icon_facialhair_black_moustache.png"),
-      // beard: require("assets/avatar/facial-hair/icon_facialhair_black_beard.png"),
-      beard: 0,
+      beard: require("assets/avatar/facial-hair/icon_facialhair_black_beard.png"),
       both: require("assets/avatar/facial-hair/icon_facialhair_black_both.png"),
       none: ICON_EMPTY,
     },
     yellow: {
       moustache: require("assets/avatar/facial-hair/icon_facialhair_yellow_moustache.png"),
-      // beard: require("assets/avatar/facial-hair/icon_facialhair_yellow_beard.png"),
-      beard: 0,
+      beard: require("assets/avatar/facial-hair/icon_facialhair_yellow_beard.png"),
       both: require("assets/avatar/facial-hair/icon_facialhair_yellow_both.png"),
       none: ICON_EMPTY,
     },
