@@ -1,4 +1,8 @@
 /**
+ * Numeric parameters and constants for gamification portion of app.
+ */
+
+/**
  * Max health for a user at given level.
  */
 export const MAX_USER_HEALTH = [
