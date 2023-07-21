@@ -1,8 +1,6 @@
 import { FontAwesome5 } from "@expo/vector-icons";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 import { useContext } from "react";
-import { Pressable } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { themes } from "constants/colors";
@@ -10,9 +8,6 @@ import { headingTextStyle } from "constants/styles";
 import { Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
-/**
- * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
- */
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome5>["name"];
   color: string;
@@ -116,7 +111,6 @@ export default function TabLayout() {
       <Tabs.Screen
         name="tracking"
         options={{
-          title: "History",
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="chart-line" color={color} />
           ),
