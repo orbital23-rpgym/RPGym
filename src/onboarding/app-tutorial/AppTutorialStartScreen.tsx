@@ -42,7 +42,7 @@ export default function AppTutorialStartScreen() {
     <GradientBackgroundScreen>
       <Stack.Screen
         options={{
-          headerTitle: "Tutorial",
+          headerTitle: "",
           headerShown: true,
           headerBackButtonMenuEnabled: true,
         }}
@@ -54,7 +54,7 @@ export default function AppTutorialStartScreen() {
 
         <Button
           onPress={() => {
-            return;
+            router.push("/onboarding/tutorial/guide");
           }}
           color={themes[colorScheme].orange}
           style={styles.optionButton}

@@ -66,9 +66,7 @@ export default function OnboardingCompleteScreen() {
         }}
       />
       <View style={styles.container}>
-        <HeadingText style={styles.promptText}>
-          {"You're all set to begin your RPGym journey!"}
-        </HeadingText>
+        <HeadingText style={styles.promptText}>{"You're all set!"}</HeadingText>
         <Button
           onPress={() => {
             completeOnboarding();
