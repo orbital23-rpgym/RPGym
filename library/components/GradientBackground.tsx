@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 
 import { branding } from "constants/colors";
 
-export default function GradientBackgroundScreen(
+export function GradientBackgroundScreen(
   props: Omit<LinearGradientProps, "colors" | "start" | "end" | "locations">,
 ) {
   const { style, ...otherProps } = props;

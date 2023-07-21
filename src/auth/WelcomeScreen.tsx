@@ -4,9 +4,9 @@ import { StyleSheet } from "react-native";
 
 import { images } from "constants/images";
 import { Button } from "library/components/Button";
+import { GradientBackgroundScreen } from "library/components/GradientBackground";
 import { ButtonText } from "library/components/StyledText";
 import { Text } from "library/components/Themed";
-import GradientBackgroundScreen from "src/onboarding/GradientBackground";
 
 export default function WelcomeScreen() {
   return (
