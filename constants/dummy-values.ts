@@ -262,13 +262,13 @@ export const DUMMY_FITNESS = new UserFitnessTracker(
 /** Dummy avatar base. */
 export const DUMMY_AVATAR_BASE = new AvatarBase(
   "slim",
-  "a",
+  "peach",
   "red",
   "a",
-  "a",
-  "b",
+  "long",
+  "both",
   "purple",
-  "#444333",
+  "yellow",
 );
 /** Dummy avatar equipment. */
 export const DUMMY_AVATAR_EQUIPMENT = AvatarEquipment.DEFAULT;

@@ -11,11 +11,11 @@ import {
   TempExerciseData,
   useCreateWorkoutFormContext,
 } from "library/context/CreateWorkoutFormContext";
-import { useUserContext } from "library/context/UserContext";
+import { useAppUser } from "library/context/UserContext";
 
 export default function CreateWorkoutController() {
   const router = useRouter();
-  const user = useUserContext();
+  const user = useAppUser();
   const { data, setData } = useCreateWorkoutFormContext();
 
   const [localData, setLocalData] = useState(data);

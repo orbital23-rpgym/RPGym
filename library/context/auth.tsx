@@ -5,8 +5,10 @@ import { ViewProps } from "react-native/types";
 
 import { UserContext } from "./UserContext";
 
+import { DUMMY_USER } from "constants/dummy-values";
 import { PLACEHOLDER_USER } from "constants/placeholder-values";
 import { useAuthentication } from "library/hooks/useAuthentication";
+import { DEBUG_MODE } from "src/init";
 
 /**
  * Protects the route access based on user authentication.
@@ -35,12 +37,16 @@ function useProtectedRoute(user?: FirebaseUser) {
 }
 
 export function AuthProvider(props: ViewProps) {
-  const authResult = useAuthentication();
+  const {
+    authUser,
+    appUser = DEBUG_MODE ? DUMMY_USER : PLACEHOLDER_USER,
+    setAppUser,
+  } = useAuthentication();
 
-  useProtectedRoute(authResult.authUser);
+  useProtectedRoute(authUser);
 
   return (
-    <UserContext.Provider value={authResult.appUser ?? PLACEHOLDER_USER}>
+    <UserContext.Provider value={{ appUser, setAppUser }}>
       {props.children}
     </UserContext.Provider>
   );

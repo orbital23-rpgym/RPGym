@@ -15,12 +15,12 @@ import {
   TempExerciseData,
   useCreateWorkoutFormContext,
 } from "library/context/CreateWorkoutFormContext";
-import { useUserContext } from "library/context/UserContext";
+import { useAppUser } from "library/context/UserContext";
 
 export default function ExerciseTemplatePickerScreen() {
   const insets = useSafeAreaInsets();
   const colorScheme = useContext(ColorSchemeContext);
-  const user = useUserContext();
+  const user = useAppUser();
   const router = useRouter();
   const styles = StyleSheet.create({
     listOuter: {

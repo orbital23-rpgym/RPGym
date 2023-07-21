@@ -13,7 +13,7 @@ import { Card } from "library/components/Card";
 import { ProgressBarWithLabels } from "library/components/ProgressBar";
 import { Screen, Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { useUserContext } from "library/context/UserContext";
+import { useAppUser } from "library/context/UserContext";
 import CurrentQuestSummaryCard from "src/rpg/quest/CurrentQuestSummaryCard";
 
 export default function ProfileScreen() {
@@ -68,7 +68,7 @@ export default function ProfileScreen() {
     },
   });
 
-  const user = useUserContext();
+  const user = useAppUser();
   const colorScheme = useContext(ColorSchemeContext);
 
   const character = user.character;

@@ -1,3 +1,3 @@
-import ProfileSettingsScreen from "src/user/character/ProfileSettingsScreen";
+import EditProfileScreen from "src/user/character/edit-profile/EditProfileScreen";
 
-export default ProfileSettingsScreen;
+export default EditProfileScreen;

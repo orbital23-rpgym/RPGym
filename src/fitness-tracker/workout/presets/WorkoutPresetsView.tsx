@@ -9,13 +9,13 @@ import PlaceholderText from "library/components/Placeholder";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { Screen, View, ViewProps } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { UserContext, useUserContext } from "library/context/UserContext";
+import { useAppUser, UserContext } from "library/context/UserContext";
 
 export type WorkoutPresetsViewProps = ViewProps;
 
 export default function WorkoutPresetsView() {
   const colorScheme = useContext(ColorSchemeContext);
-  const user = useUserContext();
+  const user = useAppUser();
   const styles = StyleSheet.create({
     container: {
       width: "100%",

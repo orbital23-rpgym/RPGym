@@ -9,11 +9,11 @@ import { Button } from "library/components/Button";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { Screen, Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { useUserContext } from "library/context/UserContext";
+import { useAppUser } from "library/context/UserContext";
 
 export default function QuestsScreen() {
   const colorScheme = useContext(ColorSchemeContext);
-  const user = useUserContext();
+  const user = useAppUser();
   const styles = StyleSheet.create({
     heading: {
       marginTop: 10,

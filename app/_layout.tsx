@@ -1,3 +1,4 @@
+import { FontAwesome5 } from "@expo/vector-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { NotoSans_400Regular } from "@expo-google-fonts/noto-sans";
 import { WorkSans_600SemiBold } from "@expo-google-fonts/work-sans";
@@ -42,6 +43,7 @@ export default function RootLayout() {
     BodyRegular: NotoSans_400Regular,
     Header: WorkSans_600SemiBold,
     ...FontAwesome.font,
+    ...FontAwesome5.font,
   });
 
   useEffect(() => {

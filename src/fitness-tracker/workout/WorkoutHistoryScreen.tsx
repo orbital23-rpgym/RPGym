@@ -25,11 +25,11 @@ import { Card } from "library/components/Card";
 import { HeadingText } from "library/components/StyledText";
 import { Screen, Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { useUserContext } from "library/context/UserContext";
+import { useAppUser } from "library/context/UserContext";
 
 export default function WorkoutHistoryScreen() {
   const colorScheme = useContext(ColorSchemeContext);
-  const user = useUserContext();
+  const user = useAppUser();
   const styles = StyleSheet.create({
     workoutCarouselControls: {
       flexDirection: "row",

@@ -20,7 +20,7 @@ import {
 import { themes } from "constants/colors";
 import { dropShadow } from "constants/styles";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { useUserContext } from "library/context/UserContext";
+import { useAppUser } from "library/context/UserContext";
 import onlyUnique from "library/utils/arrays";
 
 export type WorkoutHistoryCalendarProps = {
@@ -32,7 +32,7 @@ export default function WorkoutHistoryCalendar(
 ) {
   const { onSelect, selection } = props;
   const colorScheme = useContext(ColorSchemeContext);
-  const user = useUserContext();
+  const user = useAppUser();
   const styles = StyleSheet.create({
     calendarContainer: {
       width: "100%",
