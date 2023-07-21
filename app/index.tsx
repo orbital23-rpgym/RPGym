@@ -4,6 +4,14 @@ import { useContext } from "react";
 import { UserContext } from "library/context/UserContext";
 
 export default function InitialScreen() {
-  const hasUser = useContext(UserContext).appUser !== undefined;
-  return <Redirect href={hasUser ? "/(tabs)/profile" : "/(auth)/welcome"} />;
+  const user = useContext(UserContext).appUser;
+  if (user) {
+    if (user.isOnboarded) {
+      return <Redirect href="/(tabs)/profile" />;
+    } else {
+      return <Redirect href="/onboarding/" />;
+    }
+  } else {
+    return <Redirect href="/(auth)/welcome" />;
+  }
 }

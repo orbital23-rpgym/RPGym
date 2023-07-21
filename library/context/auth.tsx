@@ -32,7 +32,7 @@ function useProtectedRoute(user?: FirebaseUser) {
       router.replace("/(auth)/welcome");
     } else if (isAuthenticated && isInAuthGroup) {
       // Redirect away from the sign-in page.
-      router.replace("/(tabs)/profile");
+      router.replace("/");
     }
   }, [user, segments]);
 }
