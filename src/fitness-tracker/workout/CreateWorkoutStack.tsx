@@ -39,6 +39,12 @@ export default function CreateWorkoutStack() {
           }}
         />
         <Stack.Screen
+          name="what-is-rpe"
+          options={{
+            presentation: "modal",
+          }}
+        />
+        <Stack.Screen
           name="exercise-picker"
           options={{
             presentation: "modal",
