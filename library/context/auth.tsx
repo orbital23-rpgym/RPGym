@@ -32,7 +32,6 @@ function useProtectedRoute(authUser?: FirebaseUser, appUser?: User) {
       // Redirect to the sign-in page.
       router.replace("/(auth)/welcome");
     } else if (isAuthenticated && isInAuthGroup && isUserLoaded) {
-      console.log(appUser.username, appUser.isOnboarded);
       // Redirect away from the sign-in page.
       if (appUser.isOnboarded) router.replace("/(tabs)/profile");
       else router.replace("/onboarding/");
