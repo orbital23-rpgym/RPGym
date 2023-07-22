@@ -1,16 +1,12 @@
-import { Image } from "expo-image";
 import { Stack, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { palette, themes } from "constants/colors";
-import { ONBOARDING_IMAGES } from "constants/onboarding";
+import { themes } from "constants/colors";
 import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
 import { GradientBackgroundScreen } from "library/components/GradientBackground";
 import { ButtonText } from "library/components/StyledText";
-import { TextInput } from "library/components/TextInput";
-import { Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import {
   OnboardingData,
@@ -42,7 +38,6 @@ export default function OnboardingAvatarScreen() {
     submitButtonText: {
       textAlign: "center",
     },
-
     avatarContainer: {
       aspectRatio: 1,
       minHeight: 200,

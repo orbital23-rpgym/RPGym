@@ -2,12 +2,13 @@ import { createContext, Dispatch, SetStateAction, useContext } from "react";
 
 import Avatar from "src/rpg/avatar/Avatar";
 
+export type OnboardingEquipment = "dumbbell" | "barbell";
+export type OnboardingFrequency = 1 | 2 | 3 | 4 | 5;
 export type OnboardingData = {
   displayName: string;
   avatar: Avatar;
-  isNewbie: boolean;
-  equipment: "dumbbell" | "barbell";
-  gymFrequency: 1 | 2 | 3 | 4 | 5;
+  equipment?: OnboardingEquipment;
+  gymFrequency?: OnboardingFrequency;
 };
 
 export const OnboardingContext = createContext<{

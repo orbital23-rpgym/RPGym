@@ -41,7 +41,7 @@ export default function OnboardingCompleteScreen() {
       textAlign: "center",
       marginBottom: 20,
     },
-    optionButton: {
+    submitButton: {
       width: "80%",
       minWidth: 150,
       alignContent: "center",
@@ -72,7 +72,7 @@ export default function OnboardingCompleteScreen() {
             completeOnboarding();
           }}
           color={themes[colorScheme].orange}
-          style={styles.optionButton}
+          style={styles.submitButton}
         >
           <ButtonText style={styles.submitButtonText}>{"Let's go!"}</ButtonText>
         </Button>

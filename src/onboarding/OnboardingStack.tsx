@@ -19,9 +19,6 @@ export default function OnboardingStack() {
     displayName: user.character.displayName,
     // deep copy old avatar
     avatar: Avatar.fromData(user.character.avatar.toData()),
-    isNewbie: true,
-    equipment: "barbell",
-    gymFrequency: 3,
   });
   return (
     <OnboardingContext.Provider value={{ data, setData }}>
@@ -47,6 +44,18 @@ export default function OnboardingStack() {
         <Stack.Screen
           name="routine/index"
           options={{ title: "Starter Routine" }}
+        />
+        <Stack.Screen
+          name="routine/equip"
+          options={{ title: "Starter Routine | Equipment" }}
+        />
+        <Stack.Screen
+          name="routine/freq"
+          options={{ title: "Starter Routine | Frequency" }}
+        />
+        <Stack.Screen
+          name="routine/result"
+          options={{ title: "Starter Routine | Result" }}
         />
         <Stack.Screen
           name="tutorial/index"

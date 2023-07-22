@@ -165,7 +165,7 @@ export default function OnboardingStartScreen() {
           style={styles.submitButton}
           disabled={isSubmitting}
         >
-          <ButtonText style={styles.submitButtonText}>Next</ButtonText>
+          <ButtonText style={styles.submitButtonText}>{"Next"}</ButtonText>
         </Button>
         {error && <ErrorDisplay error={error} />}
       </View>

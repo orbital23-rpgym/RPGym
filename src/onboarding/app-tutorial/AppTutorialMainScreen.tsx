@@ -47,7 +47,7 @@ export default function AppTutorialMainScreen() {
       textAlign: "center",
       marginBottom: 20,
     },
-    optionButton: {
+    submitButton: {
       width: "100%",
       minWidth: 150,
       alignContent: "center",
@@ -95,7 +95,7 @@ export default function AppTutorialMainScreen() {
                         router.push("/onboarding/complete");
                       }}
                       color={themes[colorScheme].orange}
-                      style={styles.optionButton}
+                      style={styles.submitButton}
                     >
                       <ButtonText style={styles.submitButtonText}>
                         {"I'm ready!"}

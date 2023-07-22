@@ -65,7 +65,7 @@ export default function AppTutorialStartScreen() {
           onPress={() => {
             router.push("/onboarding/complete");
           }}
-          color={themes[colorScheme].blueDark}
+          color={themes[colorScheme].blueLight}
           style={styles.optionButton}
         >
           <ButtonText style={styles.submitButtonText}>{"No"}</ButtonText>
