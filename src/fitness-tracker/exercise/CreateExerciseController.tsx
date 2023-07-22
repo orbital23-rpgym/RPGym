@@ -1,8 +1,9 @@
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 
 import CreateExerciseForm from "./CreateExerciseForm";
 
+import { NEW_SET_DATA } from "constants/dist/workout";
 import {
   TempExerciseData,
   TempSetData,
@@ -20,14 +21,7 @@ export default function CreateExerciseController() {
     if (exerciseData) {
       const newData = { ...localData };
       newData.selectedExercise = exerciseData;
-      newData.selectedSet = {
-        key: exerciseData.sets.length,
-        deleted: false,
-        notes: "",
-        perceivedExertion: 1,
-        reps: 0,
-        weightKg: 0,
-      };
+      newData.selectedSet = NEW_SET_DATA(exerciseData.sets.length);
       newData.exercises[exerciseData.key].sets[newData.selectedSet.key] =
         newData.selectedSet;
       setExerciseData(newData.exercises[exerciseData.key]);
@@ -69,6 +63,15 @@ export default function CreateExerciseController() {
     setLocalData(data);
     setExerciseData(data.selectedExercise);
   }, [data]);
+
+  // auto redirect to set
+  const { goToSet } = useLocalSearchParams();
+  useEffect(() => {
+    if (goToSet) {
+      router.setParams({ goToSet: "false" });
+      router.push("/workout/new/set");
+    }
+  }, [goToSet]);
 
   function onSubmit(setsData: TempSetData[]) {
     return new Promise<void>((resolve, reject) => {

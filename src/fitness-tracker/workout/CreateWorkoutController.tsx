@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 
 import { ExerciseData } from "../exercise/Exercise";
@@ -42,8 +42,18 @@ export default function CreateWorkoutController() {
 
   useEffect(() => {
     setLocalData(data);
-    setExercisesData(data.exercises.filter((value) => !value.deleted));
+    const tempExercises = data.exercises.filter((value) => !value.deleted);
+    setExercisesData(tempExercises);
   }, [data]);
+
+  // auto redirect to set
+  const { goToSet } = useLocalSearchParams();
+  useEffect(() => {
+    if (goToSet) {
+      router.setParams({ goToSet: "false" });
+      router.push("/workout/new/exercise?goToSet=true");
+    }
+  }, [goToSet]);
 
   function onSubmit(
     data: TempExerciseData[],

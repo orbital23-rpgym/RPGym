@@ -12,3 +12,14 @@ using whole numbers from 1-10, where 1 is the least intense and 10 is the most i
 10: Absolute maximum; cannot do any more reps.
 
 This rating system is inherently subjective, and it's best to experiment and adjust your ratings based on your experience.`;
+
+export const NEW_SET_DATA = (key: number) => {
+  return {
+    key: key,
+    deleted: false,
+    notes: "",
+    perceivedExertion: 1,
+    reps: 0,
+    weightKg: 0,
+  };
+};
