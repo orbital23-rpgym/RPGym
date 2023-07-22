@@ -71,9 +71,10 @@ export default function OnboardingAvatarScreen() {
   }
 
   useEffect(() => {
+    const { avatar: oldAvatar, ...otherData } = data;
     const newData: OnboardingData = {
-      displayName: data.displayName,
       avatar: avatar,
+      ...otherData,
     };
     setData(newData);
   }, [avatar]);

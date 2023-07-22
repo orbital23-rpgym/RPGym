@@ -19,6 +19,9 @@ export default function OnboardingStack() {
     displayName: user.character.displayName,
     // deep copy old avatar
     avatar: Avatar.fromData(user.character.avatar.toData()),
+    isNewbie: true,
+    equipment: "barbell",
+    gymFrequency: 3,
   });
   return (
     <OnboardingContext.Provider value={{ data, setData }}>

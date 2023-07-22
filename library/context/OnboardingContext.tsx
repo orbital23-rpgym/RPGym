@@ -5,6 +5,9 @@ import Avatar from "src/rpg/avatar/Avatar";
 export type OnboardingData = {
   displayName: string;
   avatar: Avatar;
+  isNewbie: boolean;
+  equipment: "dumbbell" | "barbell";
+  gymFrequency: 1 | 2 | 3 | 4 | 5;
 };
 
 export const OnboardingContext = createContext<{

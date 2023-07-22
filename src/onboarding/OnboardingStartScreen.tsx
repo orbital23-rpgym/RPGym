@@ -104,7 +104,11 @@ export default function OnboardingStartScreen() {
     );
     const newUser = await user.setUserCharacter(newUserCharacter);
     setUser(newUser);
-    const newData: OnboardingData = { displayName: name, avatar: data.avatar };
+    const { displayName: oldDisplayName, ...otherData } = data;
+    const newData: OnboardingData = {
+      displayName: displayName,
+      ...otherData,
+    };
     setData(newData);
     router.push("/onboarding/avatar");
   }

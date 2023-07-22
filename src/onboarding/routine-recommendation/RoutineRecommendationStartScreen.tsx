@@ -9,6 +9,10 @@ import { Button } from "library/components/Button";
 import { GradientBackgroundScreen } from "library/components/GradientBackground";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
+import {
+  OnboardingData,
+  useOnboardingContext,
+} from "library/context/OnboardingContext";
 
 export default function RoutineRecommendationStartScreen() {
   const colorScheme = useContext(ColorSchemeContext);
@@ -38,6 +42,16 @@ export default function RoutineRecommendationStartScreen() {
       textAlign: "center",
     },
   });
+
+  const { data, setData } = useOnboardingContext();
+  function setIsNewbie(value: boolean) {
+    const { isNewbie: oldIsNewbie, ...otherData } = data;
+    const newData: OnboardingData = {
+      isNewbie: value,
+      ...otherData,
+    };
+    setData(newData);
+  }
   return (
     <GradientBackgroundScreen>
       <Stack.Screen
@@ -53,6 +67,7 @@ export default function RoutineRecommendationStartScreen() {
         </HeadingText>
         <Button
           onPress={() => {
+            setIsNewbie(true);
             return;
           }}
           color={themes[colorScheme].orange}
@@ -64,6 +79,7 @@ export default function RoutineRecommendationStartScreen() {
         </Button>
         <Button
           onPress={() => {
+            setIsNewbie(false);
             router.push("/onboarding/tutorial");
           }}
           color={themes[colorScheme].blueDark}
