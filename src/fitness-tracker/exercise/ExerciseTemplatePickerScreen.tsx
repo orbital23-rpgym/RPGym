@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ExerciseTemplate from "./ExerciseTemplate";
 
 import { themes } from "constants/colors";
+import { NEW_SET_DATA } from "constants/workout";
 import { Card } from "library/components/Card";
 import { HeadingText } from "library/components/StyledText";
 import { Screen, Text } from "library/components/Themed";
@@ -61,15 +62,25 @@ export default function ExerciseTemplatePickerScreen() {
   const { data, setData } = useCreateWorkoutFormContext();
 
   function pickExercise(exerciseTemplate: ExerciseTemplate) {
-    const { exercises, ...otherData } = data;
+    const { exercises, selectedExercise, selectedSet, ...otherData } = data;
+    // create new set
+    const newSetData = NEW_SET_DATA(0);
     const newExerciseData: TempExerciseData = {
       key: exercises.length,
       template: exerciseTemplate,
       deleted: false,
-      sets: [],
+      sets: [newSetData],
     };
-    setData({ ...otherData, exercises: exercises.concat(newExerciseData) });
-    router.push("/workout/new");
+
+    // auto redirect to sets screen
+    const newData = {
+      ...otherData,
+      exercises: exercises.concat(newExerciseData),
+      selectedExercise: newExerciseData,
+      selectedSet: newSetData,
+    };
+    setData(newData);
+    router.push("/workout/new?goToSet=true");
   }
 
   const [exerciseTemplatesData, setExerciseTemplatesData] = useState<
