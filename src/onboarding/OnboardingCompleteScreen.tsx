@@ -66,7 +66,9 @@ export default function OnboardingCompleteScreen() {
         }}
       />
       <View style={styles.container}>
-        <HeadingText style={styles.promptText}>{"You're all set!"}</HeadingText>
+        <HeadingText
+          style={styles.promptText}
+        >{`You're all set, ${user.character.displayName}!`}</HeadingText>
         <Button
           onPress={() => {
             completeOnboarding();

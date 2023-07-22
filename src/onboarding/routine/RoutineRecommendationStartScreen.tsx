@@ -9,10 +9,6 @@ import { Button } from "library/components/Button";
 import { GradientBackgroundScreen } from "library/components/GradientBackground";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import {
-  OnboardingData,
-  useOnboardingContext,
-} from "library/context/OnboardingContext";
 
 export default function RoutineRecommendationStartScreen() {
   const colorScheme = useContext(ColorSchemeContext);
@@ -38,20 +34,11 @@ export default function RoutineRecommendationStartScreen() {
       alignContent: "center",
       justifyContent: "center",
     },
-    submitButtonText: {
+    optionButtonText: {
       textAlign: "center",
     },
   });
 
-  const { data, setData } = useOnboardingContext();
-  function setIsNewbie(value: boolean) {
-    const { isNewbie: oldIsNewbie, ...otherData } = data;
-    const newData: OnboardingData = {
-      isNewbie: value,
-      ...otherData,
-    };
-    setData(newData);
-  }
   return (
     <GradientBackgroundScreen>
       <Stack.Screen
@@ -63,35 +50,33 @@ export default function RoutineRecommendationStartScreen() {
       />
       <View style={styles.container}>
         <HeadingText style={styles.promptText}>
-          How would you categorise yourself?
+          {"How would you categorise yourself?"}
         </HeadingText>
         <Button
           onPress={() => {
-            setIsNewbie(true);
-            return;
+            router.push("/onboarding/routine/equip");
           }}
           color={themes[colorScheme].orange}
           style={styles.optionButton}
         >
-          <ButtonText style={styles.submitButtonText}>
+          <ButtonText style={styles.optionButtonText}>
             {"I'm new to gymming"}
           </ButtonText>
         </Button>
         <Button
           onPress={() => {
-            setIsNewbie(false);
             router.push("/onboarding/tutorial");
           }}
-          color={themes[colorScheme].blueDark}
+          color={themes[colorScheme].blueLight}
           style={styles.optionButton}
         >
-          <ButtonText style={styles.submitButtonText}>
+          <ButtonText style={styles.optionButtonText}>
             {"I'm an experienced gymmer"}
           </ButtonText>
         </Button>
         <Image
           style={styles.jimBroImage}
-          source={ONBOARDING_IMAGES.jimbro.leftFacing}
+          source={ONBOARDING_IMAGES.jimbro.waveLeft}
           contentFit="contain"
           contentPosition="right center"
         />

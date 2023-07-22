@@ -1,3 +1,3 @@
-import RoutineRecommendationStartScreen from "src/onboarding/routine-recommendation/RoutineRecommendationStartScreen";
+import RoutineRecommendationStartScreen from "src/onboarding/routine/RoutineRecommendationStartScreen";
 
 export default RoutineRecommendationStartScreen;
