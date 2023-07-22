@@ -146,7 +146,7 @@ export default function OnboardingStartScreen() {
 
         <Image
           style={styles.jimBroImage}
-          source={ONBOARDING_IMAGES.jimbro.leftFacing}
+          source={ONBOARDING_IMAGES.jimbro.swordLeft}
           contentFit="contain"
           contentPosition="right center"
         />

@@ -72,7 +72,7 @@ export default function AppTutorialStartScreen() {
         </Button>
         <Image
           style={styles.jimBroImage}
-          source={ONBOARDING_IMAGES.jimbro.leftFacing}
+          source={ONBOARDING_IMAGES.jimbro.waveLeft}
           contentFit="contain"
           contentPosition="right center"
         />

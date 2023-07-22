@@ -79,7 +79,7 @@ export default function OnboardingCompleteScreen() {
         <View style={styles.spritesContainer}>
           <Image
             style={styles.jimBroImage}
-            source={ONBOARDING_IMAGES.jimbro.rightFacing}
+            source={ONBOARDING_IMAGES.jimbro.swordRight}
             contentFit="contain"
             contentPosition="right center"
           />

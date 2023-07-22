@@ -6,12 +6,15 @@ import { ImageSource } from "expo-image";
 
 export const ONBOARDING_IMAGES = {
   jimbro: {
-    leftFacing: require("assets/images/jimbro/jimbro_left_facing.png"),
-    rightFacing: require("assets/images/jimbro/jimbro_right_facing.png"),
+    swordLeft: require("assets/images/jimbro/jimbro_sword_left.png"),
+    swordRight: require("assets/images/jimbro/jimbro_sword_right.png"),
+    waveLeft: require("assets/images/jimbro/jimbro_wave_left.png"),
+    weightsLeft: require("assets/images/jimbro/jimbro_weights_left.png"),
+    calendarRight: require("assets/images/jimbro/jimbro_calendar_right.png"),
   },
   speechBubble: {
-    bottomLeft: require("assets/images/jimbro/speechbubble_bottom_left.png"),
-    bottomRight: require("assets/images/jimbro/speechbubble_bottom_right.png"),
+    bottomLeft: require("assets/images/jimbro/speechbubble_left.png"),
+    bottomRight: require("assets/images/jimbro/speechbubble_right.png"),
   },
 };
 
