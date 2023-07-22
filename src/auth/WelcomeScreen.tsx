@@ -1,5 +1,5 @@
 import { Image } from "expo-image";
-import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 import { StyleSheet } from "react-native";
 
 import { images } from "constants/images";
@@ -9,6 +9,7 @@ import { ButtonText } from "library/components/StyledText";
 import { Text } from "library/components/Themed";
 
 export default function WelcomeScreen() {
+  const router = useRouter();
   return (
     <GradientBackgroundScreen>
       <Image
@@ -18,15 +19,11 @@ export default function WelcomeScreen() {
         contentFit="contain"
       />
       <Text style={styles.title}>Welcome to RPGym</Text>
-      <Button variant="secondary">
-        <Link href="/signUp">
-          <ButtonText>Sign up</ButtonText>
-        </Link>
+      <Button variant="secondary" onPress={() => router.push("/signUp")}>
+        <ButtonText>Sign up</ButtonText>
       </Button>
-      <Button variant="primary">
-        <Link href="/login">
-          <ButtonText>Log in</ButtonText>
-        </Link>
+      <Button variant="primary" onPress={() => router.push("/login")}>
+        <ButtonText>Log in</ButtonText>
       </Button>
     </GradientBackgroundScreen>
   );
