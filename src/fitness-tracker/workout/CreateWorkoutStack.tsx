@@ -1,10 +1,9 @@
-import { Stack } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Link, Stack } from "expo-router";
 import { useContext, useState } from "react";
-
-import Workout from "./Workout";
+import { Pressable } from "react-native";
 
 import { themes } from "constants/colors";
-import { DATE_MAX } from "constants/misc";
 import { headingTextStyle } from "constants/styles";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import {
@@ -29,6 +28,24 @@ export default function CreateWorkoutStack() {
             ...headingTextStyle,
           },
           headerTintColor: themes[colorScheme].text,
+          headerRight: () => (
+            <Link href="/workout/new/rest-timer" asChild>
+              <Pressable>
+                {({ pressed }) => {
+                  const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
+                  return (
+                    <MaterialIcons
+                      name="timer"
+                      size={25}
+                      color={themes[colorScheme].text}
+                      style={style}
+                    />
+                  );
+                }}
+              </Pressable>
+            </Link>
+          ),
+          headerBackButtonMenuEnabled: false,
         }}
       >
         <Stack.Screen name="index" options={{ presentation: "card" }} />

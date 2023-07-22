@@ -69,7 +69,7 @@ export default function CreateExerciseController() {
   useEffect(() => {
     if (goToSet) {
       router.setParams({ goToSet: "false" });
-      router.push("/workout/new/set");
+      router.push("/workout/new/set?goToSet=true");
     }
   }, [goToSet]);
 
