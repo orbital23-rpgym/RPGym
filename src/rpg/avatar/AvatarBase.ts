@@ -1,5 +1,3 @@
-import { palette } from "constants/colors";
-
 export type GlassesColor = "none" | "red" | "purple" | "blue" | "green";
 export type HairColor = "red" | "darkBlond" | "black" | "yellow";
 export type BodySize = "slim" | "broad";

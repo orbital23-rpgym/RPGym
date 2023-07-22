@@ -305,4 +305,5 @@ export const DUMMY_USER = new User(
   DUMMY_FITNESS,
   DUMMY_CHAR,
   AppSettings.default(),
+  false,
 );

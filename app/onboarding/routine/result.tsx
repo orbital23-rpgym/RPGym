@@ -1,0 +1,3 @@
+import RoutineRecommendationResultScreen from "src/onboarding/routine/RoutineRecommendationResultScreen";
+
+export default RoutineRecommendationResultScreen;

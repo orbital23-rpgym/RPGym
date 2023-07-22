@@ -1,0 +1,3 @@
+import RoutineRecommendationFrequencySelectScreen from "src/onboarding/routine/RoutineRecommendationFrequencySelectScreen";
+
+export default RoutineRecommendationFrequencySelectScreen;

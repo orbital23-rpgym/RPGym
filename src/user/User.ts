@@ -38,6 +38,7 @@ export class User {
   readonly fitnessTracker: UserFitnessTracker;
   readonly character: UserCharacter;
   readonly settings: AppSettings;
+  isOnboarded: boolean;
 
   /**
    * Constructor for User.
@@ -56,6 +57,7 @@ export class User {
     fitnessTracker: UserFitnessTracker,
     character: UserCharacter,
     settings: AppSettings,
+    isOnboarded: boolean,
   ) {
     this.id = id;
     this.username = username;
@@ -63,6 +65,7 @@ export class User {
     this.fitnessTracker = fitnessTracker;
     this.character = character;
     this.settings = settings;
+    this.isOnboarded = isOnboarded;
   }
 
   /**
@@ -92,6 +95,7 @@ export class User {
       userFitnessTracker,
       userCharacter,
       appSettings,
+      data.isOnboarded,
     );
   }
 
@@ -137,6 +141,7 @@ export class User {
       userFitnessTracker,
       userCharacter,
       appSettings,
+      false,
     );
     await setDoc(ref, user);
     return user;
@@ -162,6 +167,27 @@ export class User {
       this.fitnessTracker,
       this.character,
       this.settings,
+      this.isOnboarded,
+    );
+    await setDoc(ref, user);
+    return user;
+  }
+
+  /**
+   * Marks user as having completed onboarding.
+   *
+   * @returns New User instance with completed onboarding.
+   */
+  public async setOnboarded(): Promise<User> {
+    const ref = doc(db, DB.users, this.id).withConverter(userConverter);
+    const user = new User(
+      this.id,
+      this.username,
+      this.emailAddress,
+      this.fitnessTracker,
+      this.character,
+      this.settings,
+      true,
     );
     await setDoc(ref, user);
     return user;
@@ -189,6 +215,7 @@ export class User {
       this.fitnessTracker,
       newCharacter,
       this.settings,
+      this.isOnboarded,
     );
     await setDoc(ref, user);
     return user;
@@ -204,6 +231,7 @@ type UserData = {
   fitnessTracker: DocumentReference;
   character: DocumentReference;
   settings: object;
+  isOnboarded: boolean;
 };
 
 /**
@@ -219,6 +247,7 @@ export const userConverter: FirestoreDataConverter<User> = {
       fitnessTracker: user.fitnessTracker.ref,
       character: user.character.ref,
       settings: {}, // TODO: implement conversion of AppSettings to object
+      isOnboarded: user.isOnboarded,
     };
     return data;
   },

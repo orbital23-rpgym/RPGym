@@ -3,11 +3,13 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import SignUpForm from "./SignUpForm";
 
+import { useSetAppUser } from "library/context/UserContext";
 import { auth } from "src/firebase-init";
 import { User } from "src/user/User";
 
 export default function SignUpController() {
   const router = useRouter();
+  const setUser = useSetAppUser();
 
   /**
    * Creates new user.
@@ -46,8 +48,9 @@ export default function SignUpController() {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           User.create(user.uid, username, user.email!)
             .then((user) => {
-              router.replace("/(tabs)/");
               resolve();
+              setUser(user);
+              router.replace("/onboarding/");
             })
             .catch((error) => reject(error));
         })

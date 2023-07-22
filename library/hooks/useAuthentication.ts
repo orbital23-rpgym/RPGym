@@ -12,12 +12,16 @@ export function useAuthentication() {
   const [authUser, setAuthUser] = useState<FirebaseUser | undefined>(undefined);
   const [appUser, setAppUser] = useState<User | undefined>(undefined);
 
-  const syncUserDataFromWeb = async () => {
+  const syncUserDataFromWeb = () => {
     if (authUser) {
-      const user = await User.fromId(authUser.uid);
-      setAppUser(user);
+      User.fromId(authUser.uid)
+        .then((user) => setAppUser(user))
+        .catch((reason) => {
+          // sometimes it tries to sync right after signup which doesn't work
+          // for now, ignore the error
+        });
     } else {
-      setAuthUser(undefined);
+      setAppUser(undefined);
     }
   };
 
@@ -27,6 +31,8 @@ export function useAuthentication() {
   };
 
   const saveUserDataToLocalStorage = async (user: User | undefined) => {
+    // Don't save if appUser is placeholder
+    if (user === PLACEHOLDER_USER) return;
     try {
       const localUserData = { user: user, lastSavedAt: Date.now() };
       const jsonValue = JSON.stringify(localUserData);
@@ -42,14 +48,8 @@ export function useAuthentication() {
       auth,
       (user) => {
         if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
+          // User is signed in
           setAuthUser(user);
-          // // Different user id signed in; update user instance
-          // // TODO: Seems to be requesting multiple times per reload
-          // // is there a way to make sure it only requests once?
-          // if (appUser === undefined || appUser.id !== user.uid)
-          //   User.fromId(user.uid).then((user) => setAppUser(user));
         } else {
           // User is signed out
           setAuthUser(undefined);
@@ -68,11 +68,10 @@ export function useAuthentication() {
     }
 
     // handle app user data
-
     getUserDataFromLocalStorage()
       .then((user) => {
         if (authUser) {
-          if (authUser && user && user.id == authUser.uid) {
+          if (authUser && user && user.id === authUser.uid) {
             // load user data from local storage
             setAppUser(user);
           } else {
@@ -93,7 +92,7 @@ export function useAuthentication() {
         ? saveUserDataToLocalStorage(appUser)
         : saveUserDataToLocalStorage(undefined);
     };
-  });
+  }, []);
 
   useEffect(() => {
     if (!authUser) {
@@ -102,23 +101,20 @@ export function useAuthentication() {
         setAppUser(DUMMY_USER);
         return;
       }
-      // Seems like authenticated pages do not unload when protected route redirects to login page.
-      // To avoid crashes, return placeholder user
-      setAppUser(PLACEHOLDER_USER);
+      setAppUser(undefined);
     } else {
-      // Different user id signed in; update user instance
-      // TODO: Seems to be requesting multiple times per reload
-      // is there a way to make sure it only requests once?
-      if (appUser === undefined || appUser.id !== authUser.uid)
+      // Update app user instance
+      const isAppAndAuthUserMismatched =
+        authUser && appUser && appUser.id !== authUser.uid;
+      const hasAuthButNoApp = authUser && !appUser;
+      if (!DEBUG_MODE && (isAppAndAuthUserMismatched || hasAuthButNoApp))
         syncUserDataFromWeb();
     }
   }, [authUser]);
 
   useEffect(() => {
+    // Any modifications to appUser should have already triggered firebase update
     saveUserDataToLocalStorage(appUser);
-    if (appUser) {
-      // appUser.character.updateToFirestore();
-    }
   }, [appUser]);
 
   return { authUser, appUser, setAppUser };

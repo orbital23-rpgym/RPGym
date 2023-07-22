@@ -1,5 +1,3 @@
-import { Text } from "react-native";
+import LoadingScreen from "library/components/LoadingScreen";
 
-export default function TempLoadingScreen() {
-  return <Text>loading...</Text>;
-}
+export default LoadingScreen;

@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { StyleSheet, View, ViewProps } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-import { AVATAR_BASE_ICONS, AVATAR_BASE_OPTIONS } from "constants/avatar";
+import { AVATAR_BASE_ICONS, AVATAR_BASE_OPTIONS } from "constants/avatar-base";
 import { palette, themes } from "constants/colors";
 import { Card, CardProps } from "library/components/Card";
 import { Text } from "library/components/Themed";

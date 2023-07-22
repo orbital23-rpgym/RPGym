@@ -1,9 +1,10 @@
-import { Link, Stack, useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { getAuth, signOut } from "firebase/auth";
 import { useState } from "react";
 import { StyleSheet } from "react-native";
 
 import { Button } from "library/components/Button";
+import { ButtonText } from "library/components/StyledText";
 import { Text, useThemeColor, View } from "library/components/Themed";
 import { DEBUG_MODE } from "src/init";
 
@@ -27,14 +28,15 @@ export default function SettingsScreen() {
   return (
     <View style={styles.container}>
       <Stack.Screen options={{ presentation: "card", title: "Settings" }} />
-      <Button variant="primary">
-        <Link href="settings/profileSettings" style={styles.buttonText}>
-          Edit profile
-        </Link>
+      <Button
+        variant="primary"
+        onPress={() => router.push("settings/profileSettings")}
+      >
+        <ButtonText>Edit profile</ButtonText>
       </Button>
 
       <Button variant="destructive" onPress={logout} disabled={DEBUG_MODE}>
-        <Text style={styles.buttonText}>Log Out</Text>
+        <ButtonText>Log Out</ButtonText>
       </Button>
 
       <Text style={{ color: useThemeColor({}, "red") }}>{errorMessage}</Text>
@@ -47,19 +49,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-  buttonText: {
-    fontSize: 20,
-    fontFamily: "Header",
-    color: "#fff",
   },
 });

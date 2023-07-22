@@ -63,4 +63,5 @@ export const PLACEHOLDER_USER = new User(
   PLACEHOLDER_FITNESS,
   PLACEHOLDER_CHAR,
   AppSettings.default(),
+  false,
 );
