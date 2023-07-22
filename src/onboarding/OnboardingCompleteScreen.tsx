@@ -1,19 +1,15 @@
 import { Image } from "expo-image";
 import { Stack, useRouter } from "expo-router";
-import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { themes } from "constants/colors";
 import { ONBOARDING_IMAGES } from "constants/onboarding";
 import { Button } from "library/components/Button";
 import { GradientBackgroundScreen } from "library/components/GradientBackground";
 import { ButtonText, HeadingText } from "library/components/StyledText";
-import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import { useAppUser, useSetAppUser } from "library/context/UserContext";
 import AvatarRenderer from "src/rpg/avatar/AvatarRenderer";
 
 export default function OnboardingCompleteScreen() {
-  const colorScheme = useContext(ColorSchemeContext);
   const user = useAppUser();
   const setUser = useSetAppUser();
   const router = useRouter();
@@ -73,7 +69,7 @@ export default function OnboardingCompleteScreen() {
           onPress={() => {
             completeOnboarding();
           }}
-          color={themes[colorScheme].orange}
+          variant="primary"
           style={styles.submitButton}
         >
           <ButtonText style={styles.submitButtonText}>{"Let's go!"}</ButtonText>

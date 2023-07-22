@@ -1,13 +1,12 @@
 import { Stack, useRouter } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
-import { themes } from "constants/colors";
 import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
 import { GradientBackgroundScreen } from "library/components/GradientBackground";
 import { ButtonText } from "library/components/StyledText";
-import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import {
   OnboardingData,
   useOnboardingContext,
@@ -18,13 +17,18 @@ import AvatarRenderer from "src/rpg/avatar/AvatarRenderer";
 import { EditAvatarBaseCard } from "src/user/character/edit-profile/EditAvatarBaseCard";
 
 export default function OnboardingAvatarScreen() {
-  const colorScheme = useContext(ColorSchemeContext);
   const user = useAppUser();
   const setUser = useSetAppUser();
   const router = useRouter();
+
   const styles = StyleSheet.create({
-    container: {
+    screen: { paddingHorizontal: 0, paddingBottom: 0 },
+    scroll: {
       width: "100%",
+      paddingHorizontal: 30,
+      paddingBottom: 30,
+    },
+    container: {
       justifyContent: "center",
       alignItems: "center",
       gap: 10,
@@ -90,7 +94,7 @@ export default function OnboardingAvatarScreen() {
   }
 
   return (
-    <GradientBackgroundScreen>
+    <GradientBackgroundScreen style={styles.screen}>
       <Stack.Screen
         options={{
           headerTitle: "Appearance",
@@ -98,7 +102,10 @@ export default function OnboardingAvatarScreen() {
           headerBackButtonMenuEnabled: true,
         }}
       />
-      <View style={styles.container}>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.container}
+      >
         <View style={styles.avatarContainer}>
           <AvatarRenderer avatar={avatar} baseOnly />
         </View>
@@ -112,14 +119,14 @@ export default function OnboardingAvatarScreen() {
           onPress={() => {
             submit();
           }}
-          color={themes[colorScheme].orange}
+          variant="primary"
           style={styles.submitButton}
           disabled={isSubmitting}
         >
           <ButtonText style={styles.submitButtonText}>Next</ButtonText>
         </Button>
         {error && <ErrorDisplay error={error} />}
-      </View>
+      </ScrollView>
     </GradientBackgroundScreen>
   );
 }

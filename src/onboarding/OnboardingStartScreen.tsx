@@ -164,7 +164,7 @@ export default function OnboardingStartScreen() {
           onPress={() => {
             submit();
           }}
-          color={themes[colorScheme].orange}
+          variant="primary"
           style={styles.submitButton}
           disabled={isSubmitting}
         >

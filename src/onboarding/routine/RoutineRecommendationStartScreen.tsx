@@ -1,17 +1,13 @@
 import { Image } from "expo-image";
 import { Stack, useRouter } from "expo-router";
-import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { themes } from "constants/colors";
 import { ONBOARDING_IMAGES } from "constants/onboarding";
 import { Button } from "library/components/Button";
 import { GradientBackgroundScreen } from "library/components/GradientBackground";
 import { ButtonText, HeadingText } from "library/components/StyledText";
-import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 export default function RoutineRecommendationStartScreen() {
-  const colorScheme = useContext(ColorSchemeContext);
   const router = useRouter();
   const styles = StyleSheet.create({
     container: {
@@ -56,7 +52,7 @@ export default function RoutineRecommendationStartScreen() {
           onPress={() => {
             router.push("/onboarding/routine/equip");
           }}
-          color={themes[colorScheme].orange}
+          variant="primary"
           style={styles.optionButton}
         >
           <ButtonText style={styles.optionButtonText}>
@@ -67,7 +63,7 @@ export default function RoutineRecommendationStartScreen() {
           onPress={() => {
             router.push("/onboarding/tutorial");
           }}
-          color={themes[colorScheme].blueLight}
+          variant="secondary"
           style={styles.optionButton}
         >
           <ButtonText style={styles.optionButtonText}>

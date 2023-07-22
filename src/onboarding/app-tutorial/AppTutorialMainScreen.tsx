@@ -70,7 +70,6 @@ export default function AppTutorialMainScreen() {
         <Carousel
           loop={false}
           width={width}
-          height={800}
           autoPlay={false}
           mode="parallax"
           data={TUTORIAL_SLIDES}
@@ -94,7 +93,7 @@ export default function AppTutorialMainScreen() {
                       onPress={() => {
                         router.push("/onboarding/complete");
                       }}
-                      color={themes[colorScheme].orange}
+                      variant="primary"
                       style={styles.submitButton}
                     >
                       <ButtonText style={styles.submitButtonText}>

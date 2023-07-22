@@ -1,14 +1,11 @@
 import { Image } from "expo-image";
 import { Stack, useRouter } from "expo-router";
-import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { themes } from "constants/colors";
 import { ONBOARDING_IMAGES } from "constants/onboarding";
 import { Button } from "library/components/Button";
 import { GradientBackgroundScreen } from "library/components/GradientBackground";
 import { ButtonText, HeadingText } from "library/components/StyledText";
-import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import {
   OnboardingData,
   OnboardingEquipment,
@@ -16,7 +13,6 @@ import {
 } from "library/context/OnboardingContext";
 
 export default function RoutineRecommendationEquipmentSelectScreen() {
-  const colorScheme = useContext(ColorSchemeContext);
   const router = useRouter();
   const styles = StyleSheet.create({
     container: {
@@ -71,7 +67,7 @@ export default function RoutineRecommendationEquipmentSelectScreen() {
           onPress={() => {
             chooseEquipment("dumbbell");
           }}
-          color={themes[colorScheme].blueLight}
+          variant="secondary"
           style={styles.optionButton}
         >
           <ButtonText style={styles.optionButtonText}>
@@ -82,7 +78,7 @@ export default function RoutineRecommendationEquipmentSelectScreen() {
           onPress={() => {
             chooseEquipment("barbell");
           }}
-          color={themes[colorScheme].blueLight}
+          variant="secondary"
           style={styles.optionButton}
         >
           <ButtonText style={styles.optionButtonText}>

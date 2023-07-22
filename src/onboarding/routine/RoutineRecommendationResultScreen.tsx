@@ -1,15 +1,11 @@
-import { Image } from "expo-image";
 import { Stack, useRouter } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { themes } from "constants/colors";
-import { ONBOARDING_IMAGES } from "constants/onboarding";
 import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
 import { GradientBackgroundScreen } from "library/components/GradientBackground";
 import { ButtonText, HeadingText } from "library/components/StyledText";
-import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import {
   OnboardingEquipment,
   OnboardingFrequency,
@@ -18,7 +14,6 @@ import {
 import WorkoutPreset from "src/fitness-tracker/workout/presets/WorkoutPreset";
 
 export default function RoutineRecommendationResultScreen() {
-  const colorScheme = useContext(ColorSchemeContext);
   const router = useRouter();
   const styles = StyleSheet.create({
     container: {
@@ -88,7 +83,7 @@ export default function RoutineRecommendationResultScreen() {
               saveRoutine();
               router.push("/onboarding/tutorial");
             }}
-            color={themes[colorScheme].orange}
+            variant="primary"
             style={styles.optionButton}
           >
             <ButtonText style={styles.optionButtonText}>
@@ -99,7 +94,7 @@ export default function RoutineRecommendationResultScreen() {
             onPress={() => {
               router.push("/onboarding/tutorial");
             }}
-            color={themes[colorScheme].blueLight}
+            variant="secondary"
             style={styles.optionButton}
           >
             <ButtonText style={styles.optionButtonText}>
