@@ -1,5 +1,5 @@
 import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { Link, Stack } from "expo-router";
+import { Link, Stack, useRouter } from "expo-router";
 import { useContext, useState } from "react";
 import { Pressable, StyleSheet, View, ViewProps } from "react-native";
 
@@ -7,6 +7,7 @@ import { themes } from "constants/colors";
 import { fullWidthButton } from "constants/styles";
 import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
+import { HeadingWithExplainerButton } from "library/components/HeadingWithExplainerButton";
 import { Slider } from "library/components/Slider";
 import { Stepper } from "library/components/Stepper";
 import { ButtonText, HeadingText } from "library/components/StyledText";
@@ -33,6 +34,7 @@ export default function CreateExerciseSetForm(
   props: CreateExerciseSetFormProps,
 ) {
   const colorScheme = useContext(ColorSchemeContext);
+  const router = useRouter();
   const styles = StyleSheet.create({
     container: {
       width: "100%",
@@ -123,7 +125,7 @@ export default function CreateExerciseSetForm(
             </Link>
           ),
           headerRight: () => (
-            <Link href="/workout/rest-timer" asChild>
+            <Link href="/workout/new/rest-timer" asChild>
               <Pressable>
                 {({ pressed }) => {
                   const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
@@ -168,7 +170,11 @@ export default function CreateExerciseSetForm(
         />
       </View>
       <View style={styles.sliderContainer}>
-        <HeadingText id="rpe-label">Perceived Exertion</HeadingText>
+        <HeadingWithExplainerButton
+          text={"Perceived Exertion"}
+          textId="rpe-label"
+          onButtonPress={() => router.push("/workout/new/what-is-rpe")}
+        />
         <Slider
           min={1}
           max={10}
