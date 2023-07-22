@@ -172,7 +172,7 @@ export default function CreateExerciseSetForm(
         <Slider
           min={1}
           max={10}
-          step={0.5}
+          step={1}
           showLegend
           value={rpe}
           onValueChange={(value) => setRpe(value)}
