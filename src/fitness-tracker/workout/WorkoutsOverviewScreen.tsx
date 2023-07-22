@@ -28,7 +28,11 @@ export default function WorkoutsOverviewScreen() {
       </Button>
       <HeadingText>Templates</HeadingText>
 
-      <Button variant="secondary" style={fullWidthButton.button}>
+      <Button
+        variant="secondary"
+        style={fullWidthButton.button}
+        onPress={() => router.push("/placeholder")}
+      >
         <ButtonText style={fullWidthButton.text}>
           Create a new template
         </ButtonText>

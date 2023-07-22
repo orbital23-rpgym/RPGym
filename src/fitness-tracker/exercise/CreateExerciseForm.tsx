@@ -1,9 +1,7 @@
-import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { Link, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import {
   FlatList,
-  Pressable,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -103,44 +101,6 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
       <Stack.Screen
         options={{
           headerTitle: props.exerciseData.template.name,
-          headerLeft: () => (
-            <Link href="../" asChild>
-              <Pressable>
-                {({ pressed }) => {
-                  const style = {
-                    marginLeft: 10,
-                    marginRight: 15,
-                    opacity: pressed ? 0.5 : 1,
-                  };
-                  return (
-                    <FontAwesome5
-                      name="chevron-left"
-                      size={25}
-                      color={themes[colorScheme].text}
-                      style={style}
-                    />
-                  );
-                }}
-              </Pressable>
-            </Link>
-          ),
-          headerRight: () => (
-            <Link href="workout/new/rest-timer" asChild>
-              <Pressable>
-                {({ pressed }) => {
-                  const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
-                  return (
-                    <MaterialIcons
-                      name="timer"
-                      size={25}
-                      color={themes[colorScheme].text}
-                      style={style}
-                    />
-                  );
-                }}
-              </Pressable>
-            </Link>
-          ),
         }}
       />
       <Button

@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 
 import CreateExerciseSetForm from "./CreateExerciseSetForm";
@@ -38,6 +38,9 @@ export default function CreateExerciseSetController() {
     }
   }
 
+  // handle auto set redirect
+  const { goToSet } = useLocalSearchParams();
+
   function onSubmit(weight: number, reps: number, notes: string, rpe: number) {
     return new Promise<void>((resolve, reject) => {
       if (!exerciseData || !exerciseSetData) {
@@ -68,6 +71,7 @@ export default function CreateExerciseSetController() {
           exerciseSetData={exerciseSetData}
           onSubmit={onSubmit}
           onDelete={deleteSet}
+          isNewSet={Boolean(goToSet)}
         />
       )}
     </>
