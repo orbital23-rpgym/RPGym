@@ -69,7 +69,6 @@ export default function RootLayout() {
 
   // Prevent rendering real layout until fonts loaded
   if (!isLoadedFonts) {
-    // return <SplashScreen />;
     return <Slot initialRouteName="(auth)/loading" />;
   }
 

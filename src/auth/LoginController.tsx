@@ -1,4 +1,3 @@
-import { useRouter } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 import LoginForm from "./LoginForm";
@@ -6,8 +5,6 @@ import LoginForm from "./LoginForm";
 import { auth } from "src/firebase-init";
 
 export default function LoginController() {
-  const router = useRouter();
-
   /**
    * Logs in.
    *
@@ -27,7 +24,6 @@ export default function LoginController() {
         .then((userCredential) => {
           // Signed in
           // Auth provider will automatically redirect to default authenticated route
-          router.replace("/(tabs)/");
         })
         .catch((error) => {
           const errorCode = error.code;

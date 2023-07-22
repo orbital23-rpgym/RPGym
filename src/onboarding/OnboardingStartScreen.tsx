@@ -83,14 +83,23 @@ export default function OnboardingStartScreen() {
     },
   });
 
-  const [displayName, setDisplayName] = useState(user.username);
   const [error, setError] = useState<Error | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { data, setData } = useOnboardingContext();
+  const [displayName, setDisplayName] = useState(data.displayName);
 
   useEffect(() => {
     setDisplayName(data.displayName);
   }, [data]);
+
+  useEffect(() => {
+    const { displayName: oldDisplayName, ...otherData } = data;
+    const newData: OnboardingData = {
+      displayName: displayName,
+      ...otherData,
+    };
+    setData(newData);
+  }, [displayName]);
 
   async function saveDisplayName(name: string) {
     // Local input validation
@@ -104,12 +113,6 @@ export default function OnboardingStartScreen() {
     );
     const newUser = await user.setUserCharacter(newUserCharacter);
     setUser(newUser);
-    const { displayName: oldDisplayName, ...otherData } = data;
-    const newData: OnboardingData = {
-      displayName: displayName,
-      ...otherData,
-    };
-    setData(newData);
     router.push("/onboarding/avatar");
   }
 
@@ -154,7 +157,7 @@ export default function OnboardingStartScreen() {
           style={styles.textField}
           placeholderTextColor={themes[colorScheme].gray}
           placeholder={"Enter your name here"}
-          defaultValue={user.username}
+          defaultValue={displayName}
           onChangeText={setDisplayName}
         />
         <Button

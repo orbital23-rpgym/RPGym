@@ -1,7 +1,8 @@
 import { Stack } from "expo-router";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { themes } from "constants/colors";
+import { PLACEHOLDER_USER } from "constants/placeholder-values";
 import { headingTextStyle } from "constants/styles";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import {
@@ -16,10 +17,22 @@ export default function OnboardingStack() {
   const user = useAppUser();
   // initialise new empty shared data context for this stack
   const [data, setData] = useState<OnboardingData>({
-    displayName: user.character.displayName,
+    displayName: "",
     // deep copy old avatar
-    avatar: Avatar.fromData(user.character.avatar.toData()),
+    avatar: Avatar.DEFAULT,
   });
+
+  useEffect(() => {
+    if (user !== PLACEHOLDER_USER) {
+      const { displayName: oldName, avatar: oldAvatar, ...otherData } = data;
+      const newData = {
+        displayName: user.character.displayName,
+        avatar: Avatar.fromData(user.character.avatar.toData()),
+        ...otherData,
+      };
+      setData(newData);
+    }
+  }, [user]);
   return (
     <OnboardingContext.Provider value={{ data, setData }}>
       <Stack.Screen options={{ headerShown: false }} />
