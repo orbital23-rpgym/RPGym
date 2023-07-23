@@ -1,20 +1,22 @@
-import { Stack } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { Stack, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 
 import TrackingOverviewCard from "./TrackingOverviewCard";
 import Workout from "./Workout";
 import { WorkoutOverviewCard } from "./WorkoutOverview";
 
+import { fullWidthButton } from "constants/styles";
 import { AddNewLink } from "library/components/AddNewLink";
+import { Button } from "library/components/Button";
 import { Card } from "library/components/Card";
+import { ButtonText } from "library/components/StyledText";
 import { Screen, Text } from "library/components/Themed";
-import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import { useAppUser } from "library/context/UserContext";
 
 export default function TrackingScreen() {
-  const colorScheme = useContext(ColorSchemeContext);
   const user = useAppUser();
+  const router = useRouter();
   const styles = StyleSheet.create({
     noWorkoutText: { textAlign: "center" },
   });
@@ -44,6 +46,13 @@ export default function TrackingScreen() {
           />
         </Card>
       )}
+      <Button
+        variant="secondary"
+        style={fullWidthButton.button}
+        onPress={() => router.push("workout/exercises/manage")}
+      >
+        <ButtonText style={fullWidthButton.text}>{"My Exercises"}</ButtonText>
+      </Button>
     </Screen>
   );
 }
