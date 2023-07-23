@@ -10,6 +10,7 @@ import {
   QueryDocumentSnapshot,
   setDoc,
   SnapshotOptions,
+  Timestamp,
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
@@ -58,9 +59,7 @@ export default class Quest {
 
   get wholeWeeksSinceStart(): number {
     const now = new Date();
-    return differenceInWeeks(now, this.startDateTime, {
-      roundingMethod: "floor",
-    });
+    return differenceInWeeks(now, this.startDateTime);
   }
 
   /**
@@ -87,8 +86,8 @@ export default class Quest {
       difficulty: difficulty,
       progressThisWeek: 0,
       goalPerWeek: goalPerWeek,
-      startDateTime: startDateTime,
-      endDateTime: endDateTime,
+      startDateTime: Timestamp.fromDate(startDateTime),
+      endDateTime: Timestamp.fromDate(endDateTime),
       ongoing: true,
     };
     const ref = await addDoc(
@@ -100,8 +99,8 @@ export default class Quest {
       questData.difficulty,
       questData.progressThisWeek,
       questData.goalPerWeek,
-      questData.startDateTime,
-      questData.endDateTime,
+      questData.startDateTime.toDate(),
+      questData.endDateTime.toDate(),
       questData.ongoing,
     );
     return quest;
@@ -117,8 +116,8 @@ export const questConverter: FirestoreDataConverter<Quest> = {
       difficulty: quest.difficulty,
       progressThisWeek: quest.progressThisWeek,
       goalPerWeek: quest.goalPerWeek,
-      startDateTime: quest.startDateTime,
-      endDateTime: quest.endDateTime,
+      startDateTime: Timestamp.fromDate(quest.startDateTime),
+      endDateTime: Timestamp.fromDate(quest.endDateTime),
       ongoing: quest.ongoing,
     };
     return data;
@@ -135,8 +134,8 @@ export const questConverter: FirestoreDataConverter<Quest> = {
       data.difficulty,
       data.progressThisWeek,
       data.goalPerWeek,
-      data.startDateTime,
-      data.endDateTime,
+      data.startDateTime.toDate(),
+      data.endDateTime.toDate(),
       data.ongoing,
     );
   },
@@ -146,7 +145,7 @@ export type QuestData = {
   difficulty: QuestDifficulty;
   progressThisWeek: number;
   goalPerWeek: number;
-  startDateTime: Date;
-  endDateTime: Date;
+  startDateTime: Timestamp;
+  endDateTime: Timestamp;
   ongoing: boolean;
 };
