@@ -53,18 +53,21 @@ export default function CreateWorkoutStack() {
           name="rest-timer"
           options={{
             presentation: "modal",
+            headerRight: undefined,
           }}
         />
         <Stack.Screen
           name="what-is-rpe"
           options={{
             presentation: "modal",
+            headerRight: undefined,
           }}
         />
         <Stack.Screen
           name="exercise-picker"
           options={{
             presentation: "modal",
+            headerRight: undefined,
           }}
         />
         <Stack.Screen
