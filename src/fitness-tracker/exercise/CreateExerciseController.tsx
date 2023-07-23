@@ -68,12 +68,12 @@ export default function CreateExerciseController() {
   const { goToSet } = useLocalSearchParams();
   useEffect(() => {
     if (goToSet) {
-      router.setParams({ goToSet: "false" });
+      router.setParams(undefined);
       router.push("/workout/new/set?goToSet=true");
     }
   }, [goToSet]);
 
-  return exerciseData && !exerciseData.deleted ? (
+  return exerciseData && (!exerciseData.deleted || goToSet) ? (
     <CreateExerciseForm
       exerciseData={exerciseData}
       addSet={addSet}
@@ -82,6 +82,6 @@ export default function CreateExerciseController() {
       editSet={editSet}
     />
   ) : (
-    <Redirect href="/workout/new/" />
+    <Redirect href="/workout/new" />
   );
 }

@@ -53,21 +53,26 @@ export default function CreateExerciseSetController() {
       if (!exerciseData || !exerciseSetData) {
         reject("Error saving set data: Exercise set data not found");
       } else {
-        const { selectedSet, exercises, ...otherData } = localData;
-        const newExercises = [...exercises];
+        const { selectedSet, exercises, selectedExercise, ...otherData } =
+          localData;
+        const newExercises = [...exercises].map((value) => {
+          return { ...value } as TempExerciseData;
+        });
         newExercises[exerciseData.key].sets[exerciseSetData.key] = {
           key: exerciseSetData.key,
-          deleted: goToSet ? false : exerciseSetData.deleted,
+          // unmark as deleted
+          deleted: false,
           notes: notes,
           perceivedExertion: rpe,
           reps: reps,
           weightKg: weight,
         };
         // unmark as deleted
-        goToSet && (newExercises[exerciseData.key].deleted = false);
+        newExercises[exerciseData.key].deleted = false;
         const newData = {
           ...otherData,
           selectedSet: undefined,
+          selectedExercise: newExercises[exerciseData.key],
           exercises: newExercises,
         };
         setLocalData(newData);

@@ -78,7 +78,9 @@ export default function CreateWorkoutController() {
       });
       Workout.create(startDateTime, endDateTime, exerciseData, user.id)
         .then((workout) => {
-          user.addWorkout(workout).then(() => router.push("../"));
+          user
+            .addWorkout(workout)
+            .then(() => router.replace("/(tabs)/tracking"));
         })
         .catch((reason) => reject(reason));
     });
@@ -89,7 +91,7 @@ export default function CreateWorkoutController() {
       exerciseData={exercisesData}
       onSubmit={onSubmit}
       onCancel={() => {
-        router.back();
+        router.push("/(tabs)/workout");
       }}
       addExercise={addExercise}
       removeExercise={removeExercise}
