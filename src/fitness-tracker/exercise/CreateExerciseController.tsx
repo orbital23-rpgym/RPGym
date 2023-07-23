@@ -22,6 +22,8 @@ export default function CreateExerciseController() {
       const newData = { ...localData };
       newData.selectedExercise = exerciseData;
       newData.selectedSet = NEW_SET_DATA(exerciseData.sets.length);
+      // mark as deleted first, will undelete upon save
+      newData.selectedSet.deleted = true;
       newData.exercises[exerciseData.key].sets[newData.selectedSet.key] =
         newData.selectedSet;
       setExerciseData(newData.exercises[exerciseData.key]);
