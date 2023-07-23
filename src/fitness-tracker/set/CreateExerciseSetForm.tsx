@@ -74,10 +74,10 @@ export default function CreateExerciseSetForm(
     },
   });
 
-  const [weight, setWeight] = useState(0);
-  const [reps, setReps] = useState(0);
-  const [rpe, setRpe] = useState(1);
-  const [notes, setNotes] = useState(props.exerciseSetData?.notes ?? "");
+  const [weight, setWeight] = useState(props.exerciseSetData.weightKg);
+  const [reps, setReps] = useState(props.exerciseSetData.reps);
+  const [rpe, setRpe] = useState(props.exerciseSetData.perceivedExertion);
+  const [notes, setNotes] = useState(props.exerciseSetData.notes);
   const [error, setError] = useState<Error | undefined>();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
@@ -98,16 +98,6 @@ export default function CreateExerciseSetForm(
         setIsSubmitting(false);
       });
   }
-
-  useEffect(() => {
-    const exerciseSetData = props.exerciseSetData;
-    if (exerciseSetData) {
-      setWeight(exerciseSetData.weightKg);
-      setReps(exerciseSetData.reps);
-      setRpe(exerciseSetData.perceivedExertion);
-      setNotes(exerciseSetData.notes);
-    }
-  }, [props.exerciseSetData]);
 
   useEffect(() => {
     props.isNewSet && setHasUnsavedChanges(props.isNewSet);
@@ -186,7 +176,7 @@ export default function CreateExerciseSetForm(
           max={10}
           step={1}
           showLegend
-          value={rpe}
+          initialValue={rpe}
           onValueChange={(value) => {
             setRpe(value);
             setHasUnsavedChanges(true);

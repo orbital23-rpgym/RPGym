@@ -62,20 +62,29 @@ export default function CreateWorkoutController() {
     startDateTime: Date,
     endDateTime: Date,
   ) {
-    const exerciseData: ExerciseData[] = data.map((value) => {
-      return {
-        template: value.template.ref,
-        sets: value.sets
-          .filter((value) => !value.deleted)
-          .map((value): WeightRepsExerciseSetData => {
-            return {
-              notes: value.notes,
-              perceivedExertion: value.perceivedExertion,
-              weightKg: value.weightKg,
-              reps: value.reps,
-            };
-          }),
-      };
+    return new Promise<void>((resolve, reject) => {
+      const exerciseData: ExerciseData[] = data.map((value) => {
+        return {
+          template: value.template.ref,
+          sets: value.sets
+            .filter((value) => !value.deleted)
+            .map((value): WeightRepsExerciseSetData => {
+              return {
+                notes: value.notes,
+                perceivedExertion: value.perceivedExertion,
+                weightKg: value.weightKg,
+                reps: value.reps,
+              };
+            }),
+        };
+      });
+      Workout.create(startDateTime, endDateTime, exerciseData, user.id)
+        .then((workout) => {
+          user
+            .addWorkout(workout)
+            .then(() => router.replace("/(tabs)/tracking"));
+        })
+        .catch((reason) => reject(reason));
     });
     const workout = await Workout.create(
       startDateTime,
@@ -95,7 +104,7 @@ export default function CreateWorkoutController() {
       exerciseData={exercisesData}
       onSubmit={onSubmit}
       onCancel={() => {
-        router.back();
+        router.push("/(tabs)/workout");
       }}
       addExercise={addExercise}
       removeExercise={removeExercise}
