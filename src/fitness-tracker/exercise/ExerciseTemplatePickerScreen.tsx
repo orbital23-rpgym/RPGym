@@ -104,7 +104,6 @@ export default function ExerciseTemplatePickerScreen() {
       <Stack.Screen
         options={{
           headerTitle: "Choose Exercise",
-          headerRight: () => null,
         }}
       />
       {/* Use `../` as a simple way to navigate to the root. This is not analogous to "goBack". */}
