@@ -223,6 +223,28 @@ export class User {
     await setDoc(ref, user);
     return user;
   }
+
+  /**
+   * Updates user fitness tracker.
+   *
+   * @returns New User instance with edited fitness tracker.
+   */
+  public async setUserFitnessTracker(
+    newFitness: UserFitnessTracker,
+  ): Promise<User> {
+    const ref = doc(db, DB.users, this.id).withConverter(userConverter);
+    const user = new User(
+      this.id,
+      this.username,
+      this.emailAddress,
+      newFitness,
+      this.character,
+      this.settings,
+      this.isOnboarded,
+    );
+    await setDoc(ref, user);
+    return user;
+  }
 }
 
 /**

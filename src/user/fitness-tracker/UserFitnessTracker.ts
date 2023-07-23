@@ -1,6 +1,5 @@
 import { endOfDay, Interval, isWithinInterval, startOfDay } from "date-fns";
 import {
-  addDoc,
   collection,
   CollectionReference,
   doc,
@@ -17,13 +16,15 @@ import {
 
 import { collections as DB } from "constants/db";
 import { DATE_MAX, DATE_MIN } from "constants/misc";
+import { STARTER_EXERCISES } from "constants/workout";
 import { db } from "src/firebase-init";
 import ExerciseTemplate, {
   exerciseTemplateConverter,
-  ExerciseTemplateData,
 } from "src/fitness-tracker/exercise/ExerciseTemplate";
 import WorkoutRoutine from "src/fitness-tracker/routine/WorkoutRoutine";
-import WorkoutPreset from "src/fitness-tracker/workout/presets/WorkoutPreset";
+import WorkoutPreset, {
+  workoutPresetConverter,
+} from "src/fitness-tracker/workout/presets/WorkoutPreset";
 import Workout, { workoutConverter } from "src/fitness-tracker/workout/Workout";
 
 /**
@@ -32,32 +33,40 @@ import Workout, { workoutConverter } from "src/fitness-tracker/workout/Workout";
 export class UserFitnessTracker {
   readonly ref: DocumentReference;
   workouts: Workout[];
-  workoutPresets: WorkoutPreset[];
   workoutRoutines: WorkoutRoutine[];
-  #exerciseTemplates: ExerciseTemplate[] | undefined;
-  #exerciseTemplatesRefs: DocumentReference[];
+  exerciseTemplatesRef: CollectionReference;
+  exerciseTemplates: ExerciseTemplate[];
   mostRecentWorkout: Workout | null;
   workoutsRef: CollectionReference;
+  workoutPresetsRef: CollectionReference;
 
   constructor(
     ref: DocumentReference,
     workouts: Workout[],
     workoutPresets: WorkoutPreset[],
     workoutRoutines: WorkoutRoutine[],
-    exerciseTemplates: ExerciseTemplate[] | undefined,
+    exerciseTemplates: ExerciseTemplate[],
     exerciseTemplatesRefs: DocumentReference[],
     mostRecentWorkout: Workout | null,
   ) {
     this.ref = ref;
     this.workouts = workouts;
-    this.workoutPresets = workoutPresets;
     this.workoutRoutines = workoutRoutines;
-    this.#exerciseTemplates = exerciseTemplates;
-    this.#exerciseTemplatesRefs = exerciseTemplatesRefs;
+    this.exerciseTemplates = exerciseTemplates;
     this.mostRecentWorkout = mostRecentWorkout;
     this.workoutsRef = collection(db, this.ref.path, "workouts").withConverter(
       workoutConverter,
     );
+    this.workoutPresetsRef = collection(
+      db,
+      this.ref.path,
+      "workoutPresets",
+    ).withConverter(workoutPresetConverter);
+    this.exerciseTemplatesRef = collection(
+      db,
+      this.ref.path,
+      "exerciseTemplates",
+    ).withConverter(exerciseTemplateConverter);
   }
 
   /**
@@ -78,7 +87,7 @@ export class UserFitnessTracker {
   }
 
   /**
-   * Creates new blank fitness tracker and uploads to Firestore.
+   * Creates new base fitness tracker and uploads to Firestore.
    * @param id UID returned by Firebase Authentication.
    * @returns Created fitness tracker.
    */
@@ -86,7 +95,12 @@ export class UserFitnessTracker {
     const ref = doc(db, DB.userFitness, id).withConverter(
       fitnessTrackerConverter,
     );
-    const defaultTemplates = await ExerciseTemplate.getDefaultTemplates();
+    const defaultTemplates = await Promise.all(
+      STARTER_EXERCISES.map(
+        async ({ name, category, notes }) =>
+          await ExerciseTemplate.create(name, category, notes, id),
+      ),
+    );
     const userFitnessTracker = new UserFitnessTracker(
       ref,
       [],
@@ -97,33 +111,21 @@ export class UserFitnessTracker {
       null,
     );
     await setDoc(ref, userFitnessTracker);
-    defaultTemplates.forEach((template) =>
-      addDoc(
-        collection(
-          db,
-          userFitnessTracker.ref.path,
-          "exerciseTemplates",
-        ).withConverter(exerciseTemplateConverter),
-        template,
-      ),
-    );
     return userFitnessTracker;
   }
 
   /**
-   * Gets exercise instances, or generates it from exercise data if unavailable.
+   * Gets exercise instances from Firestore.
    * @returns Exercise templates
    */
   public async getExerciseTemplates(): Promise<ExerciseTemplate[]> {
-    if (!this.#exerciseTemplates) {
-      const loadedExerciseTemplates = await Promise.all(
-        this.#exerciseTemplatesRefs.map((templateRef) =>
-          ExerciseTemplate.fromRef(templateRef),
-        ),
-      );
-      this.#exerciseTemplates = loadedExerciseTemplates;
-    }
-    return this.#exerciseTemplates as ExerciseTemplate[];
+    const snapshot = await getDocs(this.exerciseTemplatesRef);
+    const templates: ExerciseTemplate[] = [];
+    snapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      templates.push(doc.data() as ExerciseTemplate);
+    });
+    return templates;
   }
 
   /**
@@ -230,12 +232,31 @@ export class UserFitnessTracker {
     futureWorkouts.sort(Workout.compareByStartDateTimeAsc);
     return futureWorkouts.at(hasWorkoutsOnDate ? 1 : 0);
   }
+
+  /** Gets workout presets from firebase. */
+  public async getWorkoutPresets(): Promise<WorkoutPreset[]> {
+    const snapshot = await getDocs(
+      this.workoutPresetsRef.withConverter(workoutPresetConverter),
+    );
+    const presets: WorkoutPreset[] = [];
+    snapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      presets.push(doc.data() as WorkoutPreset);
+    });
+    return presets;
+  }
 }
 
 export const fitnessTrackerConverter: FirestoreDataConverter<UserFitnessTracker> =
   {
     toFirestore(fitnessTracker: UserFitnessTracker): DocumentData {
-      return {};
+      const data: UserFitnessTrackerData = {
+        workouts: fitnessTracker.workoutsRef,
+        exerciseTemplates: fitnessTracker.exerciseTemplatesRef,
+        workoutPresets: fitnessTracker.workoutPresetsRef,
+        mostRecentWorkout: fitnessTracker.mostRecentWorkout?.ref || null,
+      };
+      return data;
     },
     fromFirestore(
       snapshot: QueryDocumentSnapshot,
@@ -243,7 +264,7 @@ export const fitnessTrackerConverter: FirestoreDataConverter<UserFitnessTracker>
     ): UserFitnessTracker {
       // Data from QueryDocumentSnapshot will never return undefined.
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const data = snapshot.data(options)!;
+      const data = snapshot.data(options)! as UserFitnessTrackerData;
       // TODO
       return new UserFitnessTracker(snapshot.ref, [], [], [], [], [], null);
     },
@@ -252,5 +273,6 @@ export const fitnessTrackerConverter: FirestoreDataConverter<UserFitnessTracker>
 export type UserFitnessTrackerData = {
   workouts: CollectionReference;
   exerciseTemplates: CollectionReference;
-  mostRecentWorkout: DocumentReference;
+  workoutPresets: CollectionReference;
+  mostRecentWorkout: DocumentReference | null;
 };

@@ -1,18 +1,21 @@
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
-import WorkoutPreset from "./presets/WorkoutPreset";
-import { WorkoutPresetSummaryCard } from "./presets/WorkoutPresetCard";
+import WorkoutPreset from "./WorkoutPreset";
+import { WorkoutPresetDetailCard } from "./WorkoutPresetCard";
 
 import { fullWidthButton } from "constants/styles";
 import { Button } from "library/components/Button";
-import { ButtonText, HeadingText } from "library/components/StyledText";
-import { Screen, Text } from "library/components/Themed";
+import { ButtonText } from "library/components/StyledText";
+import { Screen, Text, View, ViewProps } from "library/components/Themed";
 import { useAppUser } from "library/context/UserContext";
 
-export default function WorkoutsOverviewScreen() {
+export type WorkoutPresetsViewProps = ViewProps;
+
+export default function WorkoutPresetsListScreen() {
+  const user = useAppUser();
+  const router = useRouter();
   const styles = StyleSheet.create({
     templateContainer: {
       width: "100%",
@@ -25,8 +28,7 @@ export default function WorkoutsOverviewScreen() {
       textAlign: "center",
     },
   });
-  const router = useRouter();
-  const user = useAppUser();
+
   const [presets, setPresets] = useState<WorkoutPreset[]>([]);
 
   useEffect(() => {
@@ -37,41 +39,42 @@ export default function WorkoutsOverviewScreen() {
 
   return (
     <Screen>
-      <Stack.Screen options={{ title: "Work Out" }} />
-      <Button
-        variant="primary"
-        style={fullWidthButton.button}
-        onPress={() => router.push("workout/new")}
-      >
-        <ButtonText style={fullWidthButton.text}>
-          {"Start an empty workout"}
-        </ButtonText>
-      </Button>
-      <HeadingText>Templates</HeadingText>
+      <Stack.Screen
+        options={{
+          headerTitle: "Templates",
+        }}
+      />
       <Button
         variant="secondary"
+        onPress={() => {
+          router.push("workout/templates/new");
+        }}
         style={fullWidthButton.button}
-        onPress={() => router.push("workout/templates/manage")}
       >
         <ButtonText style={fullWidthButton.text}>
-          {"Manage Templates"}
+          {"Create new template"}
         </ButtonText>
       </Button>
+
       <View style={styles.templateContainer}>
         {presets.length > 0 ? (
           presets.map((wp, k) => (
             <TouchableOpacity
               key={k}
               activeOpacity={0.5}
-              onPress={() => router.push(`workout/new?from=${wp.ref.path}`)}
+              onPress={() =>
+                router.push(`workout/templates/detail?path=${wp.ref.path}`)
+              }
               style={styles.templateWrapper}
             >
-              <WorkoutPresetSummaryCard workoutPreset={wp} />
+              <WorkoutPresetDetailCard workoutPreset={wp} key={k} />
             </TouchableOpacity>
           ))
         ) : (
           <Text style={styles.noTemplateText}>
-            {"You have not saved any workout templates."}
+            {
+              "You have not saved any workout templates. Create one by pressing the button above!"
+            }
           </Text>
         )}
       </View>
