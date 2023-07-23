@@ -140,7 +140,9 @@ export default function ProfileScreen() {
                 size={15}
                 color={themes[colorScheme].orange}
               />
-              <Text style={styles.levelCoinsText}>{character.money} coins</Text>
+              <Text style={styles.levelCoinsText}>
+                {character.money.toFixed(0)} coins
+              </Text>
             </View>
           </View>
         </View>
