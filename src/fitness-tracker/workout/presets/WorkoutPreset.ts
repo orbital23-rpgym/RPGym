@@ -20,7 +20,7 @@ export default class WorkoutPreset {
   readonly ref: DocumentReference;
   name: string;
   description: string;
-  lastUsed: Date;
+  lastUsed: Date | null;
   #exerciseData: ExerciseData[] | undefined;
   #exercises: Exercise[] | undefined;
 
@@ -30,7 +30,7 @@ export default class WorkoutPreset {
     exerciseData: ExerciseData[] | undefined,
     name: string,
     description: string,
-    lastUsed: Date,
+    lastUsed: Date | null,
   ) {
     this.ref = ref;
     this.name = name;
@@ -79,7 +79,7 @@ export default class WorkoutPreset {
   static async create(
     name: string,
     description: string,
-    lastUsed: Date = new Date(),
+    lastUsed: Date | null,
     exerciseData: ExerciseData[],
     userId: string,
   ): Promise<WorkoutPreset> {
@@ -162,6 +162,6 @@ export const workoutPresetConverter: FirestoreDataConverter<WorkoutPreset> = {
 export type WorkoutPresetData = {
   name: string;
   description: string;
-  lastUsed: Date;
+  lastUsed: Date | null;
   exercises: ExerciseData[];
 };

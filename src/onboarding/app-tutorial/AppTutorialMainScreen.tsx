@@ -1,22 +1,18 @@
 import { Image } from "expo-image";
 import { Stack, useRouter } from "expo-router";
-import { useContext } from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Carousel from "react-native-reanimated-carousel";
 
-import { themes } from "constants/colors";
 import { TUTORIAL_SLIDES } from "constants/onboarding";
 import { Button } from "library/components/Button";
 import { Card } from "library/components/Card";
 import { GradientBackgroundScreen } from "library/components/GradientBackground";
 import { ButtonText, HeadingText } from "library/components/StyledText";
-import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 
 export default function AppTutorialMainScreen() {
-  const colorScheme = useContext(ColorSchemeContext);
   const router = useRouter();
-
   const width = Dimensions.get("window").width;
+
   const styles = StyleSheet.create({
     container: {
       width: "100%",
