@@ -27,16 +27,32 @@ export default function CreateExerciseSetController() {
     setExerciseData(data.selectedExercise);
   }, [data]);
 
+  function deepCopyTempExercises(
+    exercises: TempExerciseData[],
+  ): TempExerciseData[] {
+    // deep copy exercises
+    const newExercises = exercises.map((value) => {
+      const { sets, ...otherData } = value;
+      const copiedSets = sets.map((value) => {
+        return { ...value } as TempSetData;
+      });
+      return { ...otherData, sets: copiedSets } as TempExerciseData;
+    });
+    return newExercises;
+  }
+
   function deleteSet(set: TempSetData) {
     if (exerciseData) {
-      const { selectedSet, exercises, ...otherData } = localData;
-      const newExercises = [...exercises];
-      // unmark as deleted
-      goToSet && (newExercises[exerciseData.key].deleted = false);
+      const { selectedSet, exercises, selectedExercise, ...otherData } =
+        localData;
+      const newExercises = deepCopyTempExercises(exercises);
+      // unmark exercise as deleted
+      newExercises[exerciseData.key].deleted = false;
       newExercises[exerciseData.key].sets[set.key].deleted = true;
       const newData = {
         ...otherData,
         selectedSet: undefined,
+        selectedExercise: newExercises[exerciseData.key],
         exercises: newExercises,
       };
       setLocalData(newData);
@@ -55,9 +71,7 @@ export default function CreateExerciseSetController() {
       } else {
         const { selectedSet, exercises, selectedExercise, ...otherData } =
           localData;
-        const newExercises = [...exercises].map((value) => {
-          return { ...value } as TempExerciseData;
-        });
+        const newExercises = deepCopyTempExercises(exercises);
         newExercises[exerciseData.key].sets[exerciseSetData.key] = {
           key: exerciseSetData.key,
           // unmark as deleted
