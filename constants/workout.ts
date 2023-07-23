@@ -18,7 +18,7 @@ export const NEW_SET_DATA = (key: number) => {
     key: key,
     deleted: false,
     notes: "",
-    perceivedExertion: 1,
+    perceivedExertion: 5,
     reps: 0,
     weightKg: 0,
   };
