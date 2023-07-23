@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 
 import CreateExerciseSetForm from "./CreateExerciseSetForm";
@@ -29,12 +29,19 @@ export default function CreateExerciseSetController() {
 
   function deleteSet(set: TempSetData) {
     if (exerciseData) {
-      const newData = { ...localData };
-      newData.selectedSet = undefined;
-      newData.exercises[exerciseData.key].sets[set.key].deleted = true;
+      const { selectedSet, exercises, ...otherData } = localData;
+      const newExercises = [...exercises];
+      // unmark as deleted
+      goToSet && (newExercises[exerciseData.key].deleted = false);
+      newExercises[exerciseData.key].sets[set.key].deleted = true;
+      const newData = {
+        ...otherData,
+        selectedSet: undefined,
+        exercises: newExercises,
+      };
       setLocalData(newData);
       setData(newData);
-      router.push("../");
+      router.push("/workout/new/exercise/");
     }
   }
 
@@ -46,34 +53,39 @@ export default function CreateExerciseSetController() {
       if (!exerciseData || !exerciseSetData) {
         reject("Error saving set data: Exercise set data not found");
       } else {
-        const newData = { ...localData };
-        newData.selectedSet = undefined;
-        newData.exercises[exerciseData.key].sets[exerciseSetData.key] = {
+        const { selectedSet, exercises, ...otherData } = localData;
+        const newExercises = [...exercises];
+        newExercises[exerciseData.key].sets[exerciseSetData.key] = {
           key: exerciseSetData.key,
-          deleted: exerciseSetData.deleted,
+          deleted: goToSet ? false : exerciseSetData.deleted,
           notes: notes,
           perceivedExertion: rpe,
           reps: reps,
           weightKg: weight,
         };
+        // unmark as deleted
+        goToSet && (newExercises[exerciseData.key].deleted = false);
+        const newData = {
+          ...otherData,
+          selectedSet: undefined,
+          exercises: newExercises,
+        };
         setLocalData(newData);
         setData(newData);
-        router.push("../");
+        router.push("/workout/new/exercise/");
       }
     });
   }
 
-  return (
-    <>
-      {exerciseSetData && exerciseData && (
-        <CreateExerciseSetForm
-          exerciseData={exerciseData}
-          exerciseSetData={exerciseSetData}
-          onSubmit={onSubmit}
-          onDelete={deleteSet}
-          isNewSet={Boolean(goToSet)}
-        />
-      )}
-    </>
+  return exerciseSetData && exerciseData ? (
+    <CreateExerciseSetForm
+      exerciseData={exerciseData}
+      exerciseSetData={exerciseSetData}
+      onSubmit={onSubmit}
+      onDelete={deleteSet}
+      isNewSet={Boolean(goToSet)}
+    />
+  ) : (
+    <Redirect href="/workout/new/exercise/" />
   );
 }

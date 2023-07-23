@@ -1,3 +1,4 @@
+import { useBackHandler } from "@react-native-community/hooks";
 import { Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View, ViewProps } from "react-native";
@@ -72,6 +73,11 @@ export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
     setExercisesData(props.exerciseData);
   }, [props.exerciseData]);
 
+  // prevent back navigation using android back button
+  useBackHandler(() => {
+    return true;
+  });
+
   const noExercisesText = <Text>No exercises added yet.</Text>;
 
   return (
@@ -79,6 +85,8 @@ export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
       <Stack.Screen
         options={{
           headerTitle: "New Workout",
+          // disable back navigation
+          headerBackVisible: false,
         }}
       />
       <Button

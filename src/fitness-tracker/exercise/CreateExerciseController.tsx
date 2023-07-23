@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 
 import CreateExerciseForm from "./CreateExerciseForm";
@@ -56,7 +56,7 @@ export default function CreateExerciseController() {
     newData.exercises[exercise.key].deleted = true;
     setLocalData(newData);
     setData(newData);
-    router.push("../");
+    router.push("/workout/new");
   }
 
   useEffect(() => {
@@ -73,36 +73,15 @@ export default function CreateExerciseController() {
     }
   }, [goToSet]);
 
-  function onSubmit(setsData: TempSetData[]) {
-    return new Promise<void>((resolve, reject) => {
-      if (!exerciseData) {
-        reject("Error saving sets data: Exercise not found");
-      } else {
-        const newData = { ...localData };
-        newData.selectedExercise = undefined;
-        newData.exercises[exerciseData.key].sets = setsData.filter(
-          (set) => !set.deleted,
-        );
-        setLocalData(newData);
-        setData(newData);
-        resolve();
-        router.push("../");
-      }
-    });
-  }
-
-  return (
-    <>
-      {exerciseData && (
-        <CreateExerciseForm
-          exerciseData={exerciseData}
-          onSubmit={onSubmit}
-          addSet={addSet}
-          removeSet={removeSet}
-          onDelete={deleteExercise}
-          editSet={editSet}
-        />
-      )}
-    </>
+  return exerciseData && !exerciseData.deleted ? (
+    <CreateExerciseForm
+      exerciseData={exerciseData}
+      addSet={addSet}
+      removeSet={removeSet}
+      onDelete={deleteExercise}
+      editSet={editSet}
+    />
+  ) : (
+    <Redirect href="/workout/new/" />
   );
 }
