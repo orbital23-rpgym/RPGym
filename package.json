@@ -25,6 +25,11 @@
     "*": "prettier --ignore-unknown --config .prettierrc"
   },
   "dependencies": {
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.18.6",
+    "@babel/plugin-proposal-optional-chaining": "^7.21.0",
+    "@babel/plugin-transform-arrow-functions": "^7.22.5",
+    "@babel/plugin-transform-shorthand-properties": "^7.22.5",
+    "@babel/plugin-transform-template-literals": "^7.22.5",
     "@expo-google-fonts/noto-sans": "^0.2.3",
     "@expo-google-fonts/work-sans": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",
