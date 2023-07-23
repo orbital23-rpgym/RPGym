@@ -65,10 +65,13 @@ export default function ExerciseTemplatePickerScreen() {
     const { exercises, selectedExercise, selectedSet, ...otherData } = data;
     // create new set
     const newSetData = NEW_SET_DATA(0);
+    // mark as deleted temporarily. Will undelete on first save in sets screen
+    newSetData.deleted = true;
     const newExerciseData: TempExerciseData = {
       key: exercises.length,
       template: exerciseTemplate,
-      deleted: false,
+      // mark as deleted temporarily. Will undelete on first save in sets screen
+      deleted: true,
       sets: [newSetData],
     };
 

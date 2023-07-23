@@ -12,7 +12,6 @@ import { themes } from "constants/colors";
 import { fullWidthButton } from "constants/styles";
 import { Button } from "library/components/Button";
 import { Card } from "library/components/Card";
-import { ErrorDisplay } from "library/components/ErrorDisplay";
 import { ProgressBarWithLabels } from "library/components/ProgressBar";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { Text } from "library/components/Themed";
@@ -24,7 +23,7 @@ import {
 
 export type CreateExerciseFormProps = {
   exerciseData: TempExerciseData;
-  onSubmit: (setsData: TempSetData[]) => Promise<void>;
+
   onDelete: (exercise: TempExerciseData) => void;
   addSet: () => void;
   removeSet: (set: TempSetData) => void;
@@ -70,24 +69,6 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
   const [setsData, setSetsData] = useState<TempSetData[]>(
     props.exerciseData.sets,
   );
-
-  const [error, setError] = useState<Error | undefined>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  function onSubmitWrapped() {
-    // Disable submit button
-    setIsSubmitting(true);
-    // Reset list of errors
-    setError(undefined);
-    props
-      .onSubmit(setsData)
-      .catch((e: Error) => {
-        setError(e);
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
-  }
 
   useEffect(() => {
     setExerciseData(props.exerciseData);
@@ -148,17 +129,6 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
       )}
       <View style={styles.endingActionContainer}>
         <Button
-          variant="save"
-          style={StyleSheet.compose(
-            fullWidthButton.button,
-            styles.endingAction,
-          )}
-          disabled={isSubmitting || setsData.length === 0}
-          onPress={onSubmitWrapped}
-        >
-          <ButtonText style={fullWidthButton.text}>Save Exercise</ButtonText>
-        </Button>
-        <Button
           variant="destructive"
           style={StyleSheet.compose(
             fullWidthButton.button,
@@ -168,7 +138,6 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
         >
           <ButtonText style={fullWidthButton.text}>Delete Exercise</ButtonText>
         </Button>
-        {error && <ErrorDisplay error={error} />}
       </View>
     </View>
   );
