@@ -16,6 +16,7 @@ export default function CreateWorkoutStack() {
 
   // initialise new empty shared data context for this stack
   const [data, setData] = useState<CreateWorkoutFormData>({ exercises: [] });
+
   return (
     <CreateWorkoutFormContext.Provider value={{ data, setData }}>
       <Stack.Screen options={{ headerShown: false }} />
@@ -46,6 +47,7 @@ export default function CreateWorkoutStack() {
             </Link>
           ),
           headerBackButtonMenuEnabled: false,
+          headerBackTitleVisible: false,
         }}
       >
         <Stack.Screen name="index" options={{ presentation: "card" }} />

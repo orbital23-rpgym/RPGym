@@ -63,7 +63,12 @@ export default function WorkoutsOverviewScreen() {
             <TouchableOpacity
               key={k}
               activeOpacity={0.5}
-              onPress={() => router.push(`workout/new?from=${wp.ref.path}`)}
+              onPress={() => {
+                router.push({
+                  pathname: "workout/new",
+                  params: { from: wp.ref.path },
+                });
+              }}
               style={styles.templateWrapper}
             >
               <WorkoutPresetSummaryCard workoutPreset={wp} />
