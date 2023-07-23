@@ -19,6 +19,7 @@ export type SliderProps = {
   bgColor?: string;
   fgColor?: string;
   thumbColor?: string;
+  initialValue?: number;
   animationType?: "spring" | "timing";
   onValueChange?: (value: number) => void;
 } & Omit<
@@ -29,6 +30,7 @@ export type SliderProps = {
   | "maximumTrackTintColor"
   | "animationType"
   | "onValueChange"
+  | "value"
 >;
 
 /**
@@ -44,11 +46,12 @@ export function Slider(props: SliderProps) {
     fgColor = themes[colorScheme].orange,
     thumbColor,
     animationType,
+    initialValue = min,
     onValueChange = () => null,
     showLegend: shouldShowLegend = false,
     ...otherProps
   } = props;
-  const [value, setValue] = useState(min);
+  const [value, setValue] = useState(initialValue);
 
   const styles = StyleSheet.create({
     container: {
