@@ -5,6 +5,7 @@ import {
   DocumentReference,
   FirestoreDataConverter,
   QueryDocumentSnapshot,
+  setDoc,
   SnapshotOptions,
 } from "firebase/firestore";
 
@@ -114,6 +115,11 @@ export default class WorkoutPreset {
     const mapFn = (exercise: Exercise) => exercise.template.name;
     const exercises = await this.getExercises();
     return exercises.map(mapFn).join(", ");
+  }
+
+  public async setLastUsed(lastUsed: Date) {
+    this.lastUsed = lastUsed;
+    await setDoc(this.ref.withConverter(workoutPresetConverter), this);
   }
 
   public toData(): WorkoutPresetData {
