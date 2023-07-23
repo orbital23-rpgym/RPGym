@@ -15,7 +15,9 @@ import { Screen, Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import { useAppUser } from "library/context/UserContext";
 
-export default function ExerciseTemplatesListScreen() {
+export default function ExerciseTemplatesList(props: {
+  onSelect?: (template: ExerciseTemplate) => void;
+}) {
   const colorScheme = useContext(ColorSchemeContext);
   const user = useAppUser();
   const router = useRouter();
@@ -121,7 +123,7 @@ export default function ExerciseTemplatesListScreen() {
             <TouchableOpacity
               key={k}
               activeOpacity={0.5}
-              onPress={() => router.push("/workout/exercises/detail")}
+              onPress={() => props.onSelect && props.onSelect(et)}
               style={styles.templateWrapper}
             >
               <Card>
