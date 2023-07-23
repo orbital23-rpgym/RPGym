@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { ExerciseData } from "../exercise/Exercise";
 import { WeightRepsExerciseSetData } from "../set/WeightRepsExerciseSet";
@@ -11,12 +11,14 @@ import {
   TempExerciseData,
   useCreateWorkoutFormContext,
 } from "library/context/CreateWorkoutFormContext";
+import { PopUpContext } from "library/context/PopUpContext";
 import { useAppUser } from "library/context/UserContext";
 
 export default function CreateWorkoutController() {
   const router = useRouter();
   const user = useAppUser();
   const { data, setData } = useCreateWorkoutFormContext();
+  const popUpData = useContext(PopUpContext);
 
   const [localData, setLocalData] = useState(data);
   const [exercisesData, setExercisesData] = useState<TempExerciseData[]>([]);
@@ -45,33 +47,37 @@ export default function CreateWorkoutController() {
     setExercisesData(data.exercises.filter((value) => !value.deleted));
   }, [data]);
 
-  function onSubmit(
+  async function onSubmit(
     data: TempExerciseData[],
     startDateTime: Date,
     endDateTime: Date,
   ) {
-    return new Promise<void>((resolve, reject) => {
-      const exerciseData: ExerciseData[] = data.map((value) => {
-        return {
-          template: value.template.ref,
-          sets: value.sets
-            .filter((value) => !value.deleted)
-            .map((value): WeightRepsExerciseSetData => {
-              return {
-                notes: value.notes,
-                perceivedExertion: value.perceivedExertion,
-                weightKg: value.weightKg,
-                reps: value.reps,
-              };
-            }),
-        };
-      });
-      Workout.create(startDateTime, endDateTime, exerciseData, user.id)
-        .then((workout) => {
-          user.addWorkout(workout).then(() => router.push("../"));
-        })
-        .catch((reason) => reject(reason));
+    const exerciseData: ExerciseData[] = data.map((value) => {
+      return {
+        template: value.template.ref,
+        sets: value.sets
+          .filter((value) => !value.deleted)
+          .map((value): WeightRepsExerciseSetData => {
+            return {
+              notes: value.notes,
+              perceivedExertion: value.perceivedExertion,
+              weightKg: value.weightKg,
+              reps: value.reps,
+            };
+          }),
+      };
     });
+    const workout = await Workout.create(
+      startDateTime,
+      endDateTime,
+      exerciseData,
+      user.id,
+    );
+    const reward = await user.addWorkout(workout);
+    if (popUpData.setData) {
+      router.push("../");
+      popUpData.setData({ href: "/workout/reward", data: reward });
+    }
   }
 
   return (

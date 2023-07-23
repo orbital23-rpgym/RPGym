@@ -17,6 +17,7 @@ import { themes } from "constants/colors";
 import { headingTextStyle } from "constants/styles";
 import { AuthProvider } from "library/context/auth";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
+import { PopUpProvider } from "library/context/PopUpContext";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -83,33 +84,43 @@ function RootLayoutNav() {
 
   return (
     <AuthProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <ColorSchemeContext.Provider value={colorScheme}>
-          <StatusBar
-            animated={true}
-            backgroundColor={themes[colorScheme].background}
-            style={colorScheme === "dark" ? "light" : "dark"}
-          />
-          <Stack
-            initialRouteName="(auth)/welcome"
-            screenOptions={{
-              headerStyle: {
-                backgroundColor: themes[colorScheme].background,
-              },
-              headerTitleStyle: {
-                ...headingTextStyle,
-              },
-              headerTintColor: themes[colorScheme].text,
-            }}
-          >
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen
-              name="(auth)/welcome"
-              options={{ headerShown: false, title: "Welcome to RPGym" }}
+      <PopUpProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <ColorSchemeContext.Provider value={colorScheme}>
+            <StatusBar
+              animated={true}
+              backgroundColor={themes[colorScheme].background}
+              style={colorScheme === "dark" ? "light" : "dark"}
             />
-          </Stack>
-        </ColorSchemeContext.Provider>
-      </ThemeProvider>
+            <Stack
+              initialRouteName="(auth)/welcome"
+              screenOptions={{
+                headerStyle: {
+                  backgroundColor: themes[colorScheme].background,
+                },
+                headerTitleStyle: {
+                  ...headingTextStyle,
+                },
+                headerTintColor: themes[colorScheme].text,
+              }}
+            >
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="(auth)/welcome"
+                options={{ headerShown: false, title: "Welcome to RPGym" }}
+              />
+              <Stack.Screen
+                name="workout/reward"
+                options={{
+                  presentation: "modal",
+                }}
+              />
+            </Stack>
+          </ColorSchemeContext.Provider>
+        </ThemeProvider>
+      </PopUpProvider>
     </AuthProvider>
   );
 }

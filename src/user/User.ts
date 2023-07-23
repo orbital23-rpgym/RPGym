@@ -197,8 +197,11 @@ export class User {
    * Adds new workout to user data. Also triggers rewards.
    */
   public async addWorkout(workout: Workout) {
-    await this.character.completeWorkout();
     await this.fitnessTracker.addWorkout(workout);
+    return {
+      completedWorkout: workout,
+      ...(await this.character.completeWorkout()),
+    };
   }
 
   /**

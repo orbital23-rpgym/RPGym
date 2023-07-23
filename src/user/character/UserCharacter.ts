@@ -10,7 +10,12 @@ import {
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
-import { LEVEL_EXP_BOUNDS, MAX_USER_HEALTH } from "constants/game";
+import {
+  computeRewards,
+  LEVEL_EXP_BOUNDS,
+  MAX_USER_HEALTH,
+  WORKOUT_REWARDS,
+} from "constants/game";
 import { db } from "src/firebase-init";
 import Avatar, { AvatarData } from "src/rpg/avatar/Avatar";
 import { Party } from "src/rpg/party/Party";
@@ -154,7 +159,6 @@ export class UserCharacter {
     bio: string,
     avatar: Avatar,
   ): Promise<UserCharacter> {
-    const ref = this.ref.withConverter(characterConverter);
     const newCharacter = new UserCharacter(
       this.ref,
       displayName,
@@ -168,7 +172,7 @@ export class UserCharacter {
       this.party ?? null,
       this.ongoingQuest ?? null,
     );
-    await setDoc(ref, newCharacter);
+    await setDoc(this.ref.withConverter(characterConverter), newCharacter);
     return newCharacter;
   }
 
@@ -180,10 +184,29 @@ export class UserCharacter {
     await this.updateToFirestore();
   }
 
+  public isOngoingCampaign(): boolean {
+    return Boolean(this.party?.ongoingCampaign);
+  }
+
   /**
    * Trigger rewards associated with workout completion.
    */
   public async completeWorkout() {
+    const rewards = computeRewards(WORKOUT_REWARDS);
+    this.exp += rewards.exp;
+    this.money += rewards.money;
+    this.incrementQuest();
+    this.incrementCampaign(rewards.attack);
+    await this.updateToFirestore();
+    return {
+      exp: rewards.exp,
+      money: rewards.money,
+      attack: this.isOngoingCampaign() ? rewards.attack : 0,
+    };
+  }
+
+  /** Progress quest and check for completion. */
+  public async incrementQuest() {
     if (this.ongoingQuest) {
       this.ongoingQuest.progressThisWeek += 1;
       await this.updateToFirestore();
@@ -197,6 +220,9 @@ export class UserCharacter {
     return;
   }
 
+  public incrementCampaign(amount: number) {
+    return;
+  }
   /**
    * Trigger rewards associated with campaign completion.
    */
