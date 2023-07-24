@@ -22,8 +22,11 @@ export default function TrackingScreen() {
   });
   const [lastWorkout, setLastWorkout] = useState<Workout | null>(null);
   useEffect(() => {
-    setLastWorkout(user.fitnessTracker.mostRecentWorkout);
-  }, []);
+    user.fitnessTracker
+      .getMostRecentWorkout()
+      .then((result) => setLastWorkout(result));
+  }, [user]);
+
   const lastWorkoutCardTitle = "🏋️ Last Workout";
   return (
     <Screen gap={20}>

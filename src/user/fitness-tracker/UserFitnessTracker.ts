@@ -1,17 +1,23 @@
 import { endOfDay, Interval, isWithinInterval, startOfDay } from "date-fns";
 import {
+  and,
   collection,
   CollectionReference,
   doc,
   DocumentData,
   DocumentReference,
   FirestoreDataConverter,
+  getCountFromServer,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
+  query,
   QueryDocumentSnapshot,
   setDoc,
   SnapshotOptions,
   updateDoc,
+  where,
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
@@ -134,41 +140,59 @@ export class UserFitnessTracker {
   public async addWorkout(workout: Workout) {
     this.workouts.push(workout);
     this.mostRecentWorkout = workout;
-    updateDoc(this.ref, { mostRecentWorkout: this.mostRecentWorkout.ref });
+    // ! no longer use the field to track most recent. use sorted query instead
+    // updateDoc(this.ref, { mostRecentWorkout: this.mostRecentWorkout.ref });
+  }
+
+  /**
+   * Gets most recent workout.
+   */
+  public async getMostRecentWorkout(): Promise<Workout | null> {
+    const snapshot = await getDocs(
+      query(this.workoutsRef, orderBy("endDateTime", "desc"), limit(1)),
+    );
+    const workouts: Workout[] = [];
+    snapshot.forEach((snap) => {
+      workouts.push(snap.data() as Workout);
+    });
+    return workouts.at(0) ?? null;
   }
 
   /**
    * Updates workouts from Firestore.
    */
-  public async pullWorkouts() {
+  public async getAllWorkouts(): Promise<Workout[]> {
     const snapshot = await getDocs(this.workoutsRef);
     this.workouts = snapshot.docs.map((snap) => snap.data() as Workout);
+    return this.workouts;
   }
 
   /**
    * Gets number of completed workouts total.
    */
   public async numberOfWorkouts(): Promise<number> {
-    return this.workouts.length;
-  }
-
-  public async allWorkoutDates(): Promise<Date[]> {
-    return this.workouts.map((workout) => workout.endDateTime);
+    const snapshot = await getCountFromServer(this.workoutsRef);
+    return snapshot.data().count;
   }
 
   public async allWorkoutsInDateInterval(
     interval: Interval,
   ): Promise<Workout[]> {
-    /*
-    //firebase:
-    ref.orderByChild("date").startAt(startDate).endAt(endDate)
-      .on("child_added", function(snapshot){
-      console.log("got the data!", snapshot);
-    });
-    */
-    return this.workouts.filter((curr, index, arr) =>
-      isWithinInterval(curr.startDateTime, interval),
+    const snapshot = await getDocs(
+      query(
+        this.workoutsRef,
+        and(
+          where("startDateTime", ">=", interval.start),
+          where("startDateTime", "<=", interval.end),
+        ),
+        orderBy("startDateTime"),
+      ),
     );
+    const workouts: Workout[] = [];
+    snapshot.forEach((snap) => {
+      workouts.push(snap.data() as Workout);
+    });
+    return workouts;
   }
 
   /**
@@ -181,7 +205,7 @@ export class UserFitnessTracker {
       start: startOfDay(date),
       end: endOfDay(date),
     };
-    return this.allWorkoutsInDateInterval(interval);
+    return await this.allWorkoutsInDateInterval(interval);
   }
 
   /**
@@ -190,13 +214,17 @@ export class UserFitnessTracker {
    * @returns Number of workouts on given date
    */
   public async numWorkoutsOnDate(date: Date): Promise<number> {
-    const interval: Interval = {
-      start: startOfDay(date),
-      end: endOfDay(date),
-    };
-    return this.workouts.filter((curr, index, arr) =>
-      isWithinInterval(curr.startDateTime, interval),
-    ).length;
+    const snapshot = await getCountFromServer(
+      query(
+        this.workoutsRef,
+        and(
+          where("startDateTime", ">=", startOfDay(date)),
+          where("startDateTime", "<=", endOfDay(date)),
+        ),
+        orderBy("startDateTime", "asc"),
+      ),
+    );
+    return snapshot.data().count;
   }
 
   /**
@@ -205,15 +233,19 @@ export class UserFitnessTracker {
    * @returns Most recent workout before the given start datetime, or undefined if nonexistent.
    */
   public async getPreviousWorkout(date: Date): Promise<Workout | undefined> {
-    const interval: Interval = {
-      start: DATE_MIN,
-      end: date,
-    };
-    const pastWorkouts = await this.allWorkoutsInDateInterval(interval);
-    if (pastWorkouts.length === 1) return undefined;
-    const hasWorkoutsOnDate = (await this.numWorkoutsOnDate(date)) > 0;
-    pastWorkouts.sort(Workout.compareByStartDateTimeDesc);
-    return pastWorkouts.at(hasWorkoutsOnDate ? 1 : 0);
+    const snapshot = await getDocs(
+      query(
+        this.workoutsRef,
+        where("startDateTime", "<=", date),
+        orderBy("startDateTime", "desc"),
+        limit(1),
+      ),
+    );
+    const workouts: Workout[] = [];
+    snapshot.forEach((snap) => {
+      workouts.push(snap.data() as Workout);
+    });
+    return workouts.at(0);
   }
 
   /**
@@ -222,15 +254,19 @@ export class UserFitnessTracker {
    * @returns Next closest workout after the given start datetime, or undefined if nonexistent.
    */
   public async getNextWorkout(date: Date): Promise<Workout | undefined> {
-    const interval: Interval = {
-      start: date,
-      end: DATE_MAX,
-    };
-    const futureWorkouts = await this.allWorkoutsInDateInterval(interval);
-    if (futureWorkouts.length === 1) return undefined;
-    const hasWorkoutsOnDate = (await this.numWorkoutsOnDate(date)) > 0;
-    futureWorkouts.sort(Workout.compareByStartDateTimeAsc);
-    return futureWorkouts.at(hasWorkoutsOnDate ? 1 : 0);
+    const snapshot = await getDocs(
+      query(
+        this.workoutsRef,
+        where("startDateTime", ">=", date),
+        orderBy("startDateTime"),
+        limit(1),
+      ),
+    );
+    const workouts: Workout[] = [];
+    snapshot.forEach((snap) => {
+      workouts.push(snap.data() as Workout);
+    });
+    return workouts.at(0);
   }
 
   /** Gets workout presets from firebase. */

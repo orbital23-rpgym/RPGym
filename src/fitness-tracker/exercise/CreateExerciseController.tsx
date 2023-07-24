@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import CreateExerciseForm from "./CreateExerciseForm";
 
-import { NEW_SET_DATA } from "constants/dist/workout";
+import { NEW_SET_DATA } from "constants/workout";
 import {
   TempExerciseData,
   TempSetData,

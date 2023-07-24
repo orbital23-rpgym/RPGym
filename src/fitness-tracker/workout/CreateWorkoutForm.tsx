@@ -41,7 +41,7 @@ export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
     endingActionContainer: {
       width: "100%",
       gap: 20,
-      marginTop: 20,
+      marginTop: 10,
       alignItems: "center",
     },
     listItem: {

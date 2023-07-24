@@ -11,7 +11,7 @@ import {
   startOfMonth,
   sub,
 } from "date-fns";
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
@@ -64,22 +64,23 @@ export default function WorkoutHistoryScreen() {
     undefined,
   );
   const [hasPreviousWorkout, setHasPreviousWorkout] = useState<boolean>(true);
-
   const [hasNextWorkout, setHasNextWorkout] = useState<boolean>(true);
 
+  const { date } = useLocalSearchParams();
+
   useEffect(() => {
-    const now = new Date();
-    selectDate(now);
-  }, []);
+    if (date) {
+      selectDate(new Date(parseInt(date as string)));
+    } else {
+      selectDate(new Date());
+    }
+  }, [date]);
 
   function selectDate(date: Date, workoutToDisplay?: Workout) {
     setSelectedDate(date);
     user.fitnessTracker.getWorkoutsWithDate(date).then((workouts) => {
-      const workoutsOnSelectedDay = workouts.sort(
-        Workout.compareByStartDateTimeAsc,
-      );
-      setSelectedDateWorkouts(workoutsOnSelectedDay);
-      setDisplayedWorkout(workoutToDisplay ?? workoutsOnSelectedDay.at(0));
+      setSelectedDateWorkouts(workouts);
+      setDisplayedWorkout(workoutToDisplay ?? workouts.at(0));
 
       user.fitnessTracker.getPreviousWorkout(date).then((workout) => {
         setHasPreviousWorkout(workout !== undefined);
@@ -94,7 +95,10 @@ export default function WorkoutHistoryScreen() {
   function goToPreviousWorkout() {
     user.fitnessTracker.getPreviousWorkout(selectedDate).then((workout) => {
       // If there is no previous workout, do nothing
-      if (!workout) return;
+      if (!workout) {
+        setHasPreviousWorkout(false);
+        return;
+      }
       selectDate(workout.startDateTime, workout);
     });
   }
@@ -102,7 +106,10 @@ export default function WorkoutHistoryScreen() {
   function goToNextWorkout() {
     user.fitnessTracker.getNextWorkout(selectedDate).then((workout) => {
       // If there is no next workout, do nothing
-      if (!workout) return;
+      if (!workout) {
+        setHasNextWorkout(false);
+        return;
+      }
       selectDate(workout.startDateTime, workout);
     });
   }

@@ -7,6 +7,7 @@ import {
   QueryDocumentSnapshot,
   setDoc,
   SnapshotOptions,
+  Timestamp,
 } from "firebase/firestore";
 
 import Exercise, { ExerciseData } from "../../exercise/Exercise";
@@ -87,7 +88,7 @@ export default class WorkoutPreset {
     const workoutPresetData: WorkoutPresetData = {
       name: name,
       description: description,
-      lastUsed: lastUsed,
+      lastUsed: lastUsed ? Timestamp.fromDate(lastUsed) : lastUsed,
       exercises: exerciseData,
     };
     const ref = await addDoc(
@@ -103,7 +104,7 @@ export default class WorkoutPreset {
       exerciseData,
       workoutPresetData.name,
       workoutPresetData.description,
-      workoutPresetData.lastUsed,
+      lastUsed,
     );
     return workout;
   }
@@ -126,7 +127,7 @@ export default class WorkoutPreset {
     const data: WorkoutPresetData = {
       name: this.name,
       description: this.description,
-      lastUsed: this.lastUsed,
+      lastUsed: Timestamp.fromDate(this.lastUsed),
       exercises: this.getExerciseData(),
     };
     return data;
@@ -142,7 +143,7 @@ export default class WorkoutPreset {
       data.exercises,
       data.name,
       data.description,
-      data.lastUsed,
+      data.lastUsed?.toDate(),
     );
   }
 }
@@ -168,6 +169,6 @@ export const workoutPresetConverter: FirestoreDataConverter<WorkoutPreset> = {
 export type WorkoutPresetData = {
   name: string;
   description: string;
-  lastUsed: Date | null;
+  lastUsed: Timestamp | null;
   exercises: ExerciseData[];
 };

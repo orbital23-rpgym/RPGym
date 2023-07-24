@@ -1,3 +1,3 @@
-import ExerciseTemplatesListScreen from "src/fitness-tracker/exercise/ExerciseTemplatesListScreen";
+import ExerciseTemplatesOverviewScreen from "src/fitness-tracker/exercise/ExerciseTemplatesOverviewScreen";
 
-export default ExerciseTemplatesListScreen;
+export default ExerciseTemplatesOverviewScreen;
