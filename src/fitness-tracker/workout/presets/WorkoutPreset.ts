@@ -127,7 +127,7 @@ export default class WorkoutPreset {
     const data: WorkoutPresetData = {
       name: this.name,
       description: this.description,
-      lastUsed: Timestamp.fromDate(this.lastUsed),
+      lastUsed: this.lastUsed ? Timestamp.fromDate(this.lastUsed) : null,
       exercises: this.getExerciseData(),
     };
     return data;
@@ -143,7 +143,7 @@ export default class WorkoutPreset {
       data.exercises,
       data.name,
       data.description,
-      data.lastUsed?.toDate(),
+      data.lastUsed ? data.lastUsed.toDate() : null,
     );
   }
 }

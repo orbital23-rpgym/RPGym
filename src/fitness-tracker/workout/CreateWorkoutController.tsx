@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { doc, getDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { ExerciseData } from "../exercise/Exercise";
 import { WeightRepsExerciseSetData } from "../set/WeightRepsExerciseSet";
@@ -101,49 +101,39 @@ export default function CreateWorkoutController() {
     }
   }, [presetPath]);
 
-  function onSubmit(
+  async function onSubmit(
     data: TempExerciseData[],
     startDateTime: Date,
     endDateTime: Date,
   ) {
-    return new Promise<void>((resolve, reject) => {
-      const exerciseData: ExerciseData[] = data.map((value) => {
-        return {
-          template: value.template.ref,
-          sets: value.sets
-            .filter((value) => !value.deleted)
-            .map((value): WeightRepsExerciseSetData => {
-              return {
-                notes: value.notes,
-                perceivedExertion: value.perceivedExertion,
-                weightKg: value.weightKg,
-                reps: value.reps,
-              };
-            }),
-        };
-      });
-      Workout.create(startDateTime, endDateTime, exerciseData, user.id)
-        .then((workout) => {
-          user.addWorkout(workout).then(() => {
-            // Successfully saved workout
-            // If used template, edit last used
-            if (localData.selectedWorkoutPreset) {
-              localData.selectedWorkoutPreset.setLastUsed(workout.endDateTime);
-            }
-            router.replace("/(tabs)/tracking");
-          });
-        })
-        .catch((reason) => reject(reason));
+    const exerciseData: ExerciseData[] = data.map((value) => {
+      return {
+        template: value.template.ref,
+        sets: value.sets
+          .filter((value) => !value.deleted)
+          .map((value): WeightRepsExerciseSetData => {
+            return {
+              notes: value.notes,
+              perceivedExertion: value.perceivedExertion,
+              weightKg: value.weightKg,
+              reps: value.reps,
+            };
+          }),
+      };
     });
+
     const workout = await Workout.create(
       startDateTime,
       endDateTime,
       exerciseData,
       user.id,
-    );
+    ); // If used template, edit last used
+    if (localData.selectedWorkoutPreset) {
+      localData.selectedWorkoutPreset.setLastUsed(workout.endDateTime);
+    }
     const reward = await user.addWorkout(workout);
     if (popUpData.setData) {
-      router.push("../");
+      router.replace("/(tabs)/tracking");
       popUpData.setData({ href: "/workout/reward", data: reward });
     }
   }
