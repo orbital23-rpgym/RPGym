@@ -1,7 +1,8 @@
 import { Image } from "expo-image";
 import { Stack, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, StyleSheet, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 import { palette, themes } from "constants/colors";
 import { ONBOARDING_IMAGES } from "constants/onboarding";
@@ -26,6 +27,8 @@ export default function OnboardingStartScreen() {
   const styles = StyleSheet.create({
     container: {
       width: "100%",
+    },
+    scrollContainer: {
       justifyContent: "center",
       alignItems: "center",
     },
@@ -133,45 +136,50 @@ export default function OnboardingStartScreen() {
   return (
     <GradientBackgroundScreen>
       <Stack.Screen options={{ headerShown: false }} />
-      <View style={styles.container}>
-        <View style={styles.speechBubbleContainer}>
-          <Image
-            style={styles.speechBubbleImage}
-            source={ONBOARDING_IMAGES.speechBubble.bottomRight}
-            contentFit="contain"
-          />
-          <View style={styles.speechBubbleTextContainer}>
-            <Text style={styles.speechBubbleText}>
-              {"Welcome to RPGym, adventurer! I'm Jim Bro. What's your name?"}
-            </Text>
-          </View>
-        </View>
-
-        <Image
-          style={styles.jimBroImage}
-          source={ONBOARDING_IMAGES.jimbro.swordLeft}
-          contentFit="contain"
-          contentPosition="right center"
-        />
-        <TextInput
-          style={styles.textField}
-          placeholderTextColor={themes[colorScheme].gray}
-          placeholder={"Enter your name here"}
-          defaultValue={displayName}
-          onChangeText={setDisplayName}
-        />
-        <Button
-          onPress={() => {
-            submit();
-          }}
-          variant="primary"
-          style={styles.submitButton}
-          disabled={isSubmitting}
+      <KeyboardAvoidingView style={styles.container} behavior="position">
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.scrollContainer}
         >
-          <ButtonText style={styles.submitButtonText}>{"Next"}</ButtonText>
-        </Button>
-        {error && <ErrorDisplay error={error} />}
-      </View>
+          <View style={styles.speechBubbleContainer}>
+            <Image
+              style={styles.speechBubbleImage}
+              source={ONBOARDING_IMAGES.speechBubble.bottomRight}
+              contentFit="contain"
+            />
+            <View style={styles.speechBubbleTextContainer}>
+              <Text style={styles.speechBubbleText}>
+                {"Welcome to RPGym, adventurer! I'm Jim Bro. What's your name?"}
+              </Text>
+            </View>
+          </View>
+
+          <Image
+            style={styles.jimBroImage}
+            source={ONBOARDING_IMAGES.jimbro.swordLeft}
+            contentFit="contain"
+            contentPosition="right center"
+          />
+          <TextInput
+            style={styles.textField}
+            placeholderTextColor={themes[colorScheme].gray}
+            placeholder={"Enter your name here"}
+            defaultValue={displayName}
+            onChangeText={setDisplayName}
+          />
+          <Button
+            onPress={() => {
+              submit();
+            }}
+            variant="primary"
+            style={styles.submitButton}
+            disabled={isSubmitting}
+          >
+            <ButtonText style={styles.submitButtonText}>{"Next"}</ButtonText>
+          </Button>
+          {error && <ErrorDisplay error={error} />}
+        </ScrollView>
+      </KeyboardAvoidingView>
     </GradientBackgroundScreen>
   );
 }

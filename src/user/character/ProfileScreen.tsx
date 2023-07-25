@@ -148,7 +148,7 @@ export default function ProfileScreen() {
         </View>
       </View>
       <CurrentQuestSummaryCard quest={character.ongoingQuest} />
-      <Card title="💪 Campaign" headerColor={themes[colorScheme].blueLight}>
+      {/* <Card title="💪 Campaign" headerColor={themes[colorScheme].blueLight}>
         <Text>PLACEHOLDER</Text>
         <ProgressBarWithLabels
           title="test2"
@@ -158,7 +158,7 @@ export default function ProfileScreen() {
           colorFg={themes[colorScheme].green}
           colorBg={themes[colorScheme].gray}
         />
-      </Card>
+      </Card> */}
     </Screen>
   );
 }

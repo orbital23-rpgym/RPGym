@@ -29,23 +29,23 @@ export default function CreateWorkoutStack() {
             ...headingTextStyle,
           },
           headerTintColor: themes[colorScheme].text,
-          headerRight: () => (
-            <Link href="/workout/new/rest-timer" asChild>
-              <Pressable>
-                {({ pressed }) => {
-                  const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
-                  return (
-                    <MaterialIcons
-                      name="timer"
-                      size={25}
-                      color={themes[colorScheme].text}
-                      style={style}
-                    />
-                  );
-                }}
-              </Pressable>
-            </Link>
-          ),
+          // headerRight: () => (
+          //   <Link href="/workout/new/rest-timer" asChild>
+          //     <Pressable>
+          //       {({ pressed }) => {
+          //         const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
+          //         return (
+          //           <MaterialIcons
+          //             name="timer"
+          //             size={25}
+          //             color={themes[colorScheme].text}
+          //             style={style}
+          //           />
+          //         );
+          //       }}
+          //     </Pressable>
+          //   </Link>
+          // ),
           headerBackButtonMenuEnabled: false,
           headerBackTitleVisible: false,
         }}

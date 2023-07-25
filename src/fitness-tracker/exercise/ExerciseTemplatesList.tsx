@@ -98,7 +98,7 @@ export default function ExerciseTemplatesList(props: {
           headerTitle: "Exercise List",
         }}
       />
-      <Button
+      {/* <Button
         variant="secondary"
         onPress={() => {
           router.push("/workout/exercises/new");
@@ -108,7 +108,7 @@ export default function ExerciseTemplatesList(props: {
         <ButtonText style={fullWidthButton.text}>
           {"Add new exercise"}
         </ButtonText>
-      </Button>
+      </Button> */}
       <TextInput
         placeholder="Search"
         style={styles.searchField}

@@ -44,7 +44,7 @@ export default function WorkoutPresetsListScreen() {
           headerTitle: "Templates",
         }}
       />
-      <Button
+      {/* <Button
         variant="secondary"
         onPress={() => {
           router.push("workout/templates/new");
@@ -54,7 +54,7 @@ export default function WorkoutPresetsListScreen() {
         <ButtonText style={fullWidthButton.text}>
           {"Create new template"}
         </ButtonText>
-      </Button>
+      </Button> */}
 
       <View style={styles.templateContainer}>
         {presets.length > 0 ? (
