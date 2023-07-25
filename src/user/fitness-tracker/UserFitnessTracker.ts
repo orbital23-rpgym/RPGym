@@ -287,9 +287,6 @@ export const fitnessTrackerConverter: FirestoreDataConverter<UserFitnessTracker>
   {
     toFirestore(fitnessTracker: UserFitnessTracker): DocumentData {
       const data: UserFitnessTrackerData = {
-        workouts: fitnessTracker.workoutsRef,
-        exerciseTemplates: fitnessTracker.exerciseTemplatesRef,
-        workoutPresets: fitnessTracker.workoutPresetsRef,
         mostRecentWorkout: fitnessTracker.mostRecentWorkout?.ref || null,
       };
       return data;
@@ -301,14 +298,11 @@ export const fitnessTrackerConverter: FirestoreDataConverter<UserFitnessTracker>
       // Data from QueryDocumentSnapshot will never return undefined.
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const data = snapshot.data(options)! as UserFitnessTrackerData;
-      // TODO
+      // dont use as cant recursively get data :(
       return new UserFitnessTracker(snapshot.ref, [], [], [], [], [], null);
     },
   };
 
 export type UserFitnessTrackerData = {
-  workouts: CollectionReference;
-  exerciseTemplates: CollectionReference;
-  workoutPresets: CollectionReference;
   mostRecentWorkout: DocumentReference | null;
 };
