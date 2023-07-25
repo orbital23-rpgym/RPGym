@@ -1,6 +1,6 @@
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity } from "react-native";
 
 import TrackingOverviewCard from "./TrackingOverviewCard";
 import Workout from "./Workout";
@@ -19,6 +19,7 @@ export default function TrackingScreen() {
   const router = useRouter();
   const styles = StyleSheet.create({
     noWorkoutText: { textAlign: "center" },
+    lastWorkoutContainer: { width: "100%" },
   });
   const [lastWorkout, setLastWorkout] = useState<Workout | null>(null);
   useEffect(() => {
@@ -33,10 +34,20 @@ export default function TrackingScreen() {
       <Stack.Screen options={{ title: "Tracking" }} />
       <TrackingOverviewCard />
       {lastWorkout ? (
-        <WorkoutOverviewCard
-          title={lastWorkoutCardTitle}
-          workout={lastWorkout}
-        />
+        <TouchableOpacity
+          activeOpacity={0.5}
+          onPress={() =>
+            router.push(
+              "/workout/history?date=" + lastWorkout.startDateTime.getTime(),
+            )
+          }
+          style={styles.lastWorkoutContainer}
+        >
+          <WorkoutOverviewCard
+            title={lastWorkoutCardTitle}
+            workout={lastWorkout}
+          />
+        </TouchableOpacity>
       ) : (
         <Card title={lastWorkoutCardTitle}>
           <Text style={styles.noWorkoutText}>
