@@ -1,17 +1,6 @@
 import { FontAwesome5 } from "@expo/vector-icons";
-import {
-  add,
-  eachDayOfInterval,
-  endOfMonth,
-  format,
-  intlFormat,
-  isEqual,
-  isSameDay,
-  isToday,
-  startOfMonth,
-  sub,
-} from "date-fns";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { intlFormat } from "date-fns";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
@@ -20,7 +9,7 @@ import WorkoutHistoryCalendar from "./WorkoutHistoryCalendar";
 import { WorkoutOverview } from "./WorkoutOverview";
 
 import { themes } from "constants/colors";
-import { AddNewLink } from "library/components/AddNewLink";
+// import { AddNewLink } from "library/components/AddNewLink";
 import { Card } from "library/components/Card";
 import { HeadingText } from "library/components/StyledText";
 import { Screen, Text } from "library/components/Themed";
@@ -60,6 +49,8 @@ export default function WorkoutHistoryScreen() {
   const [selectedDateWorkouts, setSelectedDateWorkouts] = useState<Workout[]>(
     [],
   );
+  const [selectedDateWorkoutIndex, setSelectedDateWorkoutIndex] =
+    useState<number>(0);
   const [displayedWorkout, setDisplayedWorkout] = useState<Workout | undefined>(
     undefined,
   );
@@ -67,57 +58,122 @@ export default function WorkoutHistoryScreen() {
   const [hasNextWorkout, setHasNextWorkout] = useState<boolean>(true);
 
   const { date } = useLocalSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     if (date) {
-      selectDate(new Date(parseInt(date as string)));
+      router.setParams(undefined);
+      const parsedDate = new Date(parseInt(date as string));
+      selectDate(parsedDate);
+      checkHasNextWorkout();
+      checkHasPreviousWorkout();
     } else {
-      selectDate(new Date());
+      const now = new Date();
+      selectDate(now);
+      checkHasNextWorkout();
+      checkHasPreviousWorkout();
     }
   }, [date]);
 
-  function selectDate(date: Date, workoutToDisplay?: Workout) {
+  async function selectDate(date: Date, end?: boolean) {
+    const workouts = await user.fitnessTracker.getWorkoutsWithDate(date);
+    const previousWorkout = await user.fitnessTracker.getPreviousWorkout(date);
+    const nextWorkout = await user.fitnessTracker.getNextWorkout(date);
     setSelectedDate(date);
-    user.fitnessTracker.getWorkoutsWithDate(date).then((workouts) => {
-      setSelectedDateWorkouts(workouts);
-      setDisplayedWorkout(workoutToDisplay ?? workouts.at(0));
+    setSelectedDateWorkouts(workouts);
+    setSelectedDateWorkoutIndex(end ? workouts.length - 1 : 0);
+    setHasPreviousWorkout(previousWorkout !== undefined);
+    setHasNextWorkout(nextWorkout !== undefined);
+  }
 
-      user.fitnessTracker.getPreviousWorkout(date).then((workout) => {
-        setHasPreviousWorkout(workout !== undefined);
-      });
+  async function checkHasPreviousWorkout() {
+    if (selectedDateWorkouts.length > 0 && selectedDateWorkoutIndex > 0) {
+      setHasPreviousWorkout(true);
+    } else {
+      const previousWorkout = await user.fitnessTracker.getPreviousWorkout(
+        selectedDate,
+      );
+      setHasPreviousWorkout(previousWorkout !== undefined);
+    }
+  }
 
-      user.fitnessTracker.getNextWorkout(date).then((workout) => {
-        setHasNextWorkout(workout !== undefined);
-      });
-    });
+  async function checkHasNextWorkout() {
+    if (
+      selectedDateWorkouts.length > 0 &&
+      selectedDateWorkoutIndex < selectedDateWorkouts.length - 1
+    ) {
+      setHasNextWorkout(true);
+    } else {
+      const nextWorkout = await user.fitnessTracker.getNextWorkout(
+        selectedDate,
+      );
+      setHasNextWorkout(nextWorkout !== undefined);
+    }
   }
 
   function goToPreviousWorkout() {
-    user.fitnessTracker.getPreviousWorkout(selectedDate).then((workout) => {
-      // If there is no previous workout, do nothing
-      if (!workout) {
-        setHasPreviousWorkout(false);
-        return;
-      }
-      selectDate(workout.startDateTime, workout);
-    });
+    if (selectedDateWorkouts.length > 0 && selectedDateWorkoutIndex > 0) {
+      setSelectedDateWorkoutIndex(selectedDateWorkoutIndex - 1);
+      setHasNextWorkout(true);
+      checkHasPreviousWorkout();
+    } else {
+      user.fitnessTracker
+        .getPreviousWorkout(displayedWorkout?.startDateTime ?? selectedDate)
+        .then((workout) => {
+          // If there is no previous workout, do nothing
+          if (!workout) {
+            setHasPreviousWorkout(false);
+            return;
+          }
+          selectDate(workout.startDateTime, true);
+          checkHasNextWorkout();
+          checkHasPreviousWorkout();
+        });
+    }
   }
 
   function goToNextWorkout() {
-    user.fitnessTracker.getNextWorkout(selectedDate).then((workout) => {
-      // If there is no next workout, do nothing
-      if (!workout) {
-        setHasNextWorkout(false);
-        return;
-      }
-      selectDate(workout.startDateTime, workout);
-    });
+    if (
+      selectedDateWorkouts.length > 0 &&
+      selectedDateWorkoutIndex < selectedDateWorkouts.length - 1
+    ) {
+      setSelectedDateWorkoutIndex(selectedDateWorkoutIndex + 1);
+      setHasPreviousWorkout(true);
+      checkHasNextWorkout();
+    } else {
+      user.fitnessTracker
+        .getNextWorkout(displayedWorkout?.startDateTime ?? selectedDate)
+        .then((workout) => {
+          // If there is no next workout, do nothing
+          if (!workout) {
+            setHasNextWorkout(false);
+            return;
+          }
+          selectDate(workout.startDateTime);
+          checkHasPreviousWorkout();
+          checkHasNextWorkout();
+        });
+    }
   }
+
+  useEffect(() => {
+    setDisplayedWorkout(selectedDateWorkouts.at(selectedDateWorkoutIndex));
+  }, [selectedDateWorkouts, selectedDateWorkoutIndex]);
+
+  useEffect(() => {
+    checkHasNextWorkout();
+    checkHasPreviousWorkout();
+  }, [displayedWorkout]);
 
   return (
     <Screen gap={20}>
       <Stack.Screen options={{ title: "Workout History" }} />
-      <WorkoutHistoryCalendar onSelect={selectDate} selection={selectedDate} />
+      <WorkoutHistoryCalendar
+        onSelect={(date) => {
+          selectDate(date);
+        }}
+        selection={new Date(selectedDate)}
+      />
       <Card
         customHeaderBar={
           <View style={styles.workoutCarouselControls}>
@@ -143,7 +199,7 @@ export default function WorkoutHistoryScreen() {
               Workout
               {displayedWorkout &&
                 selectedDateWorkouts.length > 1 &&
-                ` (${selectedDateWorkouts.indexOf(displayedWorkout) + 1}/${
+                ` (${selectedDateWorkoutIndex + 1}/${
                   selectedDateWorkouts.length
                 })`}
             </HeadingText>
