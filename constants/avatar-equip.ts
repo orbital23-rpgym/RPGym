@@ -5,6 +5,51 @@
 import ICON_EMPTY from "assets/avatar/icon_empty.png";
 import ONBODY_EMPTY from "assets/avatar/onbody_empty.png";
 
+export const AVATAR_EQUIP_NAMES = {
+  helmet: {
+    none: "None",
+    silver: "Silver Helmet",
+    gold: "Gold Helmet",
+    emerald: "Emerald Helmet",
+    obsidian: "Obsidian Helmet",
+  },
+  chestplate: {
+    none: "None",
+    silver: "Silver Chestplate",
+    gold: "Gold Chestplate",
+    emerald: "Emerald Chestplate",
+    obsidian: "Obsidian Chestplate",
+  },
+  leggings: {
+    none: "None",
+    silver: "Silver Leggings",
+    gold: "Gold Leggings",
+    emerald: "Emerald Leggings",
+    obsidian: "Obsidian Leggings",
+  },
+  boots: {
+    none: "None",
+    silver: "Silver Boots",
+    gold: "Gold Boots",
+    emerald: "Emerald Boots",
+    obsidian: "Obsidian Boots",
+  },
+  mainHand: {
+    none: "None",
+    silver: "Silver Sword",
+    gold: "Gold Sword",
+    emerald: "Emerald Sword",
+    obsidian: "Obsidian Sword",
+  },
+  offHand: {
+    none: "None",
+    silver: "Silver Shield",
+    gold: "Gold Shield",
+    emerald: "Emerald Shield",
+    obsidian: "Obsidian Shield",
+  },
+};
+
 export const AVATAR_EQUIP_ICONS = {
   helmet: {
     none: ICON_EMPTY,
