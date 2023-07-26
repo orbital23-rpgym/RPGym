@@ -4,9 +4,7 @@ import { StyleSheet } from "react-native";
 
 import CurrentQuestDetailCard from "./CurrentQuestDetailCard";
 
-import { fullWidthButton } from "constants/styles";
-import { Button } from "library/components/Button";
-import { ButtonText, HeadingText } from "library/components/StyledText";
+import { HeadingText } from "library/components/StyledText";
 import { Screen, Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import { useAppUser } from "library/context/UserContext";
@@ -20,9 +18,6 @@ export default function QuestsScreen() {
     },
   });
 
-  const [quest, setQuestData] = useState(user.character.ongoingQuest);
-  useEffect(() => setQuestData(quest), [quest?.progressThisWeek]);
-
   const pastQuests = [];
   return (
     <Screen gap={20}>
@@ -31,7 +26,7 @@ export default function QuestsScreen() {
           title: "Quests",
         }}
       />
-      <CurrentQuestDetailCard quest={quest} />
+      <CurrentQuestDetailCard quest={user.character.ongoingQuest} />
       <HeadingText style={styles.heading}>Quest History</HeadingText>
       {pastQuests.length > 0 ? (
         <View>

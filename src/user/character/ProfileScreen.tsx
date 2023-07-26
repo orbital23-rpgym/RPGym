@@ -13,7 +13,7 @@ import { ProgressBarWithLabels } from "library/components/ProgressBar";
 import { ButtonText } from "library/components/StyledText";
 import { Screen, Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { useAppUser } from "library/context/UserContext";
+import { useAppUser, useSetAppUser } from "library/context/UserContext";
 import CurrentQuestSummaryCard from "src/rpg/quest/CurrentQuestSummaryCard";
 import EquippedItemsCard from "src/user/character/equip/EquippedItemsCard";
 
@@ -70,12 +70,19 @@ export default function ProfileScreen() {
   });
 
   const user = useAppUser();
+  const setUser = useSetAppUser();
   const colorScheme = useContext(ColorSchemeContext);
   const character = user.character;
   const router = useRouter();
 
-  const [quest, setQuestData] = useState(user.character.ongoingQuest);
-  useEffect(() => setQuestData(quest), [quest?.progressThisWeek]);
+  useEffect(() => {
+    // refresh user character data
+    user.character.getUserCharacter().then((value) => {
+      user.setUserCharacter(value).then((value) => {
+        setUser(value);
+      });
+    });
+  }, []);
 
   return (
     <Screen gap={20}>

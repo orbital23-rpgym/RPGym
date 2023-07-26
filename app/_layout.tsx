@@ -117,6 +117,12 @@ function RootLayoutNav() {
                   presentation: "modal",
                 }}
               />
+              <Stack.Screen
+                name="quest/reward"
+                options={{
+                  presentation: "modal",
+                }}
+              />
             </Stack>
           </ColorSchemeContext.Provider>
         </ThemeProvider>

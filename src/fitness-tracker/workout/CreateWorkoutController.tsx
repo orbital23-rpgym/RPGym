@@ -15,12 +15,13 @@ import {
   useCreateWorkoutFormContext,
 } from "library/context/CreateWorkoutFormContext";
 import { PopUpContext } from "library/context/PopUpContext";
-import { useAppUser } from "library/context/UserContext";
+import { useAppUser, useSetAppUser } from "library/context/UserContext";
 import { db } from "src/firebase-init";
 
 export default function CreateWorkoutController() {
   const router = useRouter();
   const user = useAppUser();
+  const setUser = useSetAppUser();
   const { data, setData } = useCreateWorkoutFormContext();
   const popUpData = useContext(PopUpContext);
 
@@ -132,6 +133,7 @@ export default function CreateWorkoutController() {
       localData.selectedWorkoutPreset.setLastUsed(workout.endDateTime);
     }
     const reward = await user.addWorkout(workout);
+    setUser(user);
     if (popUpData.setData) {
       router.replace("/(tabs)/tracking");
       popUpData.setData({ href: "/workout/reward", data: reward });

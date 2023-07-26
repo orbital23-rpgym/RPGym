@@ -14,6 +14,7 @@ import {
   computeRewards,
   LEVEL_EXP_BOUNDS,
   MAX_USER_HEALTH,
+  QUEST_REWARDS,
   WORKOUT_REWARDS,
 } from "constants/game";
 import { db } from "src/firebase-init";
@@ -21,6 +22,7 @@ import Avatar, { AvatarData } from "src/rpg/avatar/Avatar";
 import { Item } from "src/rpg/item/Item";
 import { Party } from "src/rpg/party/Party";
 import Quest from "src/rpg/quest/Quest";
+import { QuestPopupData } from "src/rpg/quest/QuestCompleteScreen";
 
 /**
  * User character (social & RPG-related) data.
@@ -262,7 +264,8 @@ export class UserCharacter {
   /** Progress quest and check for completion. */
   public async incrementQuest() {
     if (this.ongoingQuest) {
-      this.ongoingQuest.progressThisWeek += 1;
+      // add to progress
+      this.ongoingQuest = await this.ongoingQuest.incrementProgress();
       await this.updateToFirestore();
     }
   }
@@ -270,17 +273,35 @@ export class UserCharacter {
   /**
    * Trigger rewards associated with quest completion.
    */
-  public completeQuest() {
-    return;
+  public async completeQuest(): Promise<QuestPopupData> {
+    if (this.ongoingQuest) {
+      const rewards = computeRewards(
+        QUEST_REWARDS[this.ongoingQuest.difficulty],
+      );
+      const questName = this.ongoingQuest.name;
+      this.exp += rewards.exp;
+      this.money += rewards.money;
+      this.ongoingQuest = null;
+      await this.updateToFirestore();
+      return {
+        exp: rewards.exp,
+        money: rewards.money,
+        questName,
+      };
+    } else {
+      throw new Error("No available quest to claim rewards from!");
+    }
   }
 
   public incrementCampaign(amount: number) {
+    // TODO
     return;
   }
   /**
    * Trigger rewards associated with campaign completion.
    */
   public completeCampaign() {
+    // TODO
     return;
   }
 
