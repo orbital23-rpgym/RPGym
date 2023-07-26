@@ -34,7 +34,11 @@ export default function LoadingScreen() {
         }}
       />
       <ActivityIndicator size="large" color={useThemeColor({}, "text")} />
-      <Text style={styles.text}>Loading...</Text>
+      <Text style={styles.text}>
+        {
+          "If you see this page, something has gone wrong with the app refresh. Try refreshing Expo Go."
+        }
+      </Text>
     </Screen>
   );
 }
