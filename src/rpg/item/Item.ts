@@ -1,7 +1,9 @@
 import {
   AVATAR_EQUIP_ICONS,
+  AVATAR_EQUIP_NAMES,
   AVATAR_EQUIP_ONBODY,
 } from "constants/avatar-equip";
+import { EQUIP_PRICES } from "constants/game";
 
 export type BasicItemMaterial =
   | "silver"
@@ -49,4 +51,22 @@ export function isEqualItems(item1: Item, item2: Item): boolean {
 
 export function deepCopyItem(item: Item): Item {
   return { name: item.name, material: item.material, itemType: item.itemType };
+}
+
+export function itemShopPrice(item: Item): number {
+  return EQUIP_PRICES[item.material];
+}
+
+export const PURCHASEABLE_ITEMS: Item[] = [];
+for (const type of Object.keys(AVATAR_EQUIP_NAMES) as ItemType[]) {
+  for (const material of Object.keys(
+    AVATAR_EQUIP_NAMES[type],
+  ) as BasicItemMaterial[]) {
+    material !== "none" &&
+      PURCHASEABLE_ITEMS.push({
+        name: AVATAR_EQUIP_NAMES[type][material],
+        material: material,
+        itemType: type,
+      });
+  }
 }

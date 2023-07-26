@@ -1,9 +1,8 @@
 import { useRouter } from "expo-router";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 
-import { AvatarOption } from "../edit-profile/EditAvatarBaseCard";
-
 import { Card } from "library/components/Card";
+import { IconGridOption } from "library/components/IconGridOption";
 import { Text } from "library/components/Themed";
 import { useAppUser } from "library/context/UserContext";
 import { getItemImageIcon } from "src/rpg/item/Item";
@@ -36,27 +35,27 @@ export default function EquippedItemsCard() {
       <Card title="💪 Equipment">
         <Text>You have currently equipped:</Text>
         <View style={styles.elementsContainer}>
-          <AvatarOption
+          <IconGridOption
             label="Helmet"
             image={getItemImageIcon(avatarEquipment.helmet)}
           />
-          <AvatarOption
+          <IconGridOption
             label="Chestplate"
             image={getItemImageIcon(avatarEquipment.chestplate)}
           />
-          <AvatarOption
+          <IconGridOption
             label="Leggings"
             image={getItemImageIcon(avatarEquipment.leggings)}
           />
-          <AvatarOption
+          <IconGridOption
             label="Boots"
             image={getItemImageIcon(avatarEquipment.boots)}
           />
-          <AvatarOption
+          <IconGridOption
             label="Main Hand"
             image={getItemImageIcon(avatarEquipment.mainHandItem)}
           />
-          <AvatarOption
+          <IconGridOption
             label="Off Hand"
             image={getItemImageIcon(avatarEquipment.offHandItem)}
           />

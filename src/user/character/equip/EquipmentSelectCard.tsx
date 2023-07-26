@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import { AvatarOption } from "../edit-profile/EditAvatarBaseCard";
-
 import { Card } from "library/components/Card";
+import { IconGridOption } from "library/components/IconGridOption";
 import AvatarEquipment from "src/rpg/avatar/AvatarEquipment";
 import {
   getItemImageIcon,
@@ -48,7 +47,7 @@ export default function EquipmentSelectCard(props: EquipmentSelectCardProps) {
     <Card title={title}>
       <View style={styles.optionsContainer}>
         {filteredItems.map((item, index) => (
-          <AvatarOption
+          <IconGridOption
             key={index}
             image={getItemImageIcon(item)}
             label={item.name}

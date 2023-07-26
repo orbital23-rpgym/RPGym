@@ -1,14 +1,9 @@
 import { useRouter } from "expo-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-
-import { UserCharacter } from "../UserCharacter";
 
 import EditProfileForm, { TempUserCharacter } from "./EditProfileForm";
 
 import { useAppUser, useSetAppUser } from "library/context/UserContext";
-import { auth } from "src/firebase-init";
 import Avatar from "src/rpg/avatar/Avatar";
-import { User } from "src/user/User";
 
 export default function EditProfileController() {
   const router = useRouter();
