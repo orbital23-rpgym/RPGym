@@ -182,6 +182,54 @@ export class UserCharacter {
     return newCharacter;
   }
 
+  /**
+   * Edits money balance and uploads to Firestore.
+   *
+   * @returns Modified character.
+   */
+  async setMoney(money: number): Promise<UserCharacter> {
+    const newCharacter = new UserCharacter(
+      this.ref,
+      this.displayName,
+      this.bio,
+      this.maxHealth,
+      this.currentHealth,
+      this.exp,
+      money,
+      this.avatar,
+      this.completedQuests,
+      this.party ?? null,
+      this.ongoingQuest ?? null,
+      this.items,
+    );
+    await setDoc(this.ref.withConverter(characterConverter), newCharacter);
+    return newCharacter;
+  }
+
+  /**
+   * Edits inventory items and uploads to Firestore.
+   *
+   * @returns Modified character.
+   */
+  async setItems(items: Item[]): Promise<UserCharacter> {
+    const newCharacter = new UserCharacter(
+      this.ref,
+      this.displayName,
+      this.bio,
+      this.maxHealth,
+      this.currentHealth,
+      this.exp,
+      this.money,
+      this.avatar,
+      this.completedQuests,
+      this.party ?? null,
+      this.ongoingQuest ?? null,
+      items,
+    );
+    await setDoc(this.ref.withConverter(characterConverter), newCharacter);
+    return newCharacter;
+  }
+
   public async beginQuest(quest: Quest) {
     // Check if user already has ongoing quest
     if (this.ongoingQuest !== null)
