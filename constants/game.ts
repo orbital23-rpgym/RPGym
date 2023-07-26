@@ -115,7 +115,7 @@ export const EQUIP_PRICES = {
   none: 0,
   silver: 30,
   gold: 50,
-  emerald: 50,
+  emerald: 70,
   obsidian: 100,
 };
 
