@@ -1,6 +1,11 @@
 import { Stack, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, View, ViewProps } from "react-native";
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  View,
+  ViewProps,
+} from "react-native";
 
 import { fullWidthButton } from "constants/styles";
 import { Button } from "library/components/Button";
@@ -131,7 +136,7 @@ export default function CreateExerciseSetForm(
   // );
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Stack.Screen
         options={{
           headerTitle: props.exerciseData.template.name + " Set",
@@ -220,6 +225,6 @@ export default function CreateExerciseSetForm(
         </Button>
         {error && <ErrorDisplay error={error} />}
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
