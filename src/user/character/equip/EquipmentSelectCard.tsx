@@ -51,6 +51,7 @@ export default function EquipmentSelectCard(props: EquipmentSelectCardProps) {
           <AvatarOption
             key={index}
             image={getItemImageIcon(item)}
+            label={item.name}
             selected={index === selected}
             onPress={() => {
               setSelected(index);
