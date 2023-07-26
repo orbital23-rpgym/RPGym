@@ -13,7 +13,7 @@ export default function ExerciseTemplatesOverviewScreen() {
         }}
       />
       <ExerciseTemplatesList
-        onSelect={(template) => router.push("/workout/exercises/detail")}
+      // onSelect={(template) => router.push("/workout/exercises/detail")}
       />
     </>
   );

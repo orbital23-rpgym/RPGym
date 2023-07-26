@@ -5,9 +5,6 @@ import { StyleSheet, TouchableOpacity } from "react-native";
 import WorkoutPreset from "./WorkoutPreset";
 import { WorkoutPresetDetailCard } from "./WorkoutPresetCard";
 
-import { fullWidthButton } from "constants/styles";
-import { Button } from "library/components/Button";
-import { ButtonText } from "library/components/StyledText";
 import { Screen, Text, View, ViewProps } from "library/components/Themed";
 import { useAppUser } from "library/context/UserContext";
 
@@ -62,9 +59,9 @@ export default function WorkoutPresetsListScreen() {
             <TouchableOpacity
               key={k}
               activeOpacity={0.5}
-              onPress={() =>
-                router.push(`workout/templates/detail?path=${wp.ref.path}`)
-              }
+              // onPress={() =>
+              //   router.push(`workout/templates/detail?path=${wp.ref.path}`)
+              // }
               style={styles.templateWrapper}
             >
               <WorkoutPresetDetailCard workoutPreset={wp} key={k} />
