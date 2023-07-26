@@ -1,10 +1,11 @@
 import { FontAwesome5 } from "@expo/vector-icons";
-import { Stack } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 import { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 
 import AvatarRenderer from "../avatar/AvatarRenderer";
 
+import { Item } from "./Item";
 import ItemShopCard from "./ItemShopCard";
 
 import { themes } from "constants/colors";
@@ -12,11 +13,13 @@ import { Card } from "library/components/Card";
 import { HeadingText } from "library/components/StyledText";
 import { Screen, Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
+import { useEquipmentShopContext } from "library/context/EquipmentShopContext";
 import { useAppUser } from "library/context/UserContext";
 
 export default function RewardsShopScreen() {
   const user = useAppUser();
-
+  const { data, setData } = useEquipmentShopContext();
+  const router = useRouter();
   const colorScheme = useContext(ColorSchemeContext);
   const styles = StyleSheet.create({
     introText: {
@@ -52,6 +55,11 @@ export default function RewardsShopScreen() {
       fontSize: 20,
     },
   });
+
+  function selectItem(item: Item) {
+    setData(item);
+    router.push("/equipment/buy");
+  }
   return (
     <Screen>
       <Stack.Screen options={{ headerTitle: "Rewards Shop" }} />
@@ -82,12 +90,24 @@ export default function RewardsShopScreen() {
           }
         </Text>
       </Card>
-      <ItemShopCard itemType="helmet" title="Helmets" />
-      <ItemShopCard itemType="chestplate" title="Chestplate" />
-      <ItemShopCard itemType="leggings" title="Leggings" />
-      <ItemShopCard itemType="boots" title="Boots" />
-      <ItemShopCard itemType="mainHand" title="Main Hand" />
-      <ItemShopCard itemType="offHand" title="Secondary Hand" />
+      <ItemShopCard itemType="helmet" title="Helmets" onPress={selectItem} />
+      <ItemShopCard
+        itemType="chestplate"
+        title="Chestplate"
+        onPress={selectItem}
+      />
+      <ItemShopCard itemType="leggings" title="Leggings" onPress={selectItem} />
+      <ItemShopCard itemType="boots" title="Boots" onPress={selectItem} />
+      <ItemShopCard
+        itemType="mainHand"
+        title="Main Hand"
+        onPress={selectItem}
+      />
+      <ItemShopCard
+        itemType="offHand"
+        title="Secondary Hand"
+        onPress={selectItem}
+      />
     </Screen>
   );
 }
