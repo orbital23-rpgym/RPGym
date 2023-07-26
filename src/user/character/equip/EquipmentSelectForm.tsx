@@ -177,12 +177,11 @@ export default function EquipmentSelectForm(props: {
           items={inventory}
           title="Main Hand"
           selectedItem={
-            avatarEquipment.mainHandItem ??
-            AvatarEquipment.EMPTY_EQUIPMENT.mainHand
+            avatarEquipment.mainHand ?? AvatarEquipment.EMPTY_EQUIPMENT.mainHand
           }
           onSelect={(item) => {
-            const { mainHandItem, ...otherChosen } = chosen;
-            setChosen({ mainHandItem: item, ...otherChosen });
+            const { mainHand, ...otherChosen } = chosen;
+            setChosen({ mainHand: item, ...otherChosen });
             setIsEdited(true);
           }}
         />
@@ -191,12 +190,11 @@ export default function EquipmentSelectForm(props: {
           items={inventory}
           title="Secondary Hand"
           selectedItem={
-            avatarEquipment.offHandItem ??
-            AvatarEquipment.EMPTY_EQUIPMENT.offHand
+            avatarEquipment.offHand ?? AvatarEquipment.EMPTY_EQUIPMENT.offHand
           }
           onSelect={(item) => {
-            const { offHandItem, ...otherChosen } = chosen;
-            setChosen({ offHandItem: item, ...otherChosen });
+            const { offHand, ...otherChosen } = chosen;
+            setChosen({ offHand: item, ...otherChosen });
             setIsEdited(true);
           }}
         />

@@ -53,11 +53,11 @@ export default function EquippedItemsCard() {
           />
           <IconGridOption
             label="Main Hand"
-            image={getItemImageIcon(avatarEquipment.mainHandItem)}
+            image={getItemImageIcon(avatarEquipment.mainHand)}
           />
           <IconGridOption
             label="Off Hand"
-            image={getItemImageIcon(avatarEquipment.offHandItem)}
+            image={getItemImageIcon(avatarEquipment.offHand)}
           />
         </View>
       </Card>

@@ -18,8 +18,8 @@ export default function AvatarEquipmentRenderer(props: AvatarEquipmentProps) {
       <AvatarLayer source={getItemImageOnbody(avatarEquipment.chestplate)} />
       <AvatarLayer source={getItemImageOnbody(avatarEquipment.leggings)} />
       <AvatarLayer source={getItemImageOnbody(avatarEquipment.boots)} />
-      <AvatarLayer source={getItemImageOnbody(avatarEquipment.mainHandItem)} />
-      <AvatarLayer source={getItemImageOnbody(avatarEquipment.offHandItem)} />
+      <AvatarLayer source={getItemImageOnbody(avatarEquipment.mainHand)} />
+      <AvatarLayer source={getItemImageOnbody(avatarEquipment.offHand)} />
     </View>
   );
 }

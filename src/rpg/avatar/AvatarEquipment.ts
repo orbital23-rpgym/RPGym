@@ -1,10 +1,4 @@
-import BootsItem from "../item/BootsItem";
-import ChestplateItem from "../item/ChestplateItem";
-import HelmetItem from "../item/HelmetItem";
 import { Item } from "../item/Item";
-import LeggingsItem from "../item/LeggingsItem";
-import MainHandItem from "../item/MainHandItem";
-import OffHandItem from "../item/OffHandItem";
 
 /**
  * Equipped items for an avatar.
@@ -14,8 +8,8 @@ export default class AvatarEquipment {
   chestplate: Item;
   leggings: Item;
   boots: Item;
-  mainHandItem: Item;
-  offHandItem: Item;
+  mainHand: Item;
+  offHand: Item;
 
   constructor(
     helmet: Item,
@@ -29,21 +23,14 @@ export default class AvatarEquipment {
     this.chestplate = chestplate;
     this.leggings = leggings;
     this.boots = boots;
-    this.mainHandItem = mainHandItem;
-    this.offHandItem = offHandItem;
+    this.mainHand = mainHandItem;
+    this.offHand = offHandItem;
   }
 
   /** Number of layers for display */
   static readonly NUM_LAYERS = 6;
 
-  static readonly EMPTY_EQUIPMENT: {
-    helmet: Item;
-    chestplate: Item;
-    leggings: Item;
-    boots: Item;
-    mainHand: Item;
-    offHand: Item;
-  } = {
+  static readonly EMPTY_EQUIPMENT: AvatarEquipmentData = {
     helmet: {
       name: "None",
       itemType: "helmet",
@@ -91,8 +78,8 @@ export default class AvatarEquipment {
       chestplate: this.chestplate ?? AvatarEquipment.DEFAULT.chestplate,
       leggings: this.leggings ?? AvatarEquipment.DEFAULT.leggings,
       boots: this.boots ?? AvatarEquipment.DEFAULT.boots,
-      mainHandItem: this.mainHandItem ?? AvatarEquipment.DEFAULT.mainHandItem,
-      offHandItem: this.offHandItem ?? AvatarEquipment.DEFAULT.offHandItem,
+      mainHand: this.mainHand ?? AvatarEquipment.DEFAULT.mainHand,
+      offHand: this.offHand ?? AvatarEquipment.DEFAULT.offHand,
     };
   }
 
@@ -102,8 +89,8 @@ export default class AvatarEquipment {
       data.chestplate,
       data.leggings,
       data.boots,
-      data.mainHandItem,
-      data.offHandItem,
+      data.mainHand,
+      data.offHand,
     );
   }
 }
@@ -113,6 +100,6 @@ export type AvatarEquipmentData = {
   chestplate: Item;
   leggings: Item;
   boots: Item;
-  mainHandItem: Item;
-  offHandItem: Item;
+  mainHand: Item;
+  offHand: Item;
 };
