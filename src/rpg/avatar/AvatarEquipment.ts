@@ -1,7 +1,7 @@
 import BootsItem from "../item/BootsItem";
 import ChestplateItem from "../item/ChestplateItem";
 import HelmetItem from "../item/HelmetItem";
-import { ItemData } from "../item/Item";
+import { Item } from "../item/Item";
 import LeggingsItem from "../item/LeggingsItem";
 import MainHandItem from "../item/MainHandItem";
 import OffHandItem from "../item/OffHandItem";
@@ -10,20 +10,20 @@ import OffHandItem from "../item/OffHandItem";
  * Equipped items for an avatar.
  */
 export default class AvatarEquipment {
-  helmet: HelmetItem;
-  chestplate: ChestplateItem;
-  leggings: LeggingsItem;
-  boots: BootsItem;
-  mainHandItem: MainHandItem;
-  offHandItem: OffHandItem;
+  helmet: Item;
+  chestplate: Item;
+  leggings: Item;
+  boots: Item;
+  mainHandItem: Item;
+  offHandItem: Item;
 
   constructor(
-    helmet: HelmetItem,
-    chestplate: ChestplateItem,
-    leggings: LeggingsItem,
-    boots: BootsItem,
-    mainHandItem: MainHandItem,
-    offHandItem: OffHandItem,
+    helmet: Item,
+    chestplate: Item,
+    leggings: Item,
+    boots: Item,
+    mainHandItem: Item,
+    offHandItem: Item,
   ) {
     this.helmet = helmet;
     this.chestplate = chestplate;
@@ -35,44 +35,68 @@ export default class AvatarEquipment {
 
   /** Number of layers for display */
   static readonly NUM_LAYERS = 6;
-  // TODO
+
   static readonly DEFAULT = new AvatarEquipment(
-    new HelmetItem("", ""),
-    new ChestplateItem("", ""),
-    new LeggingsItem("", ""),
-    new BootsItem("", ""),
-    new MainHandItem("", ""),
-    new OffHandItem("", ""),
+    {
+      name: "none",
+      itemType: "helmet",
+      material: "none",
+    },
+    {
+      name: "none",
+      itemType: "chestplate",
+      material: "none",
+    },
+    {
+      name: "none",
+      itemType: "leggings",
+      material: "none",
+    },
+    {
+      name: "none",
+      itemType: "boots",
+      material: "none",
+    },
+    {
+      name: "none",
+      itemType: "mainHand",
+      material: "none",
+    },
+    {
+      name: "none",
+      itemType: "offHand",
+      material: "none",
+    },
   );
 
   public toData(): AvatarEquipmentData {
     return {
-      helmet: this.helmet.toData(),
-      chestplate: this.chestplate.toData(),
-      leggings: this.leggings.toData(),
-      boots: this.boots.toData(),
-      mainHandItem: this.mainHandItem.toData(),
-      offHandItem: this.offHandItem.toData(),
+      helmet: this.helmet,
+      chestplate: this.chestplate,
+      leggings: this.leggings,
+      boots: this.boots,
+      mainHandItem: this.mainHandItem,
+      offHandItem: this.offHandItem,
     };
   }
 
   static fromData(data: AvatarEquipmentData): AvatarEquipment {
     return new AvatarEquipment(
-      new HelmetItem(data.helmet.name, data.helmet.imagePath),
-      new ChestplateItem(data.chestplate.name, data.chestplate.imagePath),
-      new LeggingsItem(data.leggings.name, data.leggings.imagePath),
-      new BootsItem(data.boots.name, data.boots.imagePath),
-      new MainHandItem(data.mainHandItem.name, data.mainHandItem.imagePath),
-      new OffHandItem(data.offHandItem.name, data.offHandItem.imagePath),
+      data.helmet,
+      data.chestplate,
+      data.leggings,
+      data.boots,
+      data.mainHandItem,
+      data.offHandItem,
     );
   }
 }
 
 export type AvatarEquipmentData = {
-  helmet: ItemData;
-  chestplate: ItemData;
-  leggings: ItemData;
-  boots: ItemData;
-  mainHandItem: ItemData;
-  offHandItem: ItemData;
+  helmet: Item;
+  chestplate: Item;
+  leggings: Item;
+  boots: Item;
+  mainHandItem: Item;
+  offHandItem: Item;
 };

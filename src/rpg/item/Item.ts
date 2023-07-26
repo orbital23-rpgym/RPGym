@@ -5,25 +5,54 @@ import {
   SnapshotOptions,
 } from "firebase/firestore";
 
+export type BasicItemMaterial =
+  | "silver"
+  | "gold"
+  | "emerald"
+  | "obsidian"
+  | "none";
+export type ItemType =
+  | "helmet"
+  | "chestplate"
+  | "leggings"
+  | "boots"
+  | "mainHand"
+  | "offHand";
+// | "dualHand";
+
+// /**
+//  * In-game item.
+//  */
+// export default class Item {
+//   name: string;
+//   material: BasicItemMaterial;
+//   itemType: ItemType;
+//   constructor(name: string, material:BasicItemMaterial, itemType:ItemType) {
+//     this.name = name;
+//     this.material=material;
+//     this.itemType=itemType
+//   }
+
+//   public toData(): ItemData {
+//     return { name: this.name, material:this.material, itemType: this.itemType};
+//   }
+
+//   public fromData(data: ItemData): Item {
+
+//   }
+// }
+
+// export type ItemData = {
+//   name: string;
+//   material: BasicItemMaterial;
+//   itemType: ItemType;
+// };
+
 /**
  * In-game item.
  */
-export default abstract class Item {
+export type Item = {
   name: string;
-  imagePath: string;
-  constructor(name: string, imagePath: string) {
-    this.name = name;
-    this.imagePath = imagePath;
-  }
-
-  public toData(): ItemData {
-    return { name: this.name, imagePath: this.imagePath };
-  }
-
-  public abstract fromData(data: ItemData): Item;
-}
-
-export type ItemData = {
-  name: string;
-  imagePath: string;
+  material: BasicItemMaterial;
+  itemType: ItemType;
 };
