@@ -3,16 +3,16 @@ import { KeyboardAvoidingView, StyleSheet } from "react-native";
 
 import LoginController from "./LoginController";
 
-import { View } from "library/components/Themed";
+import { Screen } from "library/components/Themed";
 
 export default function LoginScreen() {
   return (
-    <View style={styles.container}>
+    <Screen>
       <KeyboardAvoidingView style={styles.container} behavior="padding">
         <Stack.Screen options={{ title: "Log In" }} />
         <LoginController />
       </KeyboardAvoidingView>
-    </View>
+    </Screen>
   );
 }
 
