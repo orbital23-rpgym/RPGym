@@ -5,16 +5,17 @@ import { Pressable, StyleSheet } from "react-native";
 
 import AvatarRenderer from "../../rpg/avatar/AvatarRenderer";
 
-import { UserCharacter } from "./UserCharacter";
-
 import { themes } from "constants/colors";
+import { fullWidthButton } from "constants/styles";
 import { MAX_ELEMENT_WIDTH } from "constants/ui";
-import { Card } from "library/components/Card";
+import { Button } from "library/components/Button";
 import { ProgressBarWithLabels } from "library/components/ProgressBar";
+import { ButtonText } from "library/components/StyledText";
 import { Screen, Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import { useAppUser } from "library/context/UserContext";
 import CurrentQuestSummaryCard from "src/rpg/quest/CurrentQuestSummaryCard";
+import EquippedItemsCard from "src/user/character/equip/EquippedItemsCard";
 
 export default function ProfileScreen() {
   const styles = StyleSheet.create({
@@ -70,9 +71,7 @@ export default function ProfileScreen() {
 
   const user = useAppUser();
   const colorScheme = useContext(ColorSchemeContext);
-
   const character = user.character;
-
   const router = useRouter();
 
   const [quest, setQuestData] = useState(user.character.ongoingQuest);
@@ -148,6 +147,14 @@ export default function ProfileScreen() {
         </View>
       </View>
       <CurrentQuestSummaryCard quest={character.ongoingQuest} />
+      <EquippedItemsCard />
+      <Button
+        style={fullWidthButton.button}
+        variant="secondary"
+        onPress={() => router.push("/equipment/shop")}
+      >
+        <ButtonText style={fullWidthButton.text}>Go to Rewards Shop</ButtonText>
+      </Button>
       {/* <Card title="💪 Campaign" headerColor={themes[colorScheme].blueLight}>
         <Text>PLACEHOLDER</Text>
         <ProgressBarWithLabels
