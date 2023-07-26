@@ -1,9 +1,11 @@
 import {
+  collection,
   doc,
   DocumentData,
   DocumentReference,
   FirestoreDataConverter,
   getDoc,
+  getDocs,
   QueryDocumentSnapshot,
   setDoc,
   SnapshotOptions,
@@ -21,7 +23,7 @@ import { db } from "src/firebase-init";
 import Avatar, { AvatarData } from "src/rpg/avatar/Avatar";
 import { Item } from "src/rpg/item/Item";
 import { Party } from "src/rpg/party/Party";
-import Quest from "src/rpg/quest/Quest";
+import Quest, { questConverter } from "src/rpg/quest/Quest";
 import { QuestPopupData } from "src/rpg/quest/QuestCompleteScreen";
 
 /**
@@ -329,6 +331,27 @@ export class UserCharacter {
     const ref = this.ref.withConverter(characterConverter);
     const snapshot = await getDoc(ref);
     return snapshot.data() as UserCharacter;
+  }
+
+  public async getPastQuests(): Promise<Quest[]> {
+    const ref = collection(db, this.ref.path, "quests").withConverter(
+      questConverter,
+    );
+    const snapshot = await getDocs(ref);
+    const quests: Quest[] = [];
+    snapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      quests.push(doc.data() as Quest);
+    });
+
+    // exclude ongoing quest if present
+    if (this.ongoingQuest) {
+      return quests.filter(
+        (quest) => quest.ref.path !== this.ongoingQuest?.ref.path,
+      );
+    } else {
+      return quests;
+    }
   }
 }
 
