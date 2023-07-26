@@ -1,13 +1,14 @@
+import { useRouter } from "expo-router";
 import { useContext, useState } from "react";
 import { StyleSheet } from "react-native";
 
 import { QuestDifficulty } from "./Quest";
 
 import { themes } from "constants/colors";
-import { QUEST_DURATION } from "constants/game";
 import { fullWidthButton } from "constants/styles";
 import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
+import { HeadingWithExplainerButton } from "library/components/HeadingWithExplainerButton";
 import { MultiSelect, MultiSelectOption } from "library/components/MultiSelect";
 import { Stepper } from "library/components/Stepper";
 import { ButtonText } from "library/components/StyledText";
@@ -21,6 +22,7 @@ export default function CreateQuestForm(props: {
   ) => Promise<void>;
 }) {
   const colorScheme = useContext(ColorSchemeContext);
+  const router = useRouter();
 
   const [timesPerWeek, setTimesPerWeek] = useState(1);
   const [difficulty, setDifficulty] = useState<QuestDifficulty>("easy");
@@ -72,14 +74,11 @@ export default function CreateQuestForm(props: {
         color={themes[colorScheme].blueLight}
       />
 
-      <Text style={styles.question}>
-        How challenging do you want the quest to be?
-      </Text>
-      <Text>
-        Easy: {QUEST_DURATION.easy} weeks, medium: {QUEST_DURATION.medium}{" "}
-        weeks, hard: {QUEST_DURATION.hard} weeks. Rewards increase with
-        difficulty.
-      </Text>
+      <HeadingWithExplainerButton
+        text={"Quest Difficulty"}
+        textId="rpe-label"
+        onButtonPress={() => router.push("/quest/difficulty")}
+      />
       <MultiSelect
         options={difficultyOptions}
         initial={0}
