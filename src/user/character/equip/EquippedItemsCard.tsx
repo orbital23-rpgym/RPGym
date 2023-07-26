@@ -3,10 +3,10 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { AvatarOption } from "../edit-profile/EditAvatarBaseCard";
 
-import { AVATAR_EQUIP_ICONS } from "constants/avatar-equip";
 import { Card } from "library/components/Card";
 import { Text } from "library/components/Themed";
 import { useAppUser } from "library/context/UserContext";
+import { getItemImageIcon } from "src/rpg/item/Item";
 
 export default function EquippedItemsCard() {
   const router = useRouter();
@@ -26,6 +26,7 @@ export default function EquippedItemsCard() {
       padding: 10,
     },
   });
+  const avatarEquipment = user.character.avatar.avatarEquipment;
   return (
     <TouchableOpacity
       activeOpacity={0.6}
@@ -37,68 +38,27 @@ export default function EquippedItemsCard() {
         <View style={styles.elementsContainer}>
           <AvatarOption
             label="Helmet"
-            image={
-              AVATAR_EQUIP_ICONS[
-                user.character.avatar.avatarEquipment.helmet.itemType ??
-                  "helmet"
-              ][user.character.avatar.avatarEquipment.helmet.material ?? "none"]
-            }
+            image={getItemImageIcon(avatarEquipment.helmet)}
           />
           <AvatarOption
             label="Chestplate"
-            image={
-              AVATAR_EQUIP_ICONS[
-                user.character.avatar.avatarEquipment.chestplate.itemType ??
-                  "chestplate"
-              ][
-                user.character.avatar.avatarEquipment.chestplate.material ??
-                  "none"
-              ]
-            }
+            image={getItemImageIcon(avatarEquipment.chestplate)}
           />
           <AvatarOption
             label="Leggings"
-            image={
-              AVATAR_EQUIP_ICONS[
-                user.character.avatar.avatarEquipment.leggings.itemType ??
-                  "leggings"
-              ][
-                user.character.avatar.avatarEquipment.leggings.material ??
-                  "none"
-              ]
-            }
+            image={getItemImageIcon(avatarEquipment.leggings)}
           />
           <AvatarOption
             label="Boots"
-            image={
-              AVATAR_EQUIP_ICONS[
-                user.character.avatar.avatarEquipment.boots.itemType ?? "boots"
-              ][user.character.avatar.avatarEquipment.boots.material ?? "none"]
-            }
+            image={getItemImageIcon(avatarEquipment.boots)}
           />
           <AvatarOption
             label="Main Hand"
-            image={
-              AVATAR_EQUIP_ICONS[
-                user.character.avatar.avatarEquipment.mainHandItem.itemType ??
-                  "mainHand"
-              ][
-                user.character.avatar.avatarEquipment.mainHandItem.material ??
-                  "none"
-              ]
-            }
+            image={getItemImageIcon(avatarEquipment.mainHandItem)}
           />
           <AvatarOption
             label="Off Hand"
-            image={
-              AVATAR_EQUIP_ICONS[
-                user.character.avatar.avatarEquipment.offHandItem.itemType ??
-                  "offHand"
-              ][
-                user.character.avatar.avatarEquipment.offHandItem.material ??
-                  "none"
-              ]
-            }
+            image={getItemImageIcon(avatarEquipment.offHandItem)}
           />
         </View>
       </Card>

@@ -120,7 +120,7 @@ export default function EditProfileForm(props: {
           headerRight: () => (
             <TouchableOpacity
               onPress={() => submit(displayName, bio, avatar)}
-              activeOpacity={0.5}
+              activeOpacity={0.6}
               disabled={isSubmitting || !isEdited}
               style={styles.submitButton}
             >

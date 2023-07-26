@@ -18,6 +18,7 @@ import {
 } from "constants/game";
 import { db } from "src/firebase-init";
 import Avatar, { AvatarData } from "src/rpg/avatar/Avatar";
+import { Item } from "src/rpg/item/Item";
 import { Party } from "src/rpg/party/Party";
 import Quest from "src/rpg/quest/Quest";
 
@@ -38,6 +39,7 @@ export class UserCharacter {
   ongoingQuest: Quest | null | undefined;
   completedQuests: Quest[];
   avatar: Avatar;
+  items: Item[];
 
   constructor(
     ref: DocumentReference,
@@ -51,6 +53,7 @@ export class UserCharacter {
     completedQuests: Quest[],
     party: Party | null | DocumentReference,
     ongoingQuest: Quest | null | DocumentReference,
+    items: Item[],
   ) {
     this.ref = ref;
     this.displayName = displayName;
@@ -62,6 +65,7 @@ export class UserCharacter {
     this.money = money;
     this.avatar = avatar;
     this.completedQuests = completedQuests;
+    this.items = items;
 
     this.party = undefined;
     this.ongoingQuest = undefined;
@@ -144,6 +148,7 @@ export class UserCharacter {
       [],
       null,
       null,
+      [],
     );
     await setDoc(ref, userCharacter);
     return userCharacter;
@@ -171,6 +176,7 @@ export class UserCharacter {
       this.completedQuests,
       this.party ?? null,
       this.ongoingQuest ?? null,
+      this.items,
     );
     await setDoc(this.ref.withConverter(characterConverter), newCharacter);
     return newCharacter;
@@ -230,7 +236,7 @@ export class UserCharacter {
     return;
   }
 
-  public async updateToFirestore() {
+  async updateToFirestore() {
     await setDoc(this.ref.withConverter(characterConverter), this).catch(
       (reason) => {
         throw new Error("Update to cloud failed.");
@@ -238,11 +244,22 @@ export class UserCharacter {
     );
   }
 
-  public updateFromFirestore() {
+  updateFromFirestore() {
     getDoc(this.ref.withConverter(characterConverter)).then((snap) => {
       const updated = snap.data() as UserCharacter;
       Object.assign(this, updated);
     });
+  }
+
+  /**
+   * Gets latest user character from cloud.
+   *
+   * @returns New UserCharacter instance with updated info from database.
+   */
+  public async getUserCharacter(): Promise<UserCharacter> {
+    const ref = this.ref.withConverter(characterConverter);
+    const snapshot = await getDoc(ref);
+    return snapshot.data() as UserCharacter;
   }
 }
 
@@ -258,6 +275,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
       party: character.party,
       avatar: character.avatar.toData(),
       ongoingQuest: character.ongoingQuest?.ref ?? null,
+      items: character.items,
     };
   },
   fromFirestore(
@@ -280,6 +298,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
       data.completedQuests,
       data.party,
       data.ongoingQuest,
+      data.items,
     );
     return character;
   },
@@ -297,4 +316,5 @@ export type UserCharacterData = {
   ongoingQuest: DocumentReference | null;
   completedQuests: DocumentReference[];
   avatar: Avatar;
+  items: Item[];
 };

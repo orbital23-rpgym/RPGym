@@ -1,3 +1,3 @@
-import EquipmentEditScreen from "src/user/character/equip/EquipmentEditScreen";
+import EquipmentSelectScreen from "src/user/character/equip/EquipmentSelectScreen";
 
-export default EquipmentEditScreen;
+export default EquipmentSelectScreen;

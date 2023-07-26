@@ -205,7 +205,7 @@ export class User {
   }
 
   /**
-   * Updates user character.
+   * Updates user character with modified info.
    *
    * @returns New User instance with edited character.
    */
@@ -225,7 +225,7 @@ export class User {
   }
 
   /**
-   * Updates user fitness tracker.
+   * Updates user fitness tracker with modified info.
    *
    * @returns New User instance with edited fitness tracker.
    */

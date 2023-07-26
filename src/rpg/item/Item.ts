@@ -1,9 +1,7 @@
 import {
-  DocumentData,
-  FirestoreDataConverter,
-  QueryDocumentSnapshot,
-  SnapshotOptions,
-} from "firebase/firestore";
+  AVATAR_EQUIP_ICONS,
+  AVATAR_EQUIP_ONBODY,
+} from "constants/avatar-equip";
 
 export type BasicItemMaterial =
   | "silver"
@@ -20,34 +18,6 @@ export type ItemType =
   | "offHand";
 // | "dualHand";
 
-// /**
-//  * In-game item.
-//  */
-// export default class Item {
-//   name: string;
-//   material: BasicItemMaterial;
-//   itemType: ItemType;
-//   constructor(name: string, material:BasicItemMaterial, itemType:ItemType) {
-//     this.name = name;
-//     this.material=material;
-//     this.itemType=itemType
-//   }
-
-//   public toData(): ItemData {
-//     return { name: this.name, material:this.material, itemType: this.itemType};
-//   }
-
-//   public fromData(data: ItemData): Item {
-
-//   }
-// }
-
-// export type ItemData = {
-//   name: string;
-//   material: BasicItemMaterial;
-//   itemType: ItemType;
-// };
-
 /**
  * In-game item.
  */
@@ -56,3 +26,27 @@ export type Item = {
   material: BasicItemMaterial;
   itemType: ItemType;
 };
+
+export function getItemImageOnbody(item?: Item) {
+  return AVATAR_EQUIP_ONBODY[item?.itemType ?? "mainHand"][
+    item?.material ?? "none"
+  ];
+}
+
+export function getItemImageIcon(item?: Item) {
+  return AVATAR_EQUIP_ICONS[item?.itemType ?? "mainHand"][
+    item?.material ?? "none"
+  ];
+}
+
+export function isEqualItems(item1: Item, item2: Item): boolean {
+  return (
+    item1.itemType === item2.itemType &&
+    item1.material === item2.material &&
+    item1.name === item2.name
+  );
+}
+
+export function deepCopyItem(item: Item): Item {
+  return { name: item.name, material: item.material, itemType: item.itemType };
+}

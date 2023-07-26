@@ -36,47 +36,63 @@ export default class AvatarEquipment {
   /** Number of layers for display */
   static readonly NUM_LAYERS = 6;
 
-  static readonly DEFAULT = new AvatarEquipment(
-    {
-      name: "none",
+  static readonly EMPTY_EQUIPMENT: {
+    helmet: Item;
+    chestplate: Item;
+    leggings: Item;
+    boots: Item;
+    mainHand: Item;
+    offHand: Item;
+  } = {
+    helmet: {
+      name: "None",
       itemType: "helmet",
       material: "none",
     },
-    {
-      name: "none",
+    chestplate: {
+      name: "None",
       itemType: "chestplate",
       material: "none",
     },
-    {
-      name: "none",
+    leggings: {
+      name: "None",
       itemType: "leggings",
       material: "none",
     },
-    {
-      name: "none",
+    boots: {
+      name: "None",
       itemType: "boots",
       material: "none",
     },
-    {
-      name: "none",
+    mainHand: {
+      name: "None",
       itemType: "mainHand",
       material: "none",
     },
-    {
-      name: "none",
+    offHand: {
+      name: "None",
       itemType: "offHand",
       material: "none",
     },
+  } as const;
+
+  static readonly DEFAULT = new AvatarEquipment(
+    this.EMPTY_EQUIPMENT.helmet,
+    this.EMPTY_EQUIPMENT.chestplate,
+    this.EMPTY_EQUIPMENT.boots,
+    this.EMPTY_EQUIPMENT.leggings,
+    this.EMPTY_EQUIPMENT.mainHand,
+    this.EMPTY_EQUIPMENT.offHand,
   );
 
   public toData(): AvatarEquipmentData {
     return {
-      helmet: this.helmet,
-      chestplate: this.chestplate,
-      leggings: this.leggings,
-      boots: this.boots,
-      mainHandItem: this.mainHandItem,
-      offHandItem: this.offHandItem,
+      helmet: this.helmet ?? AvatarEquipment.DEFAULT.helmet,
+      chestplate: this.chestplate ?? AvatarEquipment.DEFAULT.chestplate,
+      leggings: this.leggings ?? AvatarEquipment.DEFAULT.leggings,
+      boots: this.boots ?? AvatarEquipment.DEFAULT.boots,
+      mainHandItem: this.mainHandItem ?? AvatarEquipment.DEFAULT.mainHandItem,
+      offHandItem: this.offHandItem ?? AvatarEquipment.DEFAULT.offHandItem,
     };
   }
 
