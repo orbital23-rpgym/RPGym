@@ -85,11 +85,11 @@ export default function EquipmentSelectForm(props: {
         .onSubmit(chosen)
         .then(() => {
           router.back();
-          setIsSubmitting(false);
         })
         .catch((reason) => {
           setError(reason);
-        });
+        })
+        .finally(() => setIsSubmitting(false));
   }
 
   return (
