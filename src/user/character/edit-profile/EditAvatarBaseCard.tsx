@@ -296,14 +296,14 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
   );
 }
 
-type AvatarOptionProps = {
+export type AvatarOptionProps = {
   label?: string;
   selected?: boolean;
   image?: ImageSource;
   color?: string;
   onPress?: () => void;
 } & Pick<ViewProps, "children">;
-function AvatarOption(props: AvatarOptionProps) {
+export function AvatarOption(props: AvatarOptionProps) {
   const colorScheme = useContext(ColorSchemeContext);
   const {
     label = "",
