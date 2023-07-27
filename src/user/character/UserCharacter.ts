@@ -1,20 +1,30 @@
 import {
+  collection,
   doc,
   DocumentData,
   DocumentReference,
   FirestoreDataConverter,
   getDoc,
+  getDocs,
   QueryDocumentSnapshot,
   setDoc,
   SnapshotOptions,
 } from "firebase/firestore";
 
 import { collections as DB } from "constants/db";
-import { LEVEL_EXP_BOUNDS, MAX_USER_HEALTH } from "constants/game";
+import {
+  computeRewards,
+  LEVEL_EXP_BOUNDS,
+  MAX_USER_HEALTH,
+  QUEST_REWARDS,
+  WORKOUT_REWARDS,
+} from "constants/game";
 import { db } from "src/firebase-init";
 import Avatar, { AvatarData } from "src/rpg/avatar/Avatar";
+import { Item } from "src/rpg/item/Item";
 import { Party } from "src/rpg/party/Party";
-import Quest from "src/rpg/quest/Quest";
+import Quest, { questConverter } from "src/rpg/quest/Quest";
+import { QuestPopupData } from "src/rpg/quest/QuestCompleteScreen";
 
 /**
  * User character (social & RPG-related) data.
@@ -33,6 +43,7 @@ export class UserCharacter {
   ongoingQuest: Quest | null | undefined;
   completedQuests: Quest[];
   avatar: Avatar;
+  items: Item[];
 
   constructor(
     ref: DocumentReference,
@@ -46,6 +57,7 @@ export class UserCharacter {
     completedQuests: Quest[],
     party: Party | null | DocumentReference,
     ongoingQuest: Quest | null | DocumentReference,
+    items: Item[],
   ) {
     this.ref = ref;
     this.displayName = displayName;
@@ -57,6 +69,7 @@ export class UserCharacter {
     this.money = money;
     this.avatar = avatar;
     this.completedQuests = completedQuests;
+    this.items = items;
 
     this.party = undefined;
     this.ongoingQuest = undefined;
@@ -139,6 +152,7 @@ export class UserCharacter {
       [],
       null,
       null,
+      [],
     );
     await setDoc(ref, userCharacter);
     return userCharacter;
@@ -154,7 +168,6 @@ export class UserCharacter {
     bio: string,
     avatar: Avatar,
   ): Promise<UserCharacter> {
-    const ref = this.ref.withConverter(characterConverter);
     const newCharacter = new UserCharacter(
       this.ref,
       displayName,
@@ -167,8 +180,57 @@ export class UserCharacter {
       this.completedQuests,
       this.party ?? null,
       this.ongoingQuest ?? null,
+      this.items,
     );
-    await setDoc(ref, newCharacter);
+    await setDoc(this.ref.withConverter(characterConverter), newCharacter);
+    return newCharacter;
+  }
+
+  /**
+   * Edits money balance and uploads to Firestore.
+   *
+   * @returns Modified character.
+   */
+  async setMoney(money: number): Promise<UserCharacter> {
+    const newCharacter = new UserCharacter(
+      this.ref,
+      this.displayName,
+      this.bio,
+      this.maxHealth,
+      this.currentHealth,
+      this.exp,
+      money,
+      this.avatar,
+      this.completedQuests,
+      this.party ?? null,
+      this.ongoingQuest ?? null,
+      this.items,
+    );
+    await setDoc(this.ref.withConverter(characterConverter), newCharacter);
+    return newCharacter;
+  }
+
+  /**
+   * Edits inventory items and uploads to Firestore.
+   *
+   * @returns Modified character.
+   */
+  async setItems(items: Item[]): Promise<UserCharacter> {
+    const newCharacter = new UserCharacter(
+      this.ref,
+      this.displayName,
+      this.bio,
+      this.maxHealth,
+      this.currentHealth,
+      this.exp,
+      this.money,
+      this.avatar,
+      this.completedQuests,
+      this.party ?? null,
+      this.ongoingQuest ?? null,
+      items,
+    );
+    await setDoc(this.ref.withConverter(characterConverter), newCharacter);
     return newCharacter;
   }
 
@@ -180,12 +242,32 @@ export class UserCharacter {
     await this.updateToFirestore();
   }
 
+  public isOngoingCampaign(): boolean {
+    return Boolean(this.party?.ongoingCampaign);
+  }
+
   /**
    * Trigger rewards associated with workout completion.
    */
   public async completeWorkout() {
+    const rewards = computeRewards(WORKOUT_REWARDS);
+    this.exp += rewards.exp;
+    this.money += rewards.money;
+    this.incrementQuest();
+    this.incrementCampaign(rewards.attack);
+    await this.updateToFirestore();
+    return {
+      exp: rewards.exp,
+      money: rewards.money,
+      attack: this.isOngoingCampaign() ? rewards.attack : 0,
+    };
+  }
+
+  /** Progress quest and check for completion. */
+  public async incrementQuest() {
     if (this.ongoingQuest) {
-      this.ongoingQuest.progressThisWeek += 1;
+      // add to progress
+      this.ongoingQuest = await this.ongoingQuest.incrementProgress();
       await this.updateToFirestore();
     }
   }
@@ -193,18 +275,39 @@ export class UserCharacter {
   /**
    * Trigger rewards associated with quest completion.
    */
-  public completeQuest() {
-    return;
+  public async completeQuest(): Promise<QuestPopupData> {
+    if (this.ongoingQuest) {
+      const rewards = computeRewards(
+        QUEST_REWARDS[this.ongoingQuest.difficulty],
+      );
+      const questName = this.ongoingQuest.name;
+      this.exp += rewards.exp;
+      this.money += rewards.money;
+      this.ongoingQuest = null;
+      await this.updateToFirestore();
+      return {
+        exp: rewards.exp,
+        money: rewards.money,
+        questName,
+      };
+    } else {
+      throw new Error("No available quest to claim rewards from!");
+    }
   }
 
+  public incrementCampaign(amount: number) {
+    // TODO
+    return;
+  }
   /**
    * Trigger rewards associated with campaign completion.
    */
   public completeCampaign() {
+    // TODO
     return;
   }
 
-  public async updateToFirestore() {
+  async updateToFirestore() {
     await setDoc(this.ref.withConverter(characterConverter), this).catch(
       (reason) => {
         throw new Error("Update to cloud failed.");
@@ -212,11 +315,43 @@ export class UserCharacter {
     );
   }
 
-  public updateFromFirestore() {
+  updateFromFirestore() {
     getDoc(this.ref.withConverter(characterConverter)).then((snap) => {
       const updated = snap.data() as UserCharacter;
       Object.assign(this, updated);
     });
+  }
+
+  /**
+   * Gets latest user character from cloud.
+   *
+   * @returns New UserCharacter instance with updated info from database.
+   */
+  public async getUserCharacter(): Promise<UserCharacter> {
+    const ref = this.ref.withConverter(characterConverter);
+    const snapshot = await getDoc(ref);
+    return snapshot.data() as UserCharacter;
+  }
+
+  public async getPastQuests(): Promise<Quest[]> {
+    const ref = collection(db, this.ref.path, "quests").withConverter(
+      questConverter,
+    );
+    const snapshot = await getDocs(ref);
+    const quests: Quest[] = [];
+    snapshot.forEach((doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      quests.push(doc.data() as Quest);
+    });
+
+    // exclude ongoing quest if present
+    if (this.ongoingQuest) {
+      return quests.filter(
+        (quest) => quest.ref.path !== this.ongoingQuest?.ref.path,
+      );
+    } else {
+      return quests;
+    }
   }
 }
 
@@ -232,6 +367,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
       party: character.party,
       avatar: character.avatar.toData(),
       ongoingQuest: character.ongoingQuest?.ref ?? null,
+      items: character.items,
     };
   },
   fromFirestore(
@@ -254,6 +390,7 @@ export const characterConverter: FirestoreDataConverter<UserCharacter> = {
       data.completedQuests,
       data.party,
       data.ongoingQuest,
+      data.items,
     );
     return character;
   },
@@ -271,4 +408,5 @@ export type UserCharacterData = {
   ongoingQuest: DocumentReference | null;
   completedQuests: DocumentReference[];
   avatar: Avatar;
+  items: Item[];
 };

@@ -1,12 +1,10 @@
 import {
   addDoc,
   collection,
-  doc,
   DocumentData,
   DocumentReference,
   FirestoreDataConverter,
   getDoc,
-  getDocs,
   QueryDocumentSnapshot,
   SnapshotOptions,
 } from "firebase/firestore";
@@ -32,20 +30,6 @@ export default class ExerciseTemplate {
     this.name = name;
     this.category = category;
     this.notes = notes;
-  }
-
-  /**
-   * Get default templates from Firestore.
-   */
-  static async getDefaultTemplates() {
-    const defaultsRef = collection(
-      db,
-      DB.userFitness,
-      "rpgym",
-      "exerciseTemplates",
-    ).withConverter(exerciseTemplateConverter);
-    const snapshot = await getDocs(defaultsRef);
-    return snapshot.docs.map((doc) => doc.data());
   }
 
   /**

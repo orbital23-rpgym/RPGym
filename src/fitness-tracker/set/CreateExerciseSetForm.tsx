@@ -1,17 +1,20 @@
-import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { Link, Stack } from "expo-router";
-import { useContext, useState } from "react";
-import { Pressable, StyleSheet, View, ViewProps } from "react-native";
+import { Stack, useRouter } from "expo-router";
+import { useEffect, useState } from "react";
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  View,
+  ViewProps,
+} from "react-native";
 
-import { themes } from "constants/colors";
 import { fullWidthButton } from "constants/styles";
 import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
+import { HeadingWithExplainerButton } from "library/components/HeadingWithExplainerButton";
 import { Slider } from "library/components/Slider";
 import { Stepper } from "library/components/Stepper";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { TextInput } from "library/components/TextInput";
-import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import {
   TempExerciseData,
   TempSetData,
@@ -27,12 +30,14 @@ export type CreateExerciseSetFormProps = {
     rpe: number,
   ) => Promise<void>;
   onDelete: (set: TempSetData) => void;
+  isNewSet?: boolean;
 } & Omit<ViewProps, "children">;
 
 export default function CreateExerciseSetForm(
   props: CreateExerciseSetFormProps,
 ) {
-  const colorScheme = useContext(ColorSchemeContext);
+  const router = useRouter();
+  // const navigation = useNavigation();
   const styles = StyleSheet.create({
     container: {
       width: "100%",
@@ -74,16 +79,19 @@ export default function CreateExerciseSetForm(
     },
   });
 
-  const [weight, setWeight] = useState(props.exerciseSetData?.weightKg ?? 0);
-  const [reps, setReps] = useState(props.exerciseSetData?.reps ?? 0);
-  const [rpe, setRpe] = useState(props.exerciseSetData?.perceivedExertion ?? 1);
-  const [notes, setNotes] = useState(props.exerciseSetData?.notes ?? "");
+  const [weight, setWeight] = useState(props.exerciseSetData.weightKg);
+  const [reps, setReps] = useState(props.exerciseSetData.reps);
+  const [rpe, setRpe] = useState(props.exerciseSetData.perceivedExertion);
+  const [notes, setNotes] = useState(props.exerciseSetData.notes);
   const [error, setError] = useState<Error | undefined>();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
   function onSubmitWrapped() {
     // Disable submit button
     setIsSubmitting(true);
+    // Prevent preventing leave
+    // overrideAlert.current = true;
     // Reset list of errors
     setError(undefined);
     props
@@ -96,49 +104,42 @@ export default function CreateExerciseSetForm(
       });
   }
 
+  useEffect(() => {
+    props.isNewSet && setHasUnsavedChanges(props.isNewSet);
+  }, [props.isNewSet]);
+
+  // DISABLED because can't override it for save/delete
+  // prevent back navigation if unsaved changes
+  // UNSTABLE_usePreventRemove(
+  //   hasUnsavedChanges && !overrideAlert.current,
+  //   ({ data }) => {
+  //     Alert.alert(
+  //       "Discard changes?",
+  //       "You have unsaved changes. Are you sure you want to discard them and leave the screen?",
+  //       [
+  //         {
+  //           text: "Don't leave",
+  //           style: "cancel",
+  //           onPress: () => {
+  //             return;
+  //           },
+  //         },
+  //         {
+  //           text: "Discard",
+  //           style: "destructive",
+  //           onPress: () => navigation.dispatch(data.action),
+  //         },
+  //       ],
+  //       { cancelable: true, userInterfaceStyle: colorScheme },
+  //     );
+  //   },
+  // );
+
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <Stack.Screen
         options={{
-          headerTitle: props.exerciseData.template.name,
-          headerLeft: () => (
-            <Link href="../" asChild>
-              <Pressable>
-                {({ pressed }) => {
-                  const style = {
-                    marginLeft: 10,
-                    marginRight: 15,
-                    opacity: pressed ? 0.5 : 1,
-                  };
-                  return (
-                    <FontAwesome5
-                      name="chevron-left"
-                      size={25}
-                      color={themes[colorScheme].text}
-                      style={style}
-                    />
-                  );
-                }}
-              </Pressable>
-            </Link>
-          ),
-          headerRight: () => (
-            <Link href="/workout/rest-timer" asChild>
-              <Pressable>
-                {({ pressed }) => {
-                  const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
-                  return (
-                    <MaterialIcons
-                      name="timer"
-                      size={25}
-                      color={themes[colorScheme].text}
-                      style={style}
-                    />
-                  );
-                }}
-              </Pressable>
-            </Link>
-          ),
+          headerTitle: props.exerciseData.template.name + " Set",
         }}
       />
       <View style={styles.stepperContainer}>
@@ -149,6 +150,7 @@ export default function CreateExerciseSetForm(
           step={1}
           onValueChange={(value: number) => {
             setWeight(value);
+            setHasUnsavedChanges(true);
           }}
           accessibilityLabelledBy="weight-label"
           initialValue={weight}
@@ -162,20 +164,28 @@ export default function CreateExerciseSetForm(
           step={1}
           onValueChange={(value: number) => {
             setReps(value);
+            setHasUnsavedChanges(true);
           }}
           accessibilityLabelledBy="reps-label"
           initialValue={reps}
         />
       </View>
       <View style={styles.sliderContainer}>
-        <HeadingText id="rpe-label">Perceived Exertion</HeadingText>
+        <HeadingWithExplainerButton
+          text={"Perceived Exertion"}
+          textId="rpe-label"
+          onButtonPress={() => router.push("/workout/new/what-is-rpe")}
+        />
         <Slider
           min={1}
           max={10}
-          step={0.5}
+          step={1}
           showLegend
-          value={rpe}
-          onValueChange={(value) => setRpe(value)}
+          initialValue={rpe}
+          onValueChange={(value) => {
+            setRpe(value);
+            setHasUnsavedChanges(true);
+          }}
         />
       </View>
 
@@ -183,7 +193,10 @@ export default function CreateExerciseSetForm(
       <TextInput
         accessibilityLabelledBy="notes-label"
         style={styles.notes}
-        onChangeText={(text) => setNotes(text)}
+        onChangeText={(text) => {
+          setNotes(text);
+          setHasUnsavedChanges(true);
+        }}
         value={notes}
       />
 
@@ -191,7 +204,7 @@ export default function CreateExerciseSetForm(
         <Button
           variant="save"
           style={fullWidthButton.button}
-          disabled={isSubmitting || reps === 0}
+          disabled={isSubmitting || reps === 0 || !hasUnsavedChanges}
           onPress={() => onSubmitWrapped()}
         >
           <ButtonText style={fullWidthButton.text}>Save</ButtonText>
@@ -202,12 +215,16 @@ export default function CreateExerciseSetForm(
             fullWidthButton.button,
             styles.endingAction,
           )}
-          onPress={() => props.onDelete(props.exerciseSetData)}
+          onPress={() => {
+            // Prevent preventing leave
+            // overrideAlert.current = true;
+            props.onDelete(props.exerciseSetData);
+          }}
         >
           <ButtonText style={fullWidthButton.text}>Delete Set</ButtonText>
         </Button>
         {error && <ErrorDisplay error={error} />}
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

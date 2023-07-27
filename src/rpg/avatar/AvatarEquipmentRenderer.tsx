@@ -1,8 +1,7 @@
-import { StyleSheet } from "react-native";
+import { getItemImageOnbody } from "../item/Item";
 
-import { avatarLayerStyles } from "./AvatarLayer";
+import { AvatarLayer, avatarLayerStyles } from "./AvatarLayer";
 
-import { palette } from "constants/colors";
 import { View, ViewProps } from "library/components/Themed";
 import AvatarEquipment from "src/rpg/avatar/AvatarEquipment";
 
@@ -15,12 +14,12 @@ export default function AvatarEquipmentRenderer(props: AvatarEquipmentProps) {
 
   return (
     <View style={avatarLayerStyles.layer}>
-      {/* <AvatarLayer
-        source={
-          AVATAR_BASE.faceHair[avatarBase.hairColor][avatarBase.facialHair]
-        }
-        zIndex={zIndex + 4}
-      /> */}
+      <AvatarLayer source={getItemImageOnbody(avatarEquipment.helmet)} />
+      <AvatarLayer source={getItemImageOnbody(avatarEquipment.chestplate)} />
+      <AvatarLayer source={getItemImageOnbody(avatarEquipment.leggings)} />
+      <AvatarLayer source={getItemImageOnbody(avatarEquipment.boots)} />
+      <AvatarLayer source={getItemImageOnbody(avatarEquipment.mainHand)} />
+      <AvatarLayer source={getItemImageOnbody(avatarEquipment.offHand)} />
     </View>
   );
 }

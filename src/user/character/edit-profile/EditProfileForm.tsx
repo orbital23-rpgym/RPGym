@@ -1,6 +1,10 @@
 import { Stack } from "expo-router";
 import { useContext, useState } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import {
+  KeyboardAvoidingView,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 
 import { EditAvatarBaseCard } from "./EditAvatarBaseCard";
 
@@ -56,6 +60,7 @@ export default function EditProfileForm(props: {
       width: "100%",
       maxWidth: MAX_ELEMENT_WIDTH,
       gap: 20,
+      paddingTop: 30,
     },
     submitButton: {
       alignContent: "center",
@@ -108,14 +113,14 @@ export default function EditProfileForm(props: {
   });
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="height">
       <Stack.Screen
         options={{
           title: "Edit Profile",
           headerRight: () => (
             <TouchableOpacity
               onPress={() => submit(displayName, bio, avatar)}
-              activeOpacity={0.5}
+              activeOpacity={0.6}
               disabled={isSubmitting || !isEdited}
               style={styles.submitButton}
             >
@@ -174,6 +179,6 @@ export default function EditProfileForm(props: {
         oldAvatarBase={avatar.avatarBase}
       />
       <View style={styles.spacer} />
-    </View>
+    </KeyboardAvoidingView>
   );
 }

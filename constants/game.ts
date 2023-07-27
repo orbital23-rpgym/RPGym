@@ -112,9 +112,10 @@ export const BOSS_PARAMS = {
  * Prices for each equipment type.
  */
 export const EQUIP_PRICES = {
+  none: 0,
   silver: 30,
   gold: 50,
-  emerald: 50,
+  emerald: 70,
   obsidian: 100,
 };
 
@@ -153,3 +154,14 @@ export const QUEST_LORE: {
       "Plunge into an infernal crucible that will push your body and mind to their limits in “Hitting the Gold Mine”. Brave an onslaught of merciless workouts, conquering insurmountable barriers and claiming the Gold Metal of Invincibility, an irrefutable testament to your unyielding dominance.",
   },
 };
+
+export function computeRewards(base: ActivityRewards) {
+  const rng = Math.random();
+  const rewards = {
+    money: rng * (base.money.max - base.money.min) + base.money.min,
+    exp: base.exp,
+    attack: rng * (base.attack.max - base.attack.min) + base.attack.min,
+    equipment: base.hasEquipment ? /*rng equipment */ "" : null,
+  };
+  return rewards;
+}

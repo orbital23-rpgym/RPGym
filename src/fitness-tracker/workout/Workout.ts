@@ -6,6 +6,7 @@ import {
   FirestoreDataConverter,
   QueryDocumentSnapshot,
   SnapshotOptions,
+  Timestamp,
 } from "firebase/firestore";
 
 import Exercise, { ExerciseData } from "../exercise/Exercise";
@@ -79,8 +80,8 @@ export default class Workout {
     userId: string,
   ): Promise<Workout> {
     const workoutData: WorkoutData = {
-      startDateTime: startDateTime,
-      endDateTime: endDateTime,
+      startDateTime: Timestamp.fromDate(startDateTime),
+      endDateTime: Timestamp.fromDate(endDateTime),
       exercises: exerciseData,
     };
     const ref = await addDoc(
@@ -92,8 +93,8 @@ export default class Workout {
     );
     const workout = new Workout(
       ref,
-      workoutData.startDateTime,
-      workoutData.endDateTime,
+      startDateTime,
+      endDateTime,
       exercises,
       exerciseData,
     );
@@ -109,24 +110,10 @@ export default class Workout {
     return exercises.map(mapFn).join(", ");
   }
 
-  /**
-   * Comparison function to use in sorting.
-   * When used in sort(), sorts in ascending order.
-   */
-  static compareByStartDateTimeAsc = (a: Workout, b: Workout) =>
-    a.startDateTime.getTime() - b.startDateTime.getTime();
-
-  /**
-   * Comparison function to use in sorting.
-   * When used in sort(), sorts in descending order.
-   */
-  static compareByStartDateTimeDesc = (a: Workout, b: Workout) =>
-    b.startDateTime.getTime() - a.startDateTime.getTime();
-
   public toData(): WorkoutData {
     const data: WorkoutData = {
-      startDateTime: this.startDateTime,
-      endDateTime: this.endDateTime,
+      startDateTime: Timestamp.fromDate(this.startDateTime),
+      endDateTime: Timestamp.fromDate(this.endDateTime),
       exercises: this.getExerciseData(),
     };
     return data;
@@ -135,8 +122,8 @@ export default class Workout {
   static fromData(data: WorkoutData, ref: DocumentReference): Workout {
     return new Workout(
       ref,
-      data.startDateTime,
-      data.endDateTime,
+      data.startDateTime.toDate(),
+      data.endDateTime.toDate(),
       undefined,
       data.exercises,
     );
@@ -162,7 +149,7 @@ export const workoutConverter: FirestoreDataConverter<Workout> = {
 };
 
 export type WorkoutData = {
-  startDateTime: Date;
-  endDateTime: Date;
+  startDateTime: Timestamp;
+  endDateTime: Timestamp;
   exercises: ExerciseData[];
 };

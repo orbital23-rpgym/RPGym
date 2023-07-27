@@ -7,7 +7,7 @@ import { StyleSheet } from "react-native";
 
 import { Text, View } from "./Themed";
 
-import { themes } from "constants/colors";
+import { palette, themes } from "constants/colors";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import { numDecimalPlaces, roundToDecimal } from "library/utils/floats";
 
@@ -19,6 +19,7 @@ export type SliderProps = {
   bgColor?: string;
   fgColor?: string;
   thumbColor?: string;
+  initialValue?: number;
   animationType?: "spring" | "timing";
   onValueChange?: (value: number) => void;
 } & Omit<
@@ -29,6 +30,7 @@ export type SliderProps = {
   | "maximumTrackTintColor"
   | "animationType"
   | "onValueChange"
+  | "value"
 >;
 
 /**
@@ -44,11 +46,12 @@ export function Slider(props: SliderProps) {
     fgColor = themes[colorScheme].orange,
     thumbColor,
     animationType,
+    initialValue = min,
     onValueChange = () => null,
     showLegend: shouldShowLegend = false,
     ...otherProps
   } = props;
-  const [value, setValue] = useState(min);
+  const [value, setValue] = useState(initialValue);
 
   const styles = StyleSheet.create({
     container: {
@@ -58,10 +61,10 @@ export function Slider(props: SliderProps) {
       justifyContent: "center",
       gap: 0,
       minWidth: 150,
-      width: 200,
+      width: "100%",
+      backgroundColor: palette.transparent,
     },
     labelText: {
-      flex: 1,
       fontFamily: "Header",
       fontSize: 18,
       textAlign: "right",
@@ -96,13 +99,13 @@ export function Slider(props: SliderProps) {
       width: "100%",
     },
     thumb: {
-      width: 8,
-      height: 20,
+      width: 10,
+      height: 24,
       borderRadius: 100,
       backgroundColor: thumbColor ?? themes[colorScheme].text,
     },
     track: {
-      height: 6,
+      height: 8,
       borderRadius: 100,
     },
   });

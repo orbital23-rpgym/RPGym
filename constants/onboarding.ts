@@ -40,16 +40,16 @@ export const TUTORIAL_SLIDES: OnboardingTutorialSlide[] = [
     image: require("assets/images/tutorial/quests-tab.png"),
     caption: "Complete Quests to build the habit of gymming.",
   },
+  // {
+  //   image: require("assets/images/tutorial/PLACEHOLDER.png"),
+  //   caption: "Join a Party with your friends to motivate each other.",
+  // },
+  // {
+  //   image: require("assets/images/tutorial/PLACEHOLDER.png"),
+  //   caption: "Take part in campaigns and defeat bosses for handsome rewards.",
+  // },
   {
-    image: require("assets/images/tutorial/PLACEHOLDER.png"),
-    caption: "Join a Party with your friends to motivate each other.",
-  },
-  {
-    image: require("assets/images/tutorial/PLACEHOLDER.png"),
-    caption: "Take part in campaigns and defeat bosses for handsome rewards.",
-  },
-  {
-    image: require("assets/images/tutorial/PLACEHOLDER.png"),
+    image: require("assets/images/tutorial/equipment.png"),
     caption:
       "Earn coins from gymming and purchase equipment to customise your avatar.",
   },

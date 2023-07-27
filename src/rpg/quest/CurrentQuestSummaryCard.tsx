@@ -38,19 +38,31 @@ export default function CurrentQuestSummaryCard(props: QuestCardProps) {
           {...otherProps}
         >
           <View style={styles.innerContainer}>
-            <ProgressBarWithLabels
-              title={"Workouts"}
-              labelPosition={"linear"}
-              max={quest.goalPerWeek}
-              curr={quest.progressThisWeek}
-              colorFg={themes[colorScheme].green}
-              colorBg={themes[colorScheme].gray}
-            />
-            <Text>
-              {quest.progressThisWeek >= quest.goalPerWeek
-                ? "🎉 Congratulations on hitting your goal!"
-                : "🌟 You can do it!"}
-            </Text>
+            {quest.ongoing ? (
+              <>
+                <ProgressBarWithLabels
+                  title={"Workouts"}
+                  labelPosition={"linear"}
+                  max={quest.goalPerWeek}
+                  curr={quest.progressThisWeek}
+                  colorFg={themes[colorScheme].green}
+                  colorBg={themes[colorScheme].gray}
+                />
+                <Text>
+                  {quest.progressThisWeek >= quest.goalPerWeek
+                    ? "🎉 Congratulations on hitting your goal this week!"
+                    : "🌟 You can do it!"}
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text>
+                  {
+                    "🎉 Congratulations on completing your quest! Claim your rewards in the Quests tab :)"
+                  }
+                </Text>
+              </>
+            )}
           </View>
         </Card>
       ) : (

@@ -1,3 +1,3 @@
-import { RestTimerModal } from "src/fitness-tracker/workout/RestTimer";
+import { RestTimerModal } from "src/fitness-tracker/workout/RestTimerModal";
 
 export default RestTimerModal;

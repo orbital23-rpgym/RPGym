@@ -74,6 +74,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="party"
         options={{
+          href: null,
           tabBarIcon: ({ color }) => <TabBarIcon name="users" color={color} />,
           tabBarLabel: ({ focused, color }) => {
             return (

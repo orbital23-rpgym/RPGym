@@ -1,8 +1,9 @@
-import { useRouter } from "expo-router";
+import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 
 import CreateExerciseForm from "./CreateExerciseForm";
 
+import { NEW_SET_DATA } from "constants/workout";
 import {
   TempExerciseData,
   TempSetData,
@@ -20,14 +21,9 @@ export default function CreateExerciseController() {
     if (exerciseData) {
       const newData = { ...localData };
       newData.selectedExercise = exerciseData;
-      newData.selectedSet = {
-        key: exerciseData.sets.length,
-        deleted: false,
-        notes: "",
-        perceivedExertion: 1,
-        reps: 0,
-        weightKg: 0,
-      };
+      newData.selectedSet = NEW_SET_DATA(exerciseData.sets.length);
+      // mark as deleted first, will undelete upon save
+      newData.selectedSet.deleted = true;
       newData.exercises[exerciseData.key].sets[newData.selectedSet.key] =
         newData.selectedSet;
       setExerciseData(newData.exercises[exerciseData.key]);
@@ -62,7 +58,7 @@ export default function CreateExerciseController() {
     newData.exercises[exercise.key].deleted = true;
     setLocalData(newData);
     setData(newData);
-    router.push("../");
+    router.push("/workout/new");
   }
 
   useEffect(() => {
@@ -70,36 +66,24 @@ export default function CreateExerciseController() {
     setExerciseData(data.selectedExercise);
   }, [data]);
 
-  function onSubmit(setsData: TempSetData[]) {
-    return new Promise<void>((resolve, reject) => {
-      if (!exerciseData) {
-        reject("Error saving sets data: Exercise not found");
-      } else {
-        const newData = { ...localData };
-        newData.selectedExercise = undefined;
-        newData.exercises[exerciseData.key].sets = setsData.filter(
-          (set) => !set.deleted,
-        );
-        setLocalData(newData);
-        setData(newData);
-        resolve();
-        router.push("../");
-      }
-    });
-  }
+  // auto redirect to set
+  const { goToSet } = useLocalSearchParams();
+  useEffect(() => {
+    if (goToSet) {
+      router.setParams(undefined);
+      router.push("/workout/new/set?goToSet=true");
+    }
+  }, [goToSet]);
 
-  return (
-    <>
-      {exerciseData && (
-        <CreateExerciseForm
-          exerciseData={exerciseData}
-          onSubmit={onSubmit}
-          addSet={addSet}
-          removeSet={removeSet}
-          onDelete={deleteExercise}
-          editSet={editSet}
-        />
-      )}
-    </>
+  return exerciseData && (!exerciseData.deleted || goToSet) ? (
+    <CreateExerciseForm
+      exerciseData={exerciseData}
+      addSet={addSet}
+      removeSet={removeSet}
+      onDelete={deleteExercise}
+      editSet={editSet}
+    />
+  ) : (
+    <Redirect href="/workout/new" />
   );
 }

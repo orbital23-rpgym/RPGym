@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { Redirect, useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 
 import CreateExerciseSetForm from "./CreateExerciseSetForm";
@@ -27,49 +27,84 @@ export default function CreateExerciseSetController() {
     setExerciseData(data.selectedExercise);
   }, [data]);
 
+  function deepCopyTempExercises(
+    exercises: TempExerciseData[],
+  ): TempExerciseData[] {
+    // deep copy exercises
+    const newExercises = exercises.map((value) => {
+      const { sets, ...otherData } = value;
+      const copiedSets = sets.map((value) => {
+        return { ...value } as TempSetData;
+      });
+      return { ...otherData, sets: copiedSets } as TempExerciseData;
+    });
+    return newExercises;
+  }
+
   function deleteSet(set: TempSetData) {
     if (exerciseData) {
-      const newData = { ...localData };
-      newData.selectedSet = undefined;
-      newData.exercises[exerciseData.key].sets[set.key].deleted = true;
+      const { selectedSet, exercises, selectedExercise, ...otherData } =
+        localData;
+      const newExercises = deepCopyTempExercises(exercises);
+      // unmark exercise as deleted
+      newExercises[exerciseData.key].deleted = false;
+      newExercises[exerciseData.key].sets[set.key].deleted = true;
+      const newData = {
+        ...otherData,
+        selectedSet: undefined,
+        selectedExercise: newExercises[exerciseData.key],
+        exercises: newExercises,
+      };
       setLocalData(newData);
       setData(newData);
-      router.push("../");
+      router.push("/workout/new/exercise/");
     }
   }
+
+  // handle auto set redirect
+  const { goToSet } = useLocalSearchParams();
 
   function onSubmit(weight: number, reps: number, notes: string, rpe: number) {
     return new Promise<void>((resolve, reject) => {
       if (!exerciseData || !exerciseSetData) {
         reject("Error saving set data: Exercise set data not found");
       } else {
-        const newData = { ...localData };
-        newData.selectedSet = undefined;
-        newData.exercises[exerciseData.key].sets[exerciseSetData.key] = {
+        const { selectedSet, exercises, selectedExercise, ...otherData } =
+          localData;
+        const newExercises = deepCopyTempExercises(exercises);
+        newExercises[exerciseData.key].sets[exerciseSetData.key] = {
           key: exerciseSetData.key,
-          deleted: exerciseSetData.deleted,
+          // unmark as deleted
+          deleted: false,
           notes: notes,
           perceivedExertion: rpe,
           reps: reps,
           weightKg: weight,
         };
+        // unmark as deleted
+        newExercises[exerciseData.key].deleted = false;
+        const newData = {
+          ...otherData,
+          selectedSet: undefined,
+          selectedExercise: newExercises[exerciseData.key],
+          exercises: newExercises,
+        };
         setLocalData(newData);
         setData(newData);
-        router.push("../");
+        router.push("/workout/new/exercise/");
       }
     });
   }
 
-  return (
-    <>
-      {exerciseSetData && exerciseData && (
-        <CreateExerciseSetForm
-          exerciseData={exerciseData}
-          exerciseSetData={exerciseSetData}
-          onSubmit={onSubmit}
-          onDelete={deleteSet}
-        />
-      )}
-    </>
+  return exerciseSetData && exerciseData ? (
+    <CreateExerciseSetForm
+      exerciseData={exerciseData}
+      exerciseSetData={exerciseSetData}
+      onSubmit={onSubmit}
+      onDelete={deleteSet}
+      isNewSet={Boolean(goToSet)}
+    />
+  ) : (
+    <Redirect href="/workout/new/exercise/" />
   );
 }

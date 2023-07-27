@@ -1,17 +1,15 @@
-import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { Link, Stack } from "expo-router";
-import { useContext, useEffect, useState } from "react";
-import { FlatList, Pressable, StyleSheet, View, ViewProps } from "react-native";
+import { useBackHandler } from "@react-native-community/hooks";
+import { Stack } from "expo-router";
+import { useEffect, useState } from "react";
+import { FlatList, StyleSheet, View, ViewProps } from "react-native";
 
 import ExerciseCard from "../exercise/ExerciseCard";
 
-import { themes } from "constants/colors";
 import { fullWidthButton } from "constants/styles";
 import { Button } from "library/components/Button";
 import { ErrorDisplay } from "library/components/ErrorDisplay";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { Text } from "library/components/Themed";
-import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import { TempExerciseData } from "library/context/CreateWorkoutFormContext";
 
 export type CreateWorkoutFormProps = {
@@ -28,8 +26,6 @@ export type CreateWorkoutFormProps = {
 } & Omit<ViewProps, "children">;
 
 export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
-  const colorScheme = useContext(ColorSchemeContext);
-
   const styles = StyleSheet.create({
     container: {
       width: "100%",
@@ -45,7 +41,7 @@ export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
     endingActionContainer: {
       width: "100%",
       gap: 20,
-      marginTop: 20,
+      marginTop: 10,
       alignItems: "center",
     },
     listItem: {
@@ -77,6 +73,11 @@ export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
     setExercisesData(props.exerciseData);
   }, [props.exerciseData]);
 
+  // prevent back navigation using android back button
+  useBackHandler(() => {
+    return true;
+  });
+
   const noExercisesText = <Text>No exercises added yet.</Text>;
 
   return (
@@ -84,44 +85,8 @@ export default function CreateWorkoutForm(props: CreateWorkoutFormProps) {
       <Stack.Screen
         options={{
           headerTitle: "New Workout",
-          headerLeft: () => (
-            <Link href="../" asChild>
-              <Pressable>
-                {({ pressed }) => {
-                  const style = {
-                    marginLeft: 10,
-                    marginRight: 15,
-                    opacity: pressed ? 0.5 : 1,
-                  };
-                  return (
-                    <FontAwesome5
-                      name="chevron-left"
-                      size={25}
-                      color={themes[colorScheme].text}
-                      style={style}
-                    />
-                  );
-                }}
-              </Pressable>
-            </Link>
-          ),
-          headerRight: () => (
-            <Link href="workout/new/rest-timer" asChild>
-              <Pressable>
-                {({ pressed }) => {
-                  const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
-                  return (
-                    <MaterialIcons
-                      name="timer"
-                      size={25}
-                      color={themes[colorScheme].text}
-                      style={style}
-                    />
-                  );
-                }}
-              </Pressable>
-            </Link>
-          ),
+          // disable back navigation
+          headerBackVisible: false,
         }}
       />
       <Button

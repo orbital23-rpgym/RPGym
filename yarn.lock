@@ -694,7 +694,7 @@
 
 "@babel/plugin-proposal-optional-chaining@^7.13.12", "@babel/plugin-proposal-optional-chaining@^7.20.0", "@babel/plugin-proposal-optional-chaining@^7.20.7", "@babel/plugin-proposal-optional-chaining@^7.21.0":
   version "7.21.0"
-  resolved "https://registry.npmjs.org/@babel/plugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.21.0.tgz"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-proposal-optional-chaining/-/plugin-proposal-optional-chaining-7.21.0.tgz#886f5c8978deb7d30f678b2e24346b287234d3ea"
   integrity sha512-p4zeefM72gpmEe2fkUr/OnOXpWEf8nAgk7ZYVqqfFiyIG7oFfVZcCrU64hWn5xp4tQ9LkV4bTIa5rD0KANpKNA==
   dependencies:
     "@babel/helper-plugin-utils" "^7.20.2"
@@ -3591,6 +3591,11 @@
     prompts "^2.4.0"
     semver "^6.3.0"
 
+"@react-native-community/hooks@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@react-native-community/hooks/-/hooks-3.0.0.tgz#af5f2ca32eea59b792ce9e3d9a4cf0354f9b195f"
+  integrity sha512-g2OyxXHfwIytXUJitBR6Z/ISoOfp0WKx5FOv+NqJ/CrWjRDcTw6zXE5I1C9axfuh30kJqzWchVfCDrkzZYTxqg==
+
 "@react-native/assets-registry@^0.72.0":
   version "0.72.0"
   resolved "https://registry.yarnpkg.com/@react-native/assets-registry/-/assets-registry-0.72.0.tgz#c82a76a1d86ec0c3907be76f7faf97a32bbed05d"
@@ -3689,6 +3694,14 @@
   integrity sha512-CEge+ZLhb1HBrSvv4RwOol7EKLW1QoqVIQlE9TN5MpxS/+VoQvP+cLbuz0Op53/iJfYhtXRFd1ZAd3RTRqto9w==
   dependencies:
     nanoid "^3.1.23"
+
+"@sanar/react-native-highlight-text@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@sanar/react-native-highlight-text/-/react-native-highlight-text-1.0.2.tgz#3109442e610095efa647ef49a094d6e143d4b30a"
+  integrity sha512-+mhWujE0YcagtTWHIipSSTAz4ROCmDTLl5MwIL1WtO9ohnMVWPRuZTeqwrJ5kQbSjHZ+/sdZfg1gGU7enNPB4g==
+  dependencies:
+    highlight-words-core "^1.2.0"
+    prop-types "^15.7.2"
 
 "@segment/loosely-validate-event@^2.0.0":
   version "2.0.0"
@@ -6954,6 +6967,11 @@ hermes-profile-transformer@^0.0.6:
   integrity sha512-cnN7bQUm65UWOy6cbGcCcZ3rpwW8Q/j4OP5aWRhEry4Z2t2aR1cjrbp0BS+KiBN0smvP1caBgAuxutvyvJILzQ==
   dependencies:
     source-map "^0.7.3"
+
+highlight-words-core@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/highlight-words-core/-/highlight-words-core-1.2.2.tgz#1eff6d7d9f0a22f155042a00791237791b1eeaaa"
+  integrity sha512-BXUKIkUuh6cmmxzi5OIbUJxrG8OAk2MqoL1DtO3Wo9D2faJg2ph5ntyuQeLqaHJmzER6H5tllCDA9ZnNe9BVGg==
 
 hoist-non-react-statics@^3.3.0, hoist-non-react-statics@^3.3.1:
   version "3.3.2"

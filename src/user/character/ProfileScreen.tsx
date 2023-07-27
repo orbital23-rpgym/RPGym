@@ -5,16 +5,17 @@ import { Pressable, StyleSheet } from "react-native";
 
 import AvatarRenderer from "../../rpg/avatar/AvatarRenderer";
 
-import { UserCharacter } from "./UserCharacter";
-
 import { themes } from "constants/colors";
+import { fullWidthButton } from "constants/styles";
 import { MAX_ELEMENT_WIDTH } from "constants/ui";
-import { Card } from "library/components/Card";
+import { Button } from "library/components/Button";
 import { ProgressBarWithLabels } from "library/components/ProgressBar";
+import { ButtonText } from "library/components/StyledText";
 import { Screen, Text, View } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
-import { useAppUser } from "library/context/UserContext";
+import { useAppUser, useSetAppUser } from "library/context/UserContext";
 import CurrentQuestSummaryCard from "src/rpg/quest/CurrentQuestSummaryCard";
+import EquippedItemsCard from "src/user/character/equip/EquippedItemsCard";
 
 export default function ProfileScreen() {
   const styles = StyleSheet.create({
@@ -69,14 +70,19 @@ export default function ProfileScreen() {
   });
 
   const user = useAppUser();
+  const setUser = useSetAppUser();
   const colorScheme = useContext(ColorSchemeContext);
-
   const character = user.character;
-
   const router = useRouter();
 
-  const [quest, setQuestData] = useState(user.character.ongoingQuest);
-  useEffect(() => setQuestData(quest), [quest?.progressThisWeek]);
+  useEffect(() => {
+    // refresh user character data
+    user.character.getUserCharacter().then((value) => {
+      user.setUserCharacter(value).then((value) => {
+        setUser(value);
+      });
+    });
+  }, []);
 
   return (
     <Screen gap={20}>
@@ -140,13 +146,23 @@ export default function ProfileScreen() {
                 size={15}
                 color={themes[colorScheme].orange}
               />
-              <Text style={styles.levelCoinsText}>{character.money} coins</Text>
+              <Text style={styles.levelCoinsText}>
+                {character.money.toFixed(0)} coins
+              </Text>
             </View>
           </View>
         </View>
       </View>
       <CurrentQuestSummaryCard quest={character.ongoingQuest} />
-      <Card title="💪 Campaign" headerColor={themes[colorScheme].blueLight}>
+      <EquippedItemsCard />
+      <Button
+        style={fullWidthButton.button}
+        variant="secondary"
+        onPress={() => router.push("/equipment/shop")}
+      >
+        <ButtonText style={fullWidthButton.text}>Go to Rewards Shop</ButtonText>
+      </Button>
+      {/* <Card title="💪 Campaign" headerColor={themes[colorScheme].blueLight}>
         <Text>PLACEHOLDER</Text>
         <ProgressBarWithLabels
           title="test2"
@@ -156,7 +172,7 @@ export default function ProfileScreen() {
           colorFg={themes[colorScheme].green}
           colorBg={themes[colorScheme].gray}
         />
-      </Card>
+      </Card> */}
     </Screen>
   );
 }

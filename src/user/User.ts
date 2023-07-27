@@ -197,12 +197,15 @@ export class User {
    * Adds new workout to user data. Also triggers rewards.
    */
   public async addWorkout(workout: Workout) {
-    await this.character.completeWorkout();
     await this.fitnessTracker.addWorkout(workout);
+    return {
+      completedWorkout: workout,
+      ...(await this.character.completeWorkout()),
+    };
   }
 
   /**
-   * Updates user character.
+   * Updates user character with modified info.
    *
    * @returns New User instance with edited character.
    */
@@ -214,6 +217,28 @@ export class User {
       this.emailAddress,
       this.fitnessTracker,
       newCharacter,
+      this.settings,
+      this.isOnboarded,
+    );
+    await setDoc(ref, user);
+    return user;
+  }
+
+  /**
+   * Updates user fitness tracker with modified info.
+   *
+   * @returns New User instance with edited fitness tracker.
+   */
+  public async setUserFitnessTracker(
+    newFitness: UserFitnessTracker,
+  ): Promise<User> {
+    const ref = doc(db, DB.users, this.id).withConverter(userConverter);
+    const user = new User(
+      this.id,
+      this.username,
+      this.emailAddress,
+      newFitness,
+      this.character,
       this.settings,
       this.isOnboarded,
     );

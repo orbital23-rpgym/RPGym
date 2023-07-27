@@ -1,7 +1,7 @@
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
 import { intlFormat } from "date-fns";
 import { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Workout from "./Workout";
 

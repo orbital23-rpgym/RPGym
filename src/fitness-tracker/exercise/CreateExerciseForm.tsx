@@ -1,9 +1,7 @@
-import { FontAwesome5, MaterialIcons } from "@expo/vector-icons";
-import { Link, Stack } from "expo-router";
+import { Stack } from "expo-router";
 import { useContext, useEffect, useState } from "react";
 import {
   FlatList,
-  Pressable,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -14,7 +12,6 @@ import { themes } from "constants/colors";
 import { fullWidthButton } from "constants/styles";
 import { Button } from "library/components/Button";
 import { Card } from "library/components/Card";
-import { ErrorDisplay } from "library/components/ErrorDisplay";
 import { ProgressBarWithLabels } from "library/components/ProgressBar";
 import { ButtonText, HeadingText } from "library/components/StyledText";
 import { Text } from "library/components/Themed";
@@ -26,7 +23,7 @@ import {
 
 export type CreateExerciseFormProps = {
   exerciseData: TempExerciseData;
-  onSubmit: (setsData: TempSetData[]) => Promise<void>;
+
   onDelete: (exercise: TempExerciseData) => void;
   addSet: () => void;
   removeSet: (set: TempSetData) => void;
@@ -73,24 +70,6 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
     props.exerciseData.sets,
   );
 
-  const [error, setError] = useState<Error | undefined>();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  function onSubmitWrapped() {
-    // Disable submit button
-    setIsSubmitting(true);
-    // Reset list of errors
-    setError(undefined);
-    props
-      .onSubmit(setsData)
-      .catch((e: Error) => {
-        setError(e);
-      })
-      .finally(() => {
-        setIsSubmitting(false);
-      });
-  }
-
   useEffect(() => {
     setExerciseData(props.exerciseData);
     setSetsData(props.exerciseData.sets.filter((value) => !value.deleted));
@@ -103,44 +82,6 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
       <Stack.Screen
         options={{
           headerTitle: props.exerciseData.template.name,
-          headerLeft: () => (
-            <Link href="../" asChild>
-              <Pressable>
-                {({ pressed }) => {
-                  const style = {
-                    marginLeft: 10,
-                    marginRight: 15,
-                    opacity: pressed ? 0.5 : 1,
-                  };
-                  return (
-                    <FontAwesome5
-                      name="chevron-left"
-                      size={25}
-                      color={themes[colorScheme].text}
-                      style={style}
-                    />
-                  );
-                }}
-              </Pressable>
-            </Link>
-          ),
-          headerRight: () => (
-            <Link href="workout/new/rest-timer" asChild>
-              <Pressable>
-                {({ pressed }) => {
-                  const style = { marginRight: 15, opacity: pressed ? 0.5 : 1 };
-                  return (
-                    <MaterialIcons
-                      name="timer"
-                      size={25}
-                      color={themes[colorScheme].text}
-                      style={style}
-                    />
-                  );
-                }}
-              </Pressable>
-            </Link>
-          ),
         }}
       />
       <Button
@@ -188,17 +129,6 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
       )}
       <View style={styles.endingActionContainer}>
         <Button
-          variant="save"
-          style={StyleSheet.compose(
-            fullWidthButton.button,
-            styles.endingAction,
-          )}
-          disabled={isSubmitting || setsData.length === 0}
-          onPress={onSubmitWrapped}
-        >
-          <ButtonText style={fullWidthButton.text}>Save Exercise</ButtonText>
-        </Button>
-        <Button
           variant="destructive"
           style={StyleSheet.compose(
             fullWidthButton.button,
@@ -208,7 +138,6 @@ export default function CreateExerciseForm(props: CreateExerciseFormProps) {
         >
           <ButtonText style={fullWidthButton.text}>Delete Exercise</ButtonText>
         </Button>
-        {error && <ErrorDisplay error={error} />}
       </View>
     </View>
   );

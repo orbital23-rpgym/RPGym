@@ -1,12 +1,12 @@
 import { FontAwesome } from "@expo/vector-icons";
-import { Image, ImageSource } from "expo-image";
 import { useContext, useEffect, useState } from "react";
-import { StyleSheet, View, ViewProps } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { AVATAR_BASE_ICONS, AVATAR_BASE_OPTIONS } from "constants/avatar-base";
-import { palette, themes } from "constants/colors";
+import { themes } from "constants/colors";
 import { Card, CardProps } from "library/components/Card";
+import { IconGridOption } from "library/components/IconGridOption";
 import { Text } from "library/components/Themed";
 import { ColorSchemeContext } from "library/context/ColorSchemeContext";
 import AvatarBase from "src/rpg/avatar/AvatarBase";
@@ -55,37 +55,37 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
       ),
       body: (
         <View style={styles.container}>
-          <AvatarOption
+          <IconGridOption
             label="Skin Color"
             color={AVATAR_BASE_ICONS.skinColor[skinColor]}
             onPress={() => setCurrentSection("skinColor")}
           />
-          <AvatarOption
+          <IconGridOption
             label="Hair Color"
             color={AVATAR_BASE_ICONS.hairColor[hairColor]}
             onPress={() => setCurrentSection("hairColor")}
           />
-          <AvatarOption
+          <IconGridOption
             label="Hairstyle"
             image={AVATAR_BASE_ICONS.backHair[hairColor][backHair]}
             onPress={() => setCurrentSection("hairstyle")}
           />
-          <AvatarOption
+          <IconGridOption
             label="Bangs"
             image={AVATAR_BASE_ICONS.frontHair[hairColor][frontHair]}
             onPress={() => setCurrentSection("bangs")}
           />
-          <AvatarOption
+          <IconGridOption
             label="Facial Hair"
             image={AVATAR_BASE_ICONS.faceHair[hairColor][facialHair]}
             onPress={() => setCurrentSection("facialHair")}
           />
-          <AvatarOption
+          <IconGridOption
             label="Glasses"
             image={AVATAR_BASE_ICONS.glasses[glasses]}
             onPress={() => setCurrentSection("glasses")}
           />
-          <AvatarOption
+          <IconGridOption
             label="Background"
             color={AVATAR_BASE_ICONS.background[background]}
             onPress={() => setCurrentSection("backgroundColor")}
@@ -95,7 +95,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
     },
     skinColor: {
       header: (
-        <HeaderBarWithBackButton
+        <CardHeaderBarWithBackButton
           title="Skin Color"
           onPress={() => setCurrentSection("main")}
         />
@@ -104,7 +104,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
         <View style={styles.container}>
           {AVATAR_BASE_OPTIONS.skinColor.map((value, index) => {
             return (
-              <AvatarOption
+              <IconGridOption
                 key={index}
                 color={AVATAR_BASE_ICONS.skinColor[value]}
                 selected={skinColor === value}
@@ -119,7 +119,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
     },
     hairColor: {
       header: (
-        <HeaderBarWithBackButton
+        <CardHeaderBarWithBackButton
           title="Hair Color"
           onPress={() => setCurrentSection("main")}
         />
@@ -128,7 +128,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
         <View style={styles.container}>
           {AVATAR_BASE_OPTIONS.hairColor.map((value, index) => {
             return (
-              <AvatarOption
+              <IconGridOption
                 key={index}
                 color={AVATAR_BASE_ICONS.hairColor[value]}
                 selected={hairColor === value}
@@ -143,7 +143,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
     },
     backgroundColor: {
       header: (
-        <HeaderBarWithBackButton
+        <CardHeaderBarWithBackButton
           title="Background"
           onPress={() => setCurrentSection("main")}
         />
@@ -152,7 +152,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
         <View style={styles.container}>
           {AVATAR_BASE_OPTIONS.background.map((value, index) => {
             return (
-              <AvatarOption
+              <IconGridOption
                 key={index}
                 color={AVATAR_BASE_ICONS.background[value]}
                 selected={background === value}
@@ -167,7 +167,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
     },
     hairstyle: {
       header: (
-        <HeaderBarWithBackButton
+        <CardHeaderBarWithBackButton
           title="Hairstyle"
           onPress={() => setCurrentSection("main")}
         />
@@ -176,7 +176,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
         <View style={styles.container}>
           {AVATAR_BASE_OPTIONS.backHair.map((value, index) => {
             return (
-              <AvatarOption
+              <IconGridOption
                 key={index}
                 image={AVATAR_BASE_ICONS.backHair[hairColor][value]}
                 selected={backHair === value}
@@ -191,7 +191,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
     },
     bangs: {
       header: (
-        <HeaderBarWithBackButton
+        <CardHeaderBarWithBackButton
           title="Bangs"
           onPress={() => setCurrentSection("main")}
         />
@@ -200,7 +200,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
         <View style={styles.container}>
           {AVATAR_BASE_OPTIONS.frontHair.map((value, index) => {
             return (
-              <AvatarOption
+              <IconGridOption
                 key={index}
                 image={AVATAR_BASE_ICONS.frontHair[hairColor][value]}
                 selected={frontHair === value}
@@ -215,7 +215,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
     },
     facialHair: {
       header: (
-        <HeaderBarWithBackButton
+        <CardHeaderBarWithBackButton
           title="Facial Hair"
           onPress={() => setCurrentSection("main")}
         />
@@ -224,7 +224,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
         <View style={styles.container}>
           {AVATAR_BASE_OPTIONS.facialHair.map((value, index) => {
             return (
-              <AvatarOption
+              <IconGridOption
                 key={index}
                 image={AVATAR_BASE_ICONS.faceHair[hairColor][value]}
                 selected={facialHair === value}
@@ -239,7 +239,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
     },
     glasses: {
       header: (
-        <HeaderBarWithBackButton
+        <CardHeaderBarWithBackButton
           title="Glasses"
           onPress={() => setCurrentSection("main")}
         />
@@ -248,7 +248,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
         <View style={styles.container}>
           {AVATAR_BASE_OPTIONS.glasses.map((value, index) => {
             return (
-              <AvatarOption
+              <IconGridOption
                 key={index}
                 image={AVATAR_BASE_ICONS.glasses[value]}
                 selected={glasses === value}
@@ -296,73 +296,7 @@ export function EditAvatarBaseCard(props: EditAvatarBaseCardProps) {
   );
 }
 
-type AvatarOptionProps = {
-  label?: string;
-  selected?: boolean;
-  image?: ImageSource;
-  color?: string;
-  onPress?: () => void;
-} & Pick<ViewProps, "children">;
-function AvatarOption(props: AvatarOptionProps) {
-  const colorScheme = useContext(ColorSchemeContext);
-  const {
-    label = "",
-    selected: isSelected = false,
-    image,
-    color,
-    onPress,
-    children,
-  } = props;
-  const styles = StyleSheet.create({
-    container: {
-      gap: 5,
-      alignContent: "center",
-      justifyContent: "center",
-      borderRadius: 8,
-      width: 71,
-    },
-    childContainer: {
-      backgroundColor: isSelected
-        ? themes[colorScheme].orange
-        : themes[colorScheme].background,
-      padding: 5,
-      borderRadius: 5,
-      aspectRatio: 1,
-    },
-    label: {
-      fontFamily: "Header",
-      fontSize: 12,
-      textAlign: "center",
-    },
-    colorSolid: {
-      width: "100%",
-      height: "100%",
-      backgroundColor: color ?? palette.transparent,
-    },
-    image: {
-      width: "100%",
-      height: "100%",
-      flex: 1,
-    },
-  });
-  const renderedChild = image ? (
-    <Image source={image} contentFit="contain" style={styles.image} />
-  ) : color ? (
-    <View style={styles.colorSolid} />
-  ) : (
-    children
-  );
-  return (
-    <TouchableOpacity activeOpacity={0.5} onPress={onPress}>
-      <View style={styles.container}>
-        <View style={styles.childContainer}>{renderedChild}</View>
-        {label !== "" && <Text style={styles.label}>{label}</Text>}
-      </View>
-    </TouchableOpacity>
-  );
-}
-
-function HeaderBarWithBackButton(props: {
+function CardHeaderBarWithBackButton(props: {
   title: string;
   onPress?: () => void;
 }) {
